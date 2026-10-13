@@ -1,51 +1,36 @@
-// TODO: REPLACE THIS LANDING PAGE WITH AN ELEGANT, THEMATIC, AND WELL-DESIGNED LANDING PAGE RELEVANT TO THE PROJECT
-import { motion } from "framer-motion";
-import { Loader } from "lucide-react";
-import logo from "@/assets/logo.svg";
+import { MotionConfig } from "framer-motion";
+import { CustomCursor } from "@/components/CustomCursor";
+import ScrollProgress from "@/components/ScrollProgress";
+import Hero from "@/components/Hero";
+import About from "@/components/About";
+import Work from "@/components/Work";
+import TypeBreak from "@/components/TypeBreak";
+import Contact from "@/components/Contact";
 
+/**
+ * Rishi's Portfolio — the long-page editorial experience.
+ * Papery base, ink panels, cursor-driven 3D depth, scroll-linked motion.
+ */
 export default function Landing() {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-screen flex flex-col"
-    >
+  const navigate = (section: string) => {
+    if (section === "top") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
+  };
 
-      
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="max-w-5xl mx-auto relative px-4">
-        {/* TODO: landing page goes here; replace with the landing page */}
-        <div className="flex justify-center">
-          <img
-            src={logo}
-            alt="Lock Icon"
-            width={64}
-            height={64}
-            className="rounded-lg mb-8 mt-24"
-          />
-        </div>
-        <div className="flex items-center justify-center text-foreground">
-          <Loader className="h-8 w-8 animate-spin mr-4 shrink-0" />
-          <span className="text-base">
-            <a
-              href="https://freebuff.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary underline hover:text-primary/80 transition-colors font-medium"
-            >
-              freebuff.com
-            </a>
-            {" "}is generating your project...
-          </span>
-        </div>
-        <p className="text-center text-muted-foreground py-6 text-sm mt-2">
-          Check progress on your project page.
-        </p>
-        
-        </div>
-      </div>
-    </motion.div>
+  return (
+    <MotionConfig reducedMotion="user">
+      <CustomCursor />
+      <ScrollProgress />
+      <main className="min-h-screen overflow-x-clip bg-background text-foreground">
+        <Hero onNavigate={navigate} />
+        <About />
+        <Work />
+        <TypeBreak />
+        <Contact />
+      </main>
+    </MotionConfig>
   );
 }

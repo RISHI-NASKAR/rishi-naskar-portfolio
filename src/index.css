@@ -165,4 +165,39 @@
     background: rgba(26, 24, 20, 0.18);
     color: inherit;
   }
+
+  /* Custom cursor replaces the native one on fine pointers only */
+  .cursor-none,
+  .cursor-none * {
+    cursor: none !important;
+  }
+
+  /* Reduced motion: no smooth-scroll hijacking */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Editorial utilities */
+  .rule {
+    border-top: 1px solid var(--border);
+  }
+  .rule-heavy {
+    border-top: 2px solid var(--foreground);
+  }
+  .font-display {
+    font-family: var(--font-serif);
+  }
+  .font-mono-label {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
 }

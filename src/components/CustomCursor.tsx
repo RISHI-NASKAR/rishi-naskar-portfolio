@@ -1,22 +1,45 @@
-import { useEffect, useRef } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 interface CustomCursorProps {
   hidden?: boolean;
 }
 
+/**
+ * Desktop-only custom cursor: ink dot + outlined ring.
+ * The ring expands over interactive elements; add `data-cursor="VIEW WORK"`
+ * to any element to show a contextual label while hovered.
+ */
 export function CustomCursor({ hidden = false }: CustomCursorProps) {
   const dot = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
   const [ringExpand, setRingExpand] = useState(false);
   const [label, setLabel] = useState<string | null>(null);
-  const [pointer, setPointer] = useState({ x: 0, y: 0 });
-  const [hoverX, setHoverX] = useState<string | null>(null);
-  const [hoverY, setHoverY] = useState<string | null>(null);
+  const [pointer, setPointer] = useState({ x: -100, y: -100 });
   const raf = useRef<number | null>(null);
 
+  // Touch devices and reduced-motion users get no custom cursor.
+  // Subscribed via useSyncExternalStore so no setState runs inside an effect.
+  const isUnsupported = useSyncExternalStore(
+    (onChange) => {
+      const coarse = window.matchMedia("(pointer: coarse)");
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+      coarse.addEventListener("change", onChange);
+      reduced.addEventListener("change", onChange);
+      return () => {
+        coarse.removeEventListener("change", onChange);
+        reduced.removeEventListener("change", onChange);
+      };
+    },
+    () =>
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    () => false
+  );
+
+  const isHidden = hidden || isUnsupported;
+
   useEffect(() => {
-    if (hidden) return;
+    if (isHidden) return;
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
 
@@ -34,10 +57,10 @@ export function CustomCursor({ hidden = false }: CustomCursorProps) {
       window.removeEventListener("mousemove", handler);
       if (raf.current) cancelAnimationFrame(raf.current);
     };
-  }, [hidden]);
+  }, [isHidden]);
 
   useEffect(() => {
-    if (hidden) return;
+    if (isHidden) return;
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!dot.current || prefersReduced) return;
 
@@ -53,16 +76,42 @@ export function CustomCursor({ hidden = false }: CustomCursorProps) {
     };
     tick();
     return () => cancelAnimationFrame(frame);
-  }, [pointer, ringExpand]);
+  }, [pointer, ringExpand, isHidden]);
 
-  const onEnter = (labelText: string) => {
-    setLabel(labelText);
-    setRingExpand(true);
-  };
-  const onLeave = () => {
-    setLabel(null);
-    setRingExpand(false);
-  };
+  // Global hover detection: expand over interactive elements,
+  // read a contextual label from the nearest [data-cursor] ancestor.
+  useEffect(() => {
+    if (isHidden) return;
+    const over = (e: Event) => {
+      const target = e.target as HTMLElement | null;
+      if (!target || typeof target.closest !== "function") return;
+      const labelled = target.closest<HTMLElement>("[data-cursor]");
+      const interactive = target.closest<HTMLElement>(
+        'a, button, [role="button"], input, textarea, select, [data-cursor-expand]'
+      );
+      setLabel(labelled ? labelled.dataset.cursor || null : null);
+      setRingExpand(Boolean(labelled || interactive));
+    };
+    const out = (e: MouseEvent) => {
+      const to = e.relatedTarget as Node | null;
+      if (!to) {
+        setLabel(null);
+        setRingExpand(false);
+      }
+    };
+    document.addEventListener("mouseover", over);
+    document.addEventListener("mouseout", out);
+    return () => {
+      document.removeEventListener("mouseover", over);
+      document.removeEventListener("mouseout", out);
+    };
+  }, [isHidden]);
+
+  // Hide the native cursor only while the custom one is active.
+  useEffect(() => {
+    document.body.classList.toggle("cursor-none", !isHidden);
+    return () => document.body.classList.remove("cursor-none");
+  }, [isHidden]);
 
   return (
     <>
