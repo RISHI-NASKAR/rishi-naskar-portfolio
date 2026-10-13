@@ -51,7 +51,7 @@ export default function TypeBreak() {
                   style={
                     j % 3 === 1
                       ? {
-                          WebkitTextStroke: "1.5px rgba(26,24,20,0.75)",
+                          WebkitTextStroke: "1.5px rgba(230,51,41,0.9)",
                           transform: `translateY(${line.dir * (j % 2 ? 8 : 0)}px)`,
                         }
                       : { transform: `translateY(${line.dir * (j % 2 ? 0 : 6)}px)` }

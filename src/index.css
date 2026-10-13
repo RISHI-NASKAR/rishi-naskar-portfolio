@@ -50,39 +50,40 @@
 /* DO NOT CHANGE */
 :root {
   --radius: 0.5rem;
+  color-scheme: dark;
 
-  /* Papery theme: warm paper base with thin ink rules */
-  --background: #F0EEE6;
-  --foreground: #1A1814;
-  --card: #F4F1EA;
-  --card-foreground: #1A1814;
-  --popover: #EDE9DF;
-  --popover-foreground: #1A1814;
-  --primary: #1A1814;
-  --primary-foreground: #F0EEE6;
-  --secondary: #E6E1D3;
-  --secondary-foreground: #1A1814;
-  --muted: #E6E1D3;
-  --muted-foreground: #6B6557;
-  --accent: #1A1814;
-  --accent-foreground: #F0EEE6;
-  --destructive: #8B3A2E;
-  --border: #D9D3C5;
-  --input: #D9D3C5;
-  --ring: #1A1814;
-  --chart-1: #1A1814;
-  --chart-2: #4A4639;
-  --chart-3: #6B6557;
-  --chart-4: #8B8575;
-  --chart-5: #A6A092;
-  --sidebar: #F0EEE6;
-  --sidebar-foreground: #1A1814;
-  --sidebar-primary: #1A1814;
-  --sidebar-primary-foreground: #F0EEE6;
-  --sidebar-accent: #1A1814;
-  --sidebar-accent-foreground: #F0EEE6;
-  --sidebar-border: #D9D3C5;
-  --sidebar-ring: #1A1814;
+  /* Black & red theme: near-black base, warm off-white ink, red accent */
+  --background: #0A0A09;
+  --foreground: #F2F0EA;
+  --card: #121110;
+  --card-foreground: #F2F0EA;
+  --popover: #121110;
+  --popover-foreground: #F2F0EA;
+  --primary: #E63329;
+  --primary-foreground: #FFFFFF;
+  --secondary: #191816;
+  --secondary-foreground: #F2F0EA;
+  --muted: #191816;
+  --muted-foreground: #9C978D;
+  --accent: #E63329;
+  --accent-foreground: #FFFFFF;
+  --destructive: #FF6B5E;
+  --border: #2B2926;
+  --input: #2B2926;
+  --ring: #E63329;
+  --chart-1: #E63329;
+  --chart-2: #B22B23;
+  --chart-3: #9C978D;
+  --chart-4: #5E5A53;
+  --chart-5: #2B2926;
+  --sidebar: #0A0A09;
+  --sidebar-foreground: #F2F0EA;
+  --sidebar-primary: #E63329;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #191816;
+  --sidebar-accent-foreground: #F2F0EA;
+  --sidebar-border: #2B2926;
+  --sidebar-ring: #E63329;
 }
 
 .dark {
@@ -132,8 +133,8 @@
   body {
     @apply bg-background text-foreground font-sans;
     background-image:
-      linear-gradient(rgba(26, 24, 20, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(26, 24, 20, 0.03) 1px, transparent 1px);
+      linear-gradient(rgba(242, 240, 234, 0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(242, 240, 234, 0.028) 1px, transparent 1px);
     background-size: 48px 48px, 48px 48px;
     background-position: -1px -1px, -1px -1px;
   }
@@ -144,7 +145,7 @@
     background: var(--border);
   }
 
-  /* Custom scrollbar in the papery aesthetic */
+  /* Custom scrollbar in the black & red aesthetic */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -153,16 +154,16 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(26, 24, 20, 0.25);
+    background: rgba(230, 51, 41, 0.5);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(26, 24, 20, 0.45);
+    background: rgba(230, 51, 41, 0.85);
   }
 
   /* Text selection */
   ::selection {
-    background: rgba(26, 24, 20, 0.18);
+    background: rgba(230, 51, 41, 0.35);
     color: inherit;
   }
 

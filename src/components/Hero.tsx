@@ -87,7 +87,7 @@ export default function Hero({ onNavigate }: HeroProps) {
           href="#top"
           onClick={go("top")}
           aria-label="Rishi Naskar — home"
-          className="flex size-11 shrink-0 items-center justify-center rounded-full border border-foreground/70 font-display text-lg font-semibold tracking-tight transition-colors hover:bg-foreground hover:text-background"
+          className="flex size-11 shrink-0 items-center justify-center rounded-full border border-foreground/70 font-display text-lg font-semibold tracking-tight transition-colors hover:border-[#E63329] hover:bg-[#E63329] hover:text-white"
         >
           RN
         </a>
@@ -104,7 +104,7 @@ export default function Hero({ onNavigate }: HeroProps) {
           <a
             href="#contact"
             onClick={go("contact")}
-            className="rounded-full border border-foreground bg-foreground px-3 py-2 font-mono-label text-[11px] text-background transition-transform hover:-translate-y-0.5 sm:px-4"
+            className="rounded-full border border-[#E63329] bg-[#E63329] px-3 py-2 font-mono-label text-[11px] text-white transition-transform hover:-translate-y-0.5 sm:px-4"
           >
             Let's talk
           </a>
@@ -114,7 +114,7 @@ export default function Hero({ onNavigate }: HeroProps) {
       {/* HERO PANEL */}
       <div
         ref={panelRef}
-        className="relative overflow-hidden rounded-[28px] bg-[#14130F] text-[#EDEAE1] shadow-[0_40px_120px_-40px_rgba(26,24,20,0.55)]"
+        className="relative overflow-hidden rounded-[28px] bg-black text-[#F2F0EA] shadow-[0_40px_120px_-40px_rgba(230,51,41,0.28)]"
         style={{ minHeight: "min(86vh, 860px)" }}
       >
         {/* grain */}
@@ -127,7 +127,7 @@ export default function Hero({ onNavigate }: HeroProps) {
         <div className="relative z-10 flex items-center justify-between gap-4 border-b border-[#EDEAE1]/12 px-5 py-4 sm:px-8">
           <span className="hidden font-mono-label text-[10px] text-[#EDEAE1]/60 sm:inline">Edition 01 — Portfolio</span>
           <span className="flex items-center gap-2 font-mono-label text-[10px] text-[#EDEAE1]/60">
-            <span className="inline-block size-1.5 rounded-full bg-[#EDEAE1]/70" aria-hidden="true" />
+            <span className="inline-block size-1.5 rounded-full bg-[#E63329]" aria-hidden="true" />
             <span className="hidden sm:inline">Open for select projects</span>
             <span className="sm:hidden">Open for projects</span>
           </span>
@@ -149,13 +149,13 @@ export default function Hero({ onNavigate }: HeroProps) {
               </span>
               <span
                 className="mt-2 block text-[clamp(2rem,7vw,5.4rem)] italic text-transparent"
-                style={{ WebkitTextStroke: "1.5px rgba(237,234,225,0.85)", ...(layers.name as React.CSSProperties) }}
+                style={{ WebkitTextStroke: "1.5px rgba(230,51,41,0.95)", ...(layers.name as React.CSSProperties) }}
               >
                 Designer
               </span>
               <span
                 className="block text-[clamp(2rem,7vw,5.4rem)] italic text-transparent"
-                style={{ WebkitTextStroke: "1.5px rgba(237,234,225,0.85)", ...(layers.name as React.CSSProperties) }}
+                style={{ WebkitTextStroke: "1.5px rgba(230,51,41,0.95)", ...(layers.name as React.CSSProperties) }}
               >
                 &amp; Filmmaker
               </span>
@@ -168,7 +168,7 @@ export default function Hero({ onNavigate }: HeroProps) {
               <a
                 href="#work"
                 onClick={go("work")}
-                className="rounded-full bg-[#EDEAE1] px-5 py-2.5 font-mono-label text-[11px] text-[#14130F] transition-transform hover:-translate-y-0.5"
+                className="rounded-full bg-[#E63329] px-5 py-2.5 font-mono-label text-[11px] text-white transition-transform hover:-translate-y-0.5"
               >
                 View selected work
               </a>
@@ -184,7 +184,7 @@ export default function Hero({ onNavigate }: HeroProps) {
 
           {/* Right — portrait as a 3D plane */}
           <div className="relative" style={layers.portrait}>
-            <div className="relative overflow-hidden rounded-t-[220px] rounded-b-[28px] border border-[#EDEAE1]/15 bg-gradient-to-b from-[#242119] to-[#14130F]" style={{ aspectRatio: "4 / 5" }}>
+            <div className="relative overflow-hidden rounded-t-[220px] rounded-b-[28px] border border-[#F2F0EA]/15 bg-gradient-to-b from-[#1A1A18] to-black" style={{ aspectRatio: "4 / 5" }}>
               <div className="absolute inset-0" style={layers.portraitInner as React.CSSProperties}>
                 {!imgFailed ? (
                   <img

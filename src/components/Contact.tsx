@@ -30,7 +30,7 @@ export default function Contact() {
           <a
             href={mailto}
             data-cursor="Say hello"
-            className="inline-flex items-center gap-3 rounded-full bg-foreground px-7 py-4 font-mono-label text-[11px] text-background transition-transform hover:-translate-y-0.5"
+            className="inline-flex items-center gap-3 rounded-full bg-[#E63329] px-7 py-4 font-mono-label text-[11px] text-white transition-transform hover:-translate-y-0.5"
           >
             Start a conversation
             <span aria-hidden="true">→</span>

@@ -74,7 +74,7 @@ export default function ProjectCard({ project, onOpen }: ProjectCardProps) {
       style={tiltStyle}
     >
       {/* image frame */}
-      <div className="relative overflow-hidden rounded-2xl border border-border bg-[#14130F] shadow-[0_24px_70px_-40px_rgba(26,24,20,0.6)]" style={{ aspectRatio: "4 / 3" }}>
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-[#14130F] shadow-[0_24px_70px_-40px_rgba(230,51,41,0.35)]" style={{ aspectRatio: "4 / 3" }}>
         {!failed ? (
           <img
             src={project.image}
@@ -118,7 +118,7 @@ export default function ProjectCard({ project, onOpen }: ProjectCardProps) {
       </p>
       <span
         aria-hidden="true"
-        className="mt-3 block h-px w-0 bg-foreground transition-all duration-500 group-hover:w-full"
+        className="mt-3 block h-px w-0 bg-[#E63329] transition-all duration-500 group-hover:w-full"
         style={{ transitionTimingFunction: EASE, opacity: hovered ? 1 : 0.4 }}
       />
     </article>
