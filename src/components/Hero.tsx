@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useReducedMotion, usePointerScale } from "@/hooks/use-reduced-motion";
 import { GRAIN } from "@/lib/grain";
 
 interface HeroProps {
@@ -43,8 +43,10 @@ export default function Hero({ onNavigate }: HeroProps) {
     };
   }, [isReduced]);
 
-  const px = pointer.x - 0.5;
-  const py = pointer.y - 0.5;
+  // Reduced perspective on tablets (see usePointerScale).
+  const scale = usePointerScale();
+  const px = (pointer.x - 0.5) * scale;
+  const py = (pointer.y - 0.5) * scale;
   const EASE = "cubic-bezier(0.2, 0.7, 0.2, 1)";
 
   const layers = {

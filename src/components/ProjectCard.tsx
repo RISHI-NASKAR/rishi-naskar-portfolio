@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useReducedMotion, usePointerScale } from "@/hooks/use-reduced-motion";
 import type { Project } from "@/lib/projects";
 
 interface ProjectCardProps {
@@ -18,6 +18,7 @@ const EASE = "cubic-bezier(0.2, 0.7, 0.2, 1)";
 export default function ProjectCard({ project, onOpen }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const isReduced = useReducedMotion();
+  const scale = usePointerScale();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -29,7 +30,8 @@ export default function ProjectCard({ project, onOpen }: ProjectCardProps) {
     const r = el.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
-    setTilt({ x: px, y: py });
+    // Reduced tilt strength on smaller viewports.
+    setTilt({ x: px * scale, y: py * scale });
   };
 
   const reset = () => {
