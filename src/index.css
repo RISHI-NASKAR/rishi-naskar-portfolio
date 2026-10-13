@@ -1,0 +1,168 @@
+/* DO NOT CHANGE */
+@import "tailwindcss";
+@import "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+
+/* DO NOT CHANGE */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Editorial type scale */
+  --font-serif: "Cormorant Garamond", "Iowan Old Style", "Times New Roman", "Georgia", serif;
+  --font-sans: "Instrument Sans", "Helvetica Neue", "Arial", sans-serif;
+  --font-mono: "JetBrains Mono", "Consolas", monospace;
+}
+
+/* DO NOT CHANGE */
+:root {
+  --radius: 0.5rem;
+
+  /* Papery theme: warm paper base with thin ink rules */
+  --background: #F0EEE6;
+  --foreground: #1A1814;
+  --card: #F4F1EA;
+  --card-foreground: #1A1814;
+  --popover: #EDE9DF;
+  --popover-foreground: #1A1814;
+  --primary: #1A1814;
+  --primary-foreground: #F0EEE6;
+  --secondary: #E6E1D3;
+  --secondary-foreground: #1A1814;
+  --muted: #E6E1D3;
+  --muted-foreground: #6B6557;
+  --accent: #1A1814;
+  --accent-foreground: #F0EEE6;
+  --destructive: #8B3A2E;
+  --border: #D9D3C5;
+  --input: #D9D3C5;
+  --ring: #1A1814;
+  --chart-1: #1A1814;
+  --chart-2: #4A4639;
+  --chart-3: #6B6557;
+  --chart-4: #8B8575;
+  --chart-5: #A6A092;
+  --sidebar: #F0EEE6;
+  --sidebar-foreground: #1A1814;
+  --sidebar-primary: #1A1814;
+  --sidebar-primary-foreground: #F0EEE6;
+  --sidebar-accent: #1A1814;
+  --sidebar-accent-foreground: #F0EEE6;
+  --sidebar-border: #D9D3C5;
+  --sidebar-ring: #1A1814;
+}
+
+.dark {
+  --background: #1A1814;
+  --foreground: #F0EEE6;
+  --card: #242119;
+  --card-foreground: #F0EEE6;
+  --popover: #242119;
+  --popover-foreground: #F0EEE6;
+  --primary: #F0EEE6;
+  --primary-foreground: #1A1814;
+  --secondary: #2E2B23;
+  --secondary-foreground: #F0EEE6;
+  --muted: #2E2B23;
+  --muted-foreground: #9B9384;
+  --accent: #F0EEE6;
+  --accent-foreground: #1A1814;
+  --destructive: #C45A4A;
+  --border: #36322A;
+  --input: #36322A;
+  --ring: #F0EEE6;
+  --chart-1: #F0EEE6;
+  --chart-2: #A6A092;
+  --chart-3: #6B6557;
+  --chart-4: #4A4639;
+  --chart-5: #2E2B23;
+  --sidebar: #1A1814;
+  --sidebar-foreground: #F0EEE6;
+  --sidebar-primary: #F0EEE6;
+  --sidebar-primary-foreground: #1A1814;
+  --sidebar-accent: #F0EEE6;
+  --sidebar-accent-foreground: #1A1814;
+  --sidebar-border: #36322A;
+  --sidebar-ring: #F0EEE6;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    background-image:
+      linear-gradient(rgba(26, 24, 20, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 24, 20, 0.03) 1px, transparent 1px);
+    background-size: 48px 48px, 48px 48px;
+    background-position: -1px -1px, -1px -1px;
+  }
+  /* Papery base: thin hairline rules for editorial section separators */
+  hr {
+    border: 0;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Custom scrollbar in the papery aesthetic */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(26, 24, 20, 0.25);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(26, 24, 20, 0.45);
+  }
+
+  /* Text selection */
+  ::selection {
+    background: rgba(26, 24, 20, 0.18);
+    color: inherit;
+  }
+}
