@@ -175,7 +175,7 @@ export default function Hero({ onNavigate }: HeroProps) {
               <a
                 href="#about"
                 onClick={go("about")}
-                className="rounded-full border border-[#EDEAE1]/40 px-5 py-2.5 font-mono-label text-[11px] text-[#EDEAE1] transition-colors hover:border-[#EDEAE1]/80"
+                className="rounded-full border border-[#F2F0EA]/40 px-5 py-2.5 font-mono-label text-[11px] text-[#F2F0EA] transition-colors hover:border-[#F2F0EA]/80"
               >
                 About Rishi
               </a>
@@ -212,7 +212,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                 )}
               </div>
               {/* vignette + grain for cinematic treatment */}
-              <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_10%,transparent_45%,rgba(20,19,15,0.75)_100%)]" />
+              <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_10%,transparent_45%,rgba(0,0,0,0.78)_100%)]" />
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-overlay"
