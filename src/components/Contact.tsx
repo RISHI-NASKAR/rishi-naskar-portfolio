@@ -1,23 +1,57 @@
-import { LINKS, mailto } from "@/lib/links";
+import { LINKS, mailto, tel, whatsapp } from "@/lib/links";
+import {
+  Instagram,
+  Linkedin,
+  Mail,
+  MessageCircle,
+  Phone,
+} from "lucide-react";
 
-const socials = [
+/**
+ * Contact rows. Every entry is a real link that hands straight off to the
+ * visitor's own app: mail client, dialler, WhatsApp, LinkedIn, Instagram.
+ */
+const socials: {
+  label: string;
+  href: string;
+  display: string;
+  external: boolean;
+  icon: typeof Mail;
+}[] = [
   {
     label: "Email",
-    value: LINKS.email,
     href: mailto,
     display: LINKS.email,
+    external: false,
+    icon: Mail,
+  },
+  {
+    label: "Phone",
+    href: tel,
+    display: LINKS.phoneDisplay,
+    external: false,
+    icon: Phone,
+  },
+  {
+    label: "WhatsApp",
+    href: whatsapp,
+    display: LINKS.phoneDisplay,
+    external: true,
+    icon: MessageCircle,
   },
   {
     label: "LinkedIn",
-    value: LINKS.linkedin,
     href: LINKS.linkedin,
-    display: "linkedin.com/in/your-handle",
+    display: "linkedin.com/in/rishi-naskar-22900631a",
+    external: true,
+    icon: Linkedin,
   },
   {
     label: "Instagram",
-    value: LINKS.instagram,
     href: LINKS.instagram,
-    display: "@your-handle",
+    display: `@${LINKS.instagramHandle}`,
+    external: true,
+    icon: Instagram,
   },
 ];
 
@@ -53,17 +87,37 @@ export default function Contact() {
             idea, the deadline and the feeling you&apos;re after. I&apos;ll reply
             with a point of view.
           </p>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href={mailto}
+              data-cursor="Say hello"
+              className="inline-flex items-center gap-3 rounded-full bg-primary px-7 py-4 font-mono-label text-[10px] text-black transition-transform hover:-translate-y-0.5"
+            >
+              <Mail className="size-3.5" aria-hidden="true" />
+              Email me
+              <span aria-hidden="true">→</span>
+            </a>
+            <a
+              href={whatsapp}
+              target="_blank"
+              rel="noreferrer noopener"
+              data-cursor="WhatsApp"
+              className="inline-flex items-center gap-3 rounded-full border border-white/25 px-7 py-4 font-mono-label text-[10px] text-white/90 transition-colors hover:border-white/60"
+            >
+              <MessageCircle className="size-3.5" aria-hidden="true" />
+              Message on WhatsApp
+            </a>
+          </div>
+
           <a
-            href={mailto}
-            data-cursor="Say hello"
-            className="inline-flex items-center gap-3 rounded-full bg-primary px-7 py-4 font-mono-label text-[10px] text-black transition-transform hover:-translate-y-0.5"
+            href={tel}
+            data-cursor="Call"
+            className="inline-flex items-center gap-3 font-mono-label text-[10px] text-white/45 transition-colors hover:text-white"
           >
-            Start a conversation
-            <span aria-hidden="true">→</span>
+            <Phone className="size-3.5" aria-hidden="true" />
+            {LINKS.phoneDisplay}
           </a>
-          <p className="font-mono-label text-[9px] text-white/30">
-            Placeholder addresses — replace in src/lib/links.ts
-          </p>
         </div>
 
         <dl className="self-start">
@@ -72,16 +126,17 @@ export default function Contact() {
               key={social.label}
               className="flex items-baseline justify-between gap-4 border-t border-white/12 py-4"
             >
-              <dt className="font-mono-label text-[9px] text-white/40">
+              <dt className="flex items-center gap-2 font-mono-label text-[9px] text-white/40">
+                <social.icon className="size-3.5" aria-hidden="true" />
                 {social.label}
               </dt>
-              <dd>
+              <dd className="text-right">
                 <a
                   href={social.href}
-                  target={social.label === "Email" ? undefined : "_blank"}
-                  rel={social.label === "Email" ? undefined : "noreferrer noopener"}
+                  target={social.external ? "_blank" : undefined}
+                  rel={social.external ? "noreferrer noopener" : undefined}
                   data-cursor={social.label}
-                  className="text-sm text-white/80 underline decoration-white/25 underline-offset-4 transition-colors hover:text-white hover:decoration-primary"
+                  className="text-sm break-words text-white/80 underline decoration-white/25 underline-offset-4 transition-colors hover:text-white hover:decoration-primary"
                 >
                   {social.display}
                 </a>
@@ -111,6 +166,28 @@ export default function Contact() {
             className="font-mono-label text-[9px] text-white/40 transition-colors hover:text-white"
           >
             About
+          </a>
+          <a
+            href={mailto}
+            className="font-mono-label text-[9px] text-white/40 transition-colors hover:text-white"
+          >
+            {LINKS.email}
+          </a>
+          <a
+            href={LINKS.linkedin}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="font-mono-label text-[9px] text-white/40 transition-colors hover:text-white"
+          >
+            LinkedIn
+          </a>
+          <a
+            href={whatsapp}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="font-mono-label text-[9px] text-white/40 transition-colors hover:text-white"
+          >
+            WhatsApp
           </a>
           <a
             href="/dashboard"

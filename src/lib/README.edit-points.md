@@ -15,10 +15,10 @@ falls through it and the multiverse opens up as one uninterrupted shot.
   automatically because the keyframes are written in phase-local terms.
 - `src/lib/projects.ts` — the showcase projects (titles, categories, years,
   descriptions, placeholder images, modal detail lines) plus the filter groups.
-- `src/lib/links.ts` — email / LinkedIn / Instagram. Everything reads from here.
+- `src/lib/links.ts` — **live contact details** (email, phone, WhatsApp, LinkedIn, Instagram) plus the `mailto:` / `tel:` / `wa.me` helpers. Everything reads from here.
 - `src/components/About.tsx` — the bio, the facts grid and the three
   disciplines with their skill lists.
-- `src/components/Contact.tsx` — the closing pitch and the social rows.
+- `src/components/Contact.tsx` — the closing pitch and the contact rows (each row is a real link that hands off to the visitor's own app).
 
 **Your portrait**
 
