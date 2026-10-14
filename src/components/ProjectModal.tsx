@@ -38,7 +38,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[#14130F]/70 p-4 sm:p-8"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[#02030a]/85 p-4 backdrop-blur-sm sm:p-8"
       onClick={onClose}
     >
       <motion.div
@@ -46,16 +46,16 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.98 }}
         transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1] }}
-        className="my-auto w-full max-w-3xl rounded-[24px] border border-border bg-background p-6 shadow-[0_40px_120px_-40px_rgba(26,24,20,0.7)] sm:p-10"
+        className="my-auto w-full max-w-3xl rounded-[24px] border border-white/12 bg-[#070a14] p-6 shadow-[0_40px_140px_-40px_rgba(90,169,255,0.45)] sm:p-10"
         onClick={(e) => e.stopPropagation()}
       >
         {/* header */}
-        <div className="rule-heavy flex items-start justify-between gap-6 pt-4">
+        <div className="flex items-start justify-between gap-6 border-t-2 border-white/80 pt-4">
           <div>
-            <span className="font-mono-label text-[11px] text-muted-foreground">
+            <span className="font-mono-label text-[10px] text-primary">
               {project.num} — Project
             </span>
-            <h3 className="mt-3 font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+            <h3 className="mt-3 font-display text-4xl font-semibold tracking-tight text-white sm:text-5xl">
               {project.title}
             </h3>
           </div>
@@ -64,14 +64,14 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             onClick={onClose}
             aria-label="Close project"
             data-cursor="Close"
-            className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border transition-colors hover:bg-foreground hover:text-background"
+            className="flex size-10 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-primary hover:bg-primary hover:text-black"
           >
             <X className="size-4" />
           </button>
         </div>
 
         {/* image */}
-        <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-[#14130F]" style={{ aspectRatio: "16 / 9" }}>
+        <div className="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-[#04060f]" style={{ aspectRatio: "16 / 9" }}>
           <img
             src={project.image}
             alt={`${project.title} — placeholder artwork`}
@@ -84,31 +84,36 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         {/* meta grid */}
         <dl className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3">
           <div>
-            <dt className="font-mono-label text-[10px] text-muted-foreground">Category</dt>
-            <dd className="mt-1.5 text-sm">{project.category}</dd>
+            <dt className="font-mono-label text-[9px] text-white/40">Category</dt>
+            <dd className="mt-1.5 text-sm text-white/80">{project.category}</dd>
           </div>
           <div>
-            <dt className="font-mono-label text-[10px] text-muted-foreground">Year</dt>
-            <dd className="mt-1.5 text-sm">{project.year}</dd>
+            <dt className="font-mono-label text-[9px] text-white/40">Year</dt>
+            <dd className="mt-1.5 text-sm text-white/80">{project.year}</dd>
           </div>
           <div className="col-span-2 sm:col-span-1">
-            <dt className="font-mono-label text-[10px] text-muted-foreground">Status</dt>
-            <dd className="mt-1.5 text-sm">Sample content — replace</dd>
+            <dt className="font-mono-label text-[9px] text-white/40">Status</dt>
+            <dd className="mt-1.5 text-sm text-white/80">Sample content — replace</dd>
           </div>
         </dl>
 
         {/* copy */}
-        <div className="mt-8 space-y-4 border-t border-border pt-6">
-          <p className="text-base leading-relaxed sm:text-lg">{project.description}</p>
+        <div className="mt-8 space-y-4 border-t border-white/10 pt-6">
+          <p className="text-base leading-relaxed text-white/85 sm:text-lg">
+            {project.description}
+          </p>
           <ul className="space-y-2">
             {project.details.map((line) => (
-              <li key={line} className="flex gap-3 text-sm text-muted-foreground">
-                <span aria-hidden="true" className="mt-2 h-px w-5 shrink-0 bg-border" />
+              <li key={line} className="flex gap-3 text-sm text-white/55">
+                <span
+                  aria-hidden="true"
+                  className="mt-2 h-px w-5 shrink-0 bg-primary/70"
+                />
                 {line}
               </li>
             ))}
           </ul>
-          <p className="font-mono-label pt-2 text-[10px] text-muted-foreground">
+          <p className="font-mono-label pt-2 text-[10px] text-white/30">
             Placeholder copy — swap in real project details, credits and links.
           </p>
         </div>
@@ -116,7 +121,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         <button
           type="button"
           onClick={onClose}
-          className="mt-8 w-full rounded-full bg-foreground px-6 py-3 font-mono-label text-[11px] text-background transition-transform hover:-translate-y-0.5"
+          className="mt-8 w-full rounded-full bg-primary px-6 py-3 font-mono-label text-[11px] text-black transition-transform hover:-translate-y-0.5"
         >
           Back to gallery
         </button>

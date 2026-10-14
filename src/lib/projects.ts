@@ -1,15 +1,27 @@
+export type ProjectGroup = "films" | "ai" | "design" | "photo" | "experiments";
+
 export interface Project {
   num: string;
   slug: string;
   title: string;
   category: string;
   year: string;
+  /** Which universe this work belongs to — drives the showcase filters. */
+  group: ProjectGroup;
   /** Placeholder description — replace with real copy. */
   description: string;
   image: string;
   /** Placeholder detail lines for the modal — replace with real copy. */
   details: string[];
 }
+
+export const PROJECT_GROUPS: { id: ProjectGroup; label: string }[] = [
+  { id: "films", label: "Films" },
+  { id: "ai", label: "AI Projects" },
+  { id: "design", label: "Graphic Designs" },
+  { id: "photo", label: "Photography" },
+  { id: "experiments", label: "Experiments" },
+];
 
 /**
  * SAMPLE CONTENT — every title, description and detail below is a placeholder
@@ -22,6 +34,7 @@ export const projects: Project[] = [
     title: "Cinematic Visuals",
     category: "Motion / Grade",
     year: "20XX",
+    group: "films",
     description:
       "Sample copy — a short line about the mood, palette and frame language of this piece goes here.",
     image:
@@ -37,6 +50,7 @@ export const projects: Project[] = [
     title: "Posters & Campaigns",
     category: "Print / Art Direction",
     year: "20XX",
+    group: "design",
     description:
       "Sample copy — how the poster system adapts across formats and placements goes here.",
     image:
@@ -52,6 +66,7 @@ export const projects: Project[] = [
     title: "Brand Identity",
     category: "Identity / Systems",
     year: "20XX",
+    group: "design",
     description:
       "Sample copy — a note on the mark, the type pairing and how the system stays consistent goes here.",
     image:
@@ -67,6 +82,7 @@ export const projects: Project[] = [
     title: "Social Media Design",
     category: "Digital / Content",
     year: "20XX",
+    group: "design",
     description:
       "Sample copy — how the feed holds together as one visual story goes here.",
     image:
@@ -82,6 +98,7 @@ export const projects: Project[] = [
     title: "Film & Photography",
     category: "Direction / Still",
     year: "20XX",
+    group: "photo",
     description:
       "Sample copy — a line on the lens, the light and the cut of this story goes here.",
     image:
@@ -97,6 +114,7 @@ export const projects: Project[] = [
     title: "Experimental Design",
     category: "R&D / Type",
     year: "20XX",
+    group: "experiments",
     description:
       "Sample copy — the rule that was broken on purpose, and what it revealed, goes here.",
     image:
@@ -104,6 +122,22 @@ export const projects: Project[] = [
     details: [
       "Placeholder — the experiment and the tooling.",
       "Placeholder — one line on what was learned.",
+    ],
+  },
+  {
+    num: "07",
+    slug: "ai-experiments",
+    title: "AI Experiments",
+    category: "Machine Learning / Visual",
+    year: "20XX",
+    group: "ai",
+    description:
+      "Sample copy — how this experiment combines machine learning with imagery, type or film goes here.",
+    image:
+      "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=70",
+    details: [
+      "Placeholder — model, pipeline and tooling.",
+      "Placeholder — one line on what the experiment set out to prove.",
     ],
   },
 ];
