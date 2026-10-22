@@ -182,46 +182,9 @@ export default function Contact() {
     <Flourish className="w-full max-w-md text-ember/60" />
   </div>
 
-  {/* Social row: four outlined square buttons, mauve background, charcoal
-      border, light-gray icons, crimson hover. */}
-  <div className="mt-8 flex items-center gap-3">
-    <a
-      href={LINKS.github}
-      target="_blank"
-      rel="noreferrer noopener"
-      className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
-      aria-label="Rishi Naskar on GitHub"
-    >
-      <Github className="size-4" aria-hidden="true" />
-    </a>
-    <a
-      href={LINKS.linkedin}
-      target="_blank"
-      rel="noreferrer noopener"
-      className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
-      aria-label="Rishi Naskar on LinkedIn"
-    >
-      <Linkedin className="size-4" aria-hidden="true" />
-    </a>
-    <a
-      href="https://twitter.com/rishi_naskar_"
-      target="_blank"
-      rel="noreferrer noopener"
-      className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
-      aria-label="Rishi Naskar on X"
-    >
-      <X className="size-4" aria-hidden="true" />
-    </a>
-    <a
-      href={LINKS.instagram}
-      target="_blank"
-      rel="noreferrer noopener"
-      className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
-      aria-label="Rishi Naskar on Instagram"
-    >
-      <Instagram className="size-4" aria-hidden="true" />
-    </a>
-  </div>
+  {/* Social row: four outlined square buttons, charcoal chip, light-gray
+      icons, crimson hover. */}
+  <SocialIcons />
 
         <footer className="mt-8 border-t border-ivory/12 pt-8">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
