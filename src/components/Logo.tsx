@@ -34,9 +34,9 @@ export function Logo({
     if (window.location.pathname === "/") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      window.location.href = window.location.href.replace(/[?#].*/, "/");
-      window.location.search = "";
+      window.location.href = window.location.href.replace(/\?.*$/, "/").replace(/#.*/, "/");
       window.location.hash = "";
+      window.location.search = "";
     }
   };
 
