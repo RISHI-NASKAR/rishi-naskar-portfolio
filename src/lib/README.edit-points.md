@@ -14,7 +14,11 @@ falls through it and the multiverse opens up as one uninterrupted shot.
   re-times the journey; the phase blocks and the camera stay in sync
   automatically because the keyframes are written in phase-local terms.
 - `src/lib/projects.ts` — the showcase projects (titles, categories, years,
-  descriptions, placeholder images, modal detail lines) plus the filter groups.
+  descriptions, starter images, modal detail lines) plus the practice filters
+  and the three universes (`universe: "ai" | "cinematic" | "creative"`). Add
+  `stack: string[]` and `link` / `linkLabel` to any project and the detail panel
+  shows them automatically; `20XX` years are never rendered, so a starter year
+  can't ship by accident.
 - `src/lib/links.ts` — **live contact details** (email, phone, WhatsApp, LinkedIn, Instagram) plus the `mailto:` / `tel:` / `wa.me` helpers. Everything reads from here.
 - `src/components/About.tsx` — the bio, the facts grid and the three
   disciplines with their skill lists.
@@ -23,16 +27,32 @@ falls through it and the multiverse opens up as one uninterrupted shot.
 **Your portrait**
 
 Drop your photo at `public/portrait.png` (transparent background works best).
-It becomes the 3D plane at the start of the journey, with the neural filaments
-rooted at the crown of the head. Until the file exists, a procedural mind core
-stands in — no code change needed either way.
+It becomes the 3D plane at the start of the journey — lit with a cool key and a
+warm kicker, rim light traced from its own silhouette, parallaxing a few
+centimetres with the cursor — with the neural filaments rooted at the crown of
+the head. The plane keeps the image's own aspect ratio, whatever size file goes
+in. Until the file exists, a volumetric "mind core" (two counter-rotating
+shells of light, never a wireframe) stands in — no code change needed either
+way.
+
+**Typography**
+
+Space Grotesk for display, Inter for reading and real italic accents, JetBrains
+Mono only for genuine technical readouts (the percent readout, project
+numbers). Loaded in `index.html`; the tokens live in `src/index.css` together
+with the utilities the redesign uses: `.type-italic` (real Inter italic, never a
+faked oblique), `.type-outline` / `.type-outline-blue` (outlined display text)
+and the title-sequence keyframes (`.title-track`, `.title-letter`, `.title-line`)
+that resolve the name letter by letter on load. Reduced motion flattens the
+whole sequence to a single static frame.
 
 **Theme**
 
 `src/index.css` holds the palette: near-black `#04050c` base, electric blue
-`#5aa9ff` for every action, violet and amber reserved for the scene. Component
-three.js colours live in `src/three/glsl.ts` (`SCENE_COLORS`) and in each layer's
-uniform defaults.
+`#5aa9ff` for every action, violet and amber reserved for the scene. Each work
+universe carries its own accent (`UNIVERSES` in `src/lib/projects.ts`), which
+the chapter heading, the cards, the detail panel and the 3D wire web all read
+from — selecting a universe re-lights the scene.
 
 ## How the experience is built
 
@@ -42,9 +62,9 @@ uniform defaults.
 | The store the scene reads | `src/lib/journey-store.ts` | Mutable object the render loop reads directly, plus a tiny subscription for the HUD. |
 | Camera path | `src/three/CameraRig.tsx` + `sampleCamera` in `src/lib/journey.ts` | Keyframed positions, aim, fov and roll, plus pointer parallax and the passage shake. |
 | Portrait + floating work fragments + motes | `src/three/MindPortrait.tsx`, `src/three/MindDebris.tsx` | The portrait plane, the drifting frames of your work (real thumbnails when the host allows a cross-origin read, procedural glass frames otherwise) and the particles of thought around the head. |
-| Neural wires | `src/three/NeuralFilaments.tsx` | One shader morphs each filament from "fanned through the corridor" to "funnelled into the core" — that morph is the convergence event. |
-| Black hole | `src/three/BlackHole.tsx` | Real black sphere horizon, two additive accretion disks with Keplerian shear and Doppler beaming, a photon ring, and an instanced asteroid belt. |
-| Lensing + warp | `src/three/Starfield.tsx` | The sky is displaced in the vertex shader, so the hole bends a real starfield. |
+| Neural wires | `src/three/NeuralFilaments.tsx` | One shader gives every strand its own pace, twists and orbits the bundle around the corridor's axis, races two light trails per wire (one accelerating toward the core, one running back) and morphs the whole thing from "fanned through the corridor" to a *spiralling* funnel into the core — that morph is the convergence event. |
+| Black hole | `src/three/BlackHole.tsx` | Real black sphere horizon, two additive accretion disks with Keplerian shear and Doppler beaming, a photon ring, a swarm of grains bending around the horizon, and an instanced asteroid belt. |
+| Lensing + warp + cursor gravity | `src/three/Starfield.tsx` | The sky is displaced in the vertex shader, so the hole bends a real starfield — and the cursor carries a small gravity well that nearby stars lean toward (off for touch and reduced motion). The motes around the head (`MindDebris.tsx`) attract *and* wheel around the pointer. |
 | Passage | `src/three/WarpTunnel.tsx` | World-space light streaks the camera physically travels through, plus the flash. |
 | Multiverse | `src/three/Multiverse.tsx` | Planets with displaced terrain and atmospheres, a spiral galaxy, nebulae, islands, rock rings, and four portals each holding a different kind of place (city lights, a banded world, a nebula, a cavern of light — the `style` prop). |
 | DOM layer | `src/components/PhasePanels.tsx`, `ShowcaseDeck.tsx`, `JourneyHud.tsx` | Captions, the project showcase and the synced nav rail. |

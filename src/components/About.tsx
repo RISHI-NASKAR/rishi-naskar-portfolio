@@ -60,10 +60,10 @@ export default function About() {
       className="relative mx-auto w-full max-w-[1400px] px-5 py-24 sm:px-8 sm:py-32 lg:px-14"
     >
       <div className="mb-12 flex items-baseline justify-between gap-4 border-t border-white/12 pt-5">
-        <span className="font-mono-label text-[10px] text-primary">
+        <span className="font-display text-[12px] tracking-[0.26em] text-primary sm:text-[13px]">
           06 — About
         </span>
-        <span className="font-mono-label text-[10px] text-white/35">
+        <span className="font-display text-[13px] tracking-[0.06em] text-white/55">
           The mind behind the worlds
         </span>
       </div>
@@ -74,11 +74,11 @@ export default function About() {
         whileInView="show"
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.7, ease: [0.22, 0.68, 0.16, 1] }}
-        className="font-display text-[clamp(2rem,6.4vw,5.6rem)] leading-[0.92] font-semibold tracking-[-0.01em] text-white uppercase"
+        className="font-display text-[clamp(2.1rem,6.6vw,5.8rem)] leading-[0.94] font-medium tracking-[-0.03em] text-white text-balance"
       >
         Design is how
         <br />
-        I see <span className="text-primary italic">the world.</span>
+        I see <span className="type-italic text-primary">the world.</span>
       </motion.h2>
 
       <div className="mt-14 grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
@@ -96,7 +96,7 @@ export default function About() {
             composition and atmosphere to turn ideas into visual experiences —
             and now and then I build the tools that make them possible.
           </p>
-          <p className="text-sm leading-relaxed text-white/55 sm:text-base">
+          <p className="text-sm leading-relaxed text-white/65 sm:text-base">
             My work sits between the edit suite and the layout grid: cinematic
             photo editing and poster design on one side, visual identity and
             storytelling through film on the other. Alongside that I study
@@ -104,11 +104,11 @@ export default function About() {
             Intelligence at UEM Kolkata, because technology keeps expanding what
             a story can look like.
           </p>
-          <p className="text-sm leading-relaxed text-white/55 sm:text-base">
+          <p className="text-sm leading-relaxed text-white/65 sm:text-base">
             I don&apos;t want to make visuals that simply look good. I want work
             that feels something, says something, and stays with people.
           </p>
-          <p className="font-display text-xl leading-snug text-white/90 italic sm:text-2xl">
+          <p className="type-italic text-xl leading-snug text-white/90 sm:text-2xl">
             “Create with intention. Tell stories through visuals. Never stop
             experimenting.”
           </p>
@@ -124,10 +124,10 @@ export default function About() {
         >
           {facts.map((fact) => (
             <div key={fact.label} className="bg-[#070a14] px-5 py-5">
-              <dt className="font-mono-label text-[9px] text-primary">
+              <dt className="font-display text-[12px] tracking-[0.16em] text-primary">
                 {fact.label}
               </dt>
-              <dd className="mt-2 text-sm leading-relaxed text-white/80">
+              <dd className="mt-2 text-sm leading-relaxed text-white/85">
                 {fact.value}
               </dd>
             </div>
@@ -138,10 +138,10 @@ export default function About() {
       {/* skills */}
       <div className="mt-20">
         <div className="flex items-baseline justify-between gap-4 border-t border-white/12 pt-5">
-          <h3 className="font-mono-label text-[10px] text-primary">
+          <h3 className="font-display text-[13px] tracking-[0.26em] text-primary">
             Skills &amp; disciplines
           </h3>
-          <span className="font-mono-label text-[9px] text-white/30">
+          <span className="font-display text-[13px] tracking-[0.06em] text-white/50">
             Three universes, one mind
           </span>
         </div>
@@ -161,20 +161,20 @@ export default function About() {
               }}
               className="group rounded-2xl border border-white/10 bg-[#070a14]/80 p-6 transition-colors hover:border-primary/45"
             >
-              <p className="font-mono-label text-[9px] text-white/35">
+              <p className="font-mono text-[11px] tracking-[0.16em] text-white/50">
                 {String(index + 1).padStart(2, "0")}
               </p>
-              <h4 className="mt-3 font-display text-2xl font-semibold tracking-tight text-white">
+              <h4 className="mt-3 font-display text-2xl font-medium tracking-[-0.01em] text-white">
                 {discipline.title}
               </h4>
-              <p className="mt-1.5 text-xs leading-relaxed text-white/45">
+              <p className="mt-1.5 text-[13px] leading-relaxed text-white/55">
                 {discipline.note}
               </p>
               <ul className="mt-5 space-y-2.5">
                 {discipline.skills.map((skill) => (
                   <li
                     key={skill}
-                    className="flex items-start gap-3 text-sm leading-relaxed text-white/65"
+                    className="flex items-start gap-3 text-sm leading-relaxed text-white/75"
                   >
                     <span
                       aria-hidden="true"
@@ -188,9 +188,9 @@ export default function About() {
           ))}
         </div>
 
-        <p className="mt-6 font-mono-label text-[9px] text-white/30">
-          Editable list — update the disciplines and skills in
-          src/components/About.tsx
+        <p className="mt-6 text-[13px] leading-relaxed text-white/50">
+          Editable list — update the disciplines and skills in{" "}
+          <span className="font-mono text-white/65">src/components/About.tsx</span>
         </p>
       </div>
     </section>

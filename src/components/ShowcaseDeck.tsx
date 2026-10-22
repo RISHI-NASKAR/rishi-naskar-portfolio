@@ -1,25 +1,60 @@
-import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion, type TargetAndTransition } from "framer-motion";
 import { PHASES, phaseHeight, type Phase } from "@/lib/journey";
+import { journey } from "@/lib/journey-store";
 import { usePointerScale, useReducedMotion } from "@/hooks/use-reduced-motion";
 import {
   PROJECT_GROUPS,
+  UNIVERSES,
+  isPlaceholderYear,
   projects,
   type Project,
   type ProjectGroup,
+  type ProjectUniverse,
 } from "@/lib/projects";
 import ProjectModal from "./ProjectModal";
 
 const EASE = "cubic-bezier(0.22, 0.68, 0.16, 1)";
+const NEUTRAL = "#5aa9ff";
+
+type UniverseFilter = "all" | ProjectUniverse;
+
+/**
+ * Each universe makes its cards arrive differently — the AI chapter condenses
+ * out of blur, the cinematic one slides in like a cut, the creative one rises
+ * and settles. No two chapters fade the same way twice.
+ */
+const ENTRY: Record<UniverseFilter, { hidden: TargetAndTransition; show: TargetAndTransition }> = {
+  all: {
+    hidden: { opacity: 0, y: 42, rotateX: -6 },
+    show: { opacity: 1, y: 0, rotateX: 0 },
+  },
+  ai: {
+    hidden: { opacity: 0, scale: 0.94, filter: "blur(14px)" },
+    show: { opacity: 1, scale: 1, filter: "blur(0px)" },
+  },
+  cinematic: {
+    hidden: { opacity: 0, x: -56 },
+    show: { opacity: 1, x: 0 },
+  },
+  creative: {
+    hidden: { opacity: 0, y: 54, rotate: -1.6 },
+    show: { opacity: 1, y: 0, rotate: 0 },
+  },
+};
 
 /** One world, standing in for one piece of work. */
 function ShowcaseCard({
   project,
   index,
+  accent,
+  entry,
   onOpen,
 }: {
   project: Project;
   index: number;
+  accent: string;
+  entry: { hidden: TargetAndTransition; show: TargetAndTransition };
   onOpen: (project: Project) => void;
 }) {
   const reduced = useReducedMotion();
@@ -37,12 +72,15 @@ function ShowcaseCard({
     });
   };
 
+  const hidden = reduced ? undefined : entry.hidden;
+  const show = reduced ? undefined : entry.show;
+
   return (
     <motion.article
-      initial={reduced ? undefined : { opacity: 0, y: 46, rotateX: -8 }}
-      whileInView={reduced ? undefined : { opacity: 1, y: 0, rotateX: 0 }}
-      viewport={{ once: true, amount: 0.35 }}
-      transition={{ duration: 0.8, delay: (index % 3) * 0.08, ease: [0.22, 0.68, 0.16, 1] }}
+      initial={hidden}
+      whileInView={show}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.85, delay: (index % 3) * 0.09, ease: [0.22, 0.68, 0.16, 1] }}
       style={{ perspective: 1200 }}
       className="group"
     >
@@ -71,25 +109,25 @@ function ShowcaseCard({
             : {
                 transform: `rotateX(${(-tilt.y * 5).toFixed(2)}deg) rotateY(${(tilt.x * 6).toFixed(2)}deg) translateY(${hovered ? -6 : 0}px)`,
                 transitionTimingFunction: EASE,
-                borderColor: hovered ? "rgba(90,169,255,0.45)" : undefined,
+                borderColor: hovered ? `${accent}80` : undefined,
                 boxShadow: hovered
-                  ? "0 30px 80px -40px rgba(90,169,255,0.65)"
+                  ? `0 30px 80px -40px ${accent}90`
                   : "0 20px 60px -50px rgba(0,0,0,0.9)",
               }
         }
       >
         <div
           className="relative overflow-hidden rounded-[15px] bg-[#04060f]"
-          style={{ aspectRatio: "16 / 11" }}
+          style={{ aspectRatio: "16 / 9" }}
         >
           {!failed ? (
             <img
               src={project.image}
-              alt={`${project.title} — placeholder artwork, replace with your own`}
+              alt={`${project.title} — sample artwork`}
               loading="lazy"
               decoding="async"
               onError={() => setFailed(true)}
-              className="h-full w-full object-cover opacity-80 grayscale transition-[filter,opacity,transform] duration-700 group-hover:scale-[1.04] group-hover:opacity-100 group-hover:grayscale-0"
+              className="h-full w-full object-cover opacity-85 grayscale transition-[filter,opacity,transform] duration-700 group-hover:scale-[1.04] group-hover:opacity-100 group-hover:grayscale-0"
               style={
                 reduced
                   ? undefined
@@ -110,32 +148,38 @@ function ShowcaseCard({
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_100%_at_20%_0%,transparent_35%,rgba(2,4,12,0.85)_100%)]"
           />
-          <span className="absolute top-3 left-3 rounded-full border border-white/20 bg-black/55 px-2.5 py-1 font-mono-label text-[9px] text-white/85 backdrop-blur-sm">
+          <span className="absolute top-3 left-3 rounded-full border border-white/20 bg-black/55 px-2.5 py-1 font-mono text-[11px] tracking-[0.12em] text-white/85 backdrop-blur-sm">
             {project.num}
           </span>
-          <span className="absolute top-3 right-3 rounded-full border border-primary/40 bg-primary/15 px-2.5 py-1 font-mono-label text-[9px] text-primary backdrop-blur-sm">
-            {project.year}
-          </span>
+          {!isPlaceholderYear(project.year) && (
+            <span
+              className="absolute top-3 right-3 rounded-full border bg-black/55 px-2.5 py-1 font-mono text-[11px] tracking-[0.1em] backdrop-blur-sm"
+              style={{ color: accent, borderColor: `${accent}66` }}
+            >
+              {project.year}
+            </span>
+          )}
         </div>
 
         <div className="px-1 pt-3 pb-1 sm:px-2 sm:pt-4">
-          <h3 className="font-display text-base font-semibold tracking-tight text-white sm:text-2xl">
+          <h3 className="font-display text-[17px] leading-tight font-medium tracking-[-0.01em] text-white sm:text-2xl">
             {project.title}
           </h3>
           <div className="mt-1.5 flex items-baseline justify-between gap-3">
-            <p className="font-mono-label text-[8px] text-white/45 sm:text-[9px]">
+            <p className="text-[12.5px] leading-snug text-white/60">
               {project.category}
             </p>
             <span
               aria-hidden="true"
-              className={`font-mono-label hidden text-[9px] text-primary transition-opacity duration-500 sm:inline ${
+              className={`font-display hidden text-[12px] tracking-[0.14em] transition-opacity duration-500 sm:inline ${
                 hovered ? "opacity-100" : "opacity-0"
               }`}
+              style={{ color: accent }}
             >
               Open →
             </span>
           </div>
-          <p className="mt-2 line-clamp-2 text-[11px] leading-relaxed text-white/50 sm:mt-3 sm:text-xs">
+          <p className="mt-2 line-clamp-2 text-[13px] leading-relaxed text-white/55 sm:mt-3">
             {project.description}
           </p>
         </div>
@@ -145,100 +189,156 @@ function ShowcaseCard({
 }
 
 /**
- * The creative universe.
- *
- * The cosmic worlds resolve into work: the same gallery, filterable by the kind
- * of practice it belongs to, with every card still opening the real project
- * detail view.
+ * The works phase: three universes of work — AI, cinematic and creative —
+ * each with its own chapter identity, accent and entrance, all opening the
+ * real project detail panel. The original practice filters still narrow within
+ * a universe, and selecting one re-lights the wire web in the 3D scene.
  */
 export default function ShowcaseDeck() {
   const phase = PHASES.find((p) => p.key === "works") as Phase;
+  const reduced = useReducedMotion();
   const [active, setActive] = useState<Project | null>(null);
-  const [filter, setFilter] = useState<ProjectGroup | "all">("all");
+  const [universe, setUniverse] = useState<UniverseFilter>("all");
+  const [group, setGroup] = useState<ProjectGroup | "all">("all");
+
+  // The scene reads this every frame — no React churn while scrolling.
+  useEffect(() => {
+    const index = UNIVERSES.findIndex((entry) => entry.id === universe);
+    journey.universe = universe === "all" ? 0 : index + 1;
+  }, [universe]);
+
+  const chapter = UNIVERSES.find((entry) => entry.id === universe);
+  const accent = chapter?.accent ?? NEUTRAL;
 
   const visible = useMemo(
-    () => (filter === "all" ? projects : projects.filter((p) => p.group === filter)),
-    [filter],
+    () =>
+      projects.filter(
+        (project) =>
+          (universe === "all" || project.universe === universe) &&
+          (group === "all" || project.group === group),
+      ),
+    [universe, group],
   );
+
+  const entry = ENTRY[universe];
 
   return (
     <div id="works" className="relative w-full" style={{ height: phaseHeight("works") }}>
       <div className="flex h-full w-full flex-col justify-center">
-        <div className="mx-auto w-full max-w-[1400px] px-5 py-16 sm:px-8 lg:px-14">
+        <div className="mx-auto w-full max-w-[1400px] px-5 py-10 sm:px-8 lg:px-14">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div className="max-w-2xl">
-              <span className="mb-5 flex items-center gap-3 font-mono-label text-[10px] text-primary">
-                <span aria-hidden="true" className="h-px w-10 bg-primary/60" />
+              <span className="mb-5 flex items-center gap-3 font-display text-[12px] tracking-[0.26em] text-primary sm:text-[13px]">
+                <span aria-hidden="true" className="h-px w-10 bg-primary/70" />
                 {phase.kicker}
               </span>
-              <h2 className="font-display text-[clamp(1.9rem,5.2vw,4.6rem)] leading-[0.98] font-semibold tracking-[-0.01em] text-white uppercase">
-                Creative universe
-              </h2>
-              <div className="mt-6 max-w-lg space-y-3">
-                {phase.body.map((line, index) => (
-                  <p
-                    key={line}
-                    className={
-                      index === 0
-                        ? "font-display text-lg text-white/85 italic sm:text-2xl"
-                        : "text-sm leading-relaxed text-white/55 sm:text-base"
-                    }
+
+              {/* the chapter identity swaps when a universe is chosen */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={universe}
+                  initial={reduced ? undefined : { opacity: 0, y: 18, filter: "blur(10px)" }}
+                  animate={reduced ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={reduced ? undefined : { opacity: 0, y: -12, filter: "blur(6px)" }}
+                  transition={{ duration: 0.45, ease: [0.22, 0.68, 0.16, 1] }}
+                >
+                  <h2
+                    className="font-display text-[clamp(1.9rem,5.4vw,4.7rem)] leading-[0.95] font-medium tracking-[-0.02em] text-white"
+                    style={chapter ? { color: accent } : undefined}
                   >
-                    {line}
+                    {chapter ? chapter.label : phase.title}
+                  </h2>
+                  <p className="type-italic mt-5 max-w-xl text-[clamp(1.1rem,2.2vw,1.6rem)] leading-snug text-white/85">
+                    {chapter ? chapter.blurb : phase.body[0]}
                   </p>
-                ))}
-              </div>
+                  {!chapter && (
+                    <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-white/65">
+                      {phase.body[1]}
+                    </p>
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </div>
 
-            <p className="font-mono-label text-[9px] text-white/35">
-              {String(visible.length).padStart(2, "0")} / {projects.length} worlds
+            <p className="font-mono text-[11px] tracking-[0.16em] text-white/45">
+              {String(visible.length).padStart(2, "0")}
+              <span className="mx-1 text-white/25">/</span>
+              {String(projects.length).padStart(2, "0")} worlds
             </p>
           </div>
 
-          {/* filters */}
-          <div className="mt-8 flex flex-wrap items-center gap-2 border-y border-white/10 py-4">
+          {/* universes — primary chapters */}
+          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3 border-b border-white/10 pb-3">
+            <UniverseTab
+              active={universe === "all"}
+              label="All work"
+              accent={NEUTRAL}
+              onClick={() => setUniverse("all")}
+            />
+            {UNIVERSES.map((entry_) => (
+              <UniverseTab
+                key={entry_.id}
+                active={universe === entry_.id}
+                label={entry_.label}
+                accent={entry_.accent}
+                onClick={() => setUniverse(entry_.id)}
+              />
+            ))}
+          </div>
+
+          {/* practices — the original filters, still narrowing within a chapter */}
+          <div className="mt-4 flex flex-wrap items-center gap-2">
             <button
               type="button"
-              onClick={() => setFilter("all")}
-              className={`rounded-full px-4 py-2 font-mono-label text-[9px] transition-colors ${
-                filter === "all"
-                  ? "bg-primary text-black"
-                  : "border border-white/15 text-white/55 hover:border-white/40 hover:text-white"
+              onClick={() => setGroup("all")}
+              className={`rounded-full px-3.5 py-1.5 text-[12.5px] transition-colors ${
+                group === "all"
+                  ? "border border-white/45 text-white"
+                  : "border border-white/12 text-white/50 hover:border-white/35 hover:text-white/85"
               }`}
             >
-              All work
+              Every practice
             </button>
-            {PROJECT_GROUPS.map((group) => (
+            {PROJECT_GROUPS.map((entry_) => (
               <button
-                key={group.id}
+                key={entry_.id}
                 type="button"
-                onClick={() => setFilter(group.id)}
-                className={`rounded-full px-4 py-2 font-mono-label text-[9px] transition-colors ${
-                  filter === group.id
-                    ? "bg-primary text-black"
-                    : "border border-white/15 text-white/55 hover:border-white/40 hover:text-white"
+                onClick={() => setGroup(entry_.id)}
+                className={`rounded-full px-3.5 py-1.5 text-[12.5px] transition-colors ${
+                  group === entry_.id
+                    ? "border border-white/45 text-white"
+                    : "border border-white/12 text-white/50 hover:border-white/35 hover:text-white/85"
                 }`}
               >
-                {group.label}
+                {entry_.label}
               </button>
             ))}
           </div>
 
           {/* the worlds */}
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3">
+          <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3">
             {visible.map((project, index) => (
               <ShowcaseCard
                 key={project.slug}
                 project={project}
                 index={index}
+                accent={accent}
+                entry={entry}
                 onOpen={setActive}
               />
             ))}
+            {visible.length === 0 && (
+              <p className="col-span-full rounded-2xl border border-white/10 bg-[#070912]/70 px-5 py-8 text-center text-sm text-white/55">
+                Nothing filed under this filter yet — switch universe or practice
+                to keep exploring.
+              </p>
+            )}
           </div>
 
-          <p className="mt-10 border-t border-white/10 pt-4 font-mono-label text-[9px] text-white/30">
-            Sample gallery — replace titles, years, descriptions and images with
-            real projects.
+          <p className="mt-8 border-t border-white/10 pt-4 text-[12.5px] leading-relaxed text-white/45">
+            Sample gallery — titles, years, descriptions and images are starter
+            content in <span className="font-mono text-white/60">src/lib/projects.ts</span>,
+            ready to be swapped for the real projects.
           </p>
         </div>
       </div>
@@ -249,5 +349,42 @@ export default function ShowcaseDeck() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+/** A chapter selector with a moving underline in that universe's colour. */
+function UniverseTab({
+  active,
+  label,
+  accent,
+  onClick,
+}: {
+  active: boolean;
+  label: string;
+  accent: string;
+  onClick: () => void;
+}) {
+  const reduced = useReducedMotion();
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      data-cursor={label}
+      className={`relative pb-1 font-display text-[15px] tracking-[0.02em] transition-colors sm:text-[17px] ${
+        active ? "text-white" : "text-white/45 hover:text-white/85"
+      }`}
+      style={active ? { color: accent } : undefined}
+    >
+      {label}
+      {active && (
+        <motion.span
+          layoutId={reduced ? undefined : "universe-tab"}
+          className="absolute -bottom-1.5 left-0 h-px w-full"
+          style={{ background: accent }}
+          transition={{ duration: 0.4, ease: [0.22, 0.68, 0.16, 1] }}
+        />
+      )}
+    </button>
   );
 }

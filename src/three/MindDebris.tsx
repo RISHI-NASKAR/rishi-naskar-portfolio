@@ -237,6 +237,8 @@ export default function MindDebris({ quality }: { quality: number }) {
       uTime: { value: 0 },
       uOpacity: { value: 0.8 },
       uPixelRatio: { value: 1 },
+      uPointer: { value: new THREE.Vector2(0, 0) },
+      uPull: { value: 0 },
     }),
     [],
   );
@@ -247,6 +249,10 @@ export default function MindDebris({ quality }: { quality: number }) {
     moteUniforms.uTime.value = journey.time;
     moteUniforms.uOpacity.value = presenceValue * 0.8;
     moteUniforms.uPixelRatio.value = Math.min(window.devicePixelRatio || 1, 1.5);
+    // Dust of thought leans toward the cursor and wheels slowly around it.
+    moteUniforms.uPull.value =
+      journey.pointerActive && !journey.reduced ? 0.075 : 0;
+    moteUniforms.uPointer.value.set(journey.pointerX, -journey.pointerY);
     const points = moteGroup.current;
     if (!points) return;
     points.visible = presenceValue > 0.01;
@@ -270,6 +276,8 @@ export default function MindDebris({ quality }: { quality: number }) {
           vertexShader={/* glsl */ `
             uniform float uTime;
             uniform float uPixelRatio;
+            uniform vec2 uPointer;
+            uniform float uPull;
             attribute float aSeed;
             varying float vBright;
 
@@ -286,6 +294,19 @@ export default function MindDebris({ quality }: { quality: number }) {
                 9.0
               );
               vBright = 0.6 + 0.4 * sin(uTime * 1.6 + aSeed * 40.0);
+
+              // Subtle attraction with a tangential twist, so the dust both
+              // leans toward the cursor and wheels around it.
+              if (gl_Position.w > 0.0 && uPull > 0.0001) {
+                vec2 ndc = gl_Position.xy / gl_Position.w;
+                vec2 d = uPointer - ndc;
+                float r = max(length(d), 0.0012);
+                float well = min(uPull / (r * 5.0 + 0.4), 0.07);
+                vec2 dir = d / r;
+                vec2 tangent = vec2(-dir.y, dir.x);
+                gl_Position.xy +=
+                  (dir * 0.75 + tangent * 0.5) * well * gl_Position.w;
+              }
             }
           `}
           fragmentShader={/* glsl */ `

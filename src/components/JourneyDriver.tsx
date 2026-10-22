@@ -37,6 +37,11 @@ export default function JourneyDriver() {
     let rawX = 0;
     let rawY = 0;
     const onPointerMove = (event: PointerEvent) => {
+      // Touch drags scroll the page and would otherwise leave a frozen gravity
+      // well on screen — only a real pointer turns these effects on.
+      if (event.pointerType === "mouse" || event.pointerType === "pen") {
+        journey.pointerActive = true;
+      }
       rawX = (event.clientX / window.innerWidth) * 2 - 1;
       rawY = (event.clientY / window.innerHeight) * 2 - 1;
     };

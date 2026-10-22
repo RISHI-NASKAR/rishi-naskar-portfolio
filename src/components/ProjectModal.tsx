@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
-import type { Project } from "@/lib/projects";
+import { ArrowUpRight, X } from "lucide-react";
+import { UNIVERSES, isPlaceholderYear, type Project } from "@/lib/projects";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -9,8 +9,11 @@ interface ProjectModalProps {
 }
 
 /**
- * Project detail view. Opens over the gallery with a smooth scale/fade,
- * locks background scroll, closes on Escape or backdrop click.
+ * Project detail view — a refined information panel: title, universe, category,
+ * year, visual, description and detail lines, plus technologies and a link
+ * *when the project actually has them* (never invented).
+ * Opens over the gallery with a smooth scale/fade, locks background scroll,
+ * closes on Escape or backdrop click.
  */
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   useEffect(() => {
@@ -28,6 +31,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   }, [project, onClose]);
 
   if (!project) return null;
+
+  const universe = UNIVERSES.find((entry) => entry.id === project.universe);
+  const accent = universe?.accent ?? "#5aa9ff";
 
   return (
     <motion.div
@@ -52,10 +58,15 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         {/* header */}
         <div className="flex items-start justify-between gap-6 border-t-2 border-white/80 pt-4">
           <div>
-            <span className="font-mono-label text-[10px] text-primary">
-              {project.num} — Project
+            <span
+              className="font-display text-[12px] tracking-[0.24em]"
+              style={{ color: accent }}
+            >
+              {universe ? universe.label : "Project"}
+              <span className="mx-2 text-white/30">—</span>
+              {project.num}
             </span>
-            <h3 className="mt-3 font-display text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+            <h3 className="mt-3 font-display text-3xl leading-[0.98] font-medium tracking-[-0.02em] text-white sm:text-5xl">
               {project.title}
             </h3>
           </div>
@@ -74,54 +85,102 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         <div className="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-[#04060f]" style={{ aspectRatio: "16 / 9" }}>
           <img
             src={project.image}
-            alt={`${project.title} — placeholder artwork`}
+            alt={`${project.title} — sample artwork`}
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-cover grayscale"
+            className="h-full w-full object-cover"
           />
         </div>
 
         {/* meta grid */}
         <dl className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3">
           <div>
-            <dt className="font-mono-label text-[9px] text-white/40">Category</dt>
-            <dd className="mt-1.5 text-sm text-white/80">{project.category}</dd>
+            <dt className="font-display text-[12px] tracking-[0.18em] text-white/45">
+              Category
+            </dt>
+            <dd className="mt-1.5 text-sm text-white/85">{project.category}</dd>
           </div>
-          <div>
-            <dt className="font-mono-label text-[9px] text-white/40">Year</dt>
-            <dd className="mt-1.5 text-sm text-white/80">{project.year}</dd>
-          </div>
+          {!isPlaceholderYear(project.year) && (
+            <div>
+              <dt className="font-display text-[12px] tracking-[0.18em] text-white/45">
+                Year
+              </dt>
+              <dd className="mt-1.5 text-sm text-white/85">{project.year}</dd>
+            </div>
+          )}
           <div className="col-span-2 sm:col-span-1">
-            <dt className="font-mono-label text-[9px] text-white/40">Status</dt>
-            <dd className="mt-1.5 text-sm text-white/80">Sample content — replace</dd>
+            <dt className="font-display text-[12px] tracking-[0.18em] text-white/45">
+              Universe
+            </dt>
+            <dd className="mt-1.5 text-sm" style={{ color: accent }}>
+              {universe?.label ?? "—"}
+            </dd>
           </div>
         </dl>
 
         {/* copy */}
-        <div className="mt-8 space-y-4 border-t border-white/10 pt-6">
-          <p className="text-base leading-relaxed text-white/85 sm:text-lg">
+        <div className="mt-8 space-y-5 border-t border-white/10 pt-6">
+          <p className="text-[17px] leading-relaxed text-white/90 sm:text-lg">
             {project.description}
           </p>
-          <ul className="space-y-2">
+          <ul className="space-y-2.5">
             {project.details.map((line) => (
-              <li key={line} className="flex gap-3 text-sm text-white/55">
+              <li key={line} className="flex gap-3 text-sm leading-relaxed text-white/65">
                 <span
                   aria-hidden="true"
-                  className="mt-2 h-px w-5 shrink-0 bg-primary/70"
+                  className="mt-2 h-px w-5 shrink-0"
+                  style={{ background: accent }}
                 />
                 {line}
               </li>
             ))}
           </ul>
-          <p className="font-mono-label pt-2 text-[10px] text-white/30">
-            Placeholder copy — swap in real project details, credits and links.
+
+          {/* Technologies — only when the project actually lists them. */}
+          {project.stack && project.stack.length > 0 && (
+            <div>
+              <p className="font-display text-[12px] tracking-[0.18em] text-white/45">
+                Technologies
+              </p>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {project.stack.map((tool) => (
+                  <li
+                    key={tool}
+                    className="rounded-full border border-white/15 px-3 py-1 text-[12.5px] text-white/80"
+                  >
+                    {tool}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <p className="text-[13px] leading-relaxed text-white/50">
+            Starter content — real credits, technologies and links drop into the
+            gallery in{" "}
+            <span className="font-mono text-white/65">src/lib/projects.ts</span>.
           </p>
         </div>
+
+        {/* Link — only when the project has a real destination. */}
+        {project.link && (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noreferrer noopener"
+            data-cursor="Open project"
+            className="mt-6 inline-flex items-center gap-2 font-display text-[14px] tracking-[0.12em] text-white underline decoration-white/30 underline-offset-[6px] transition-colors hover:text-white hover:decoration-primary"
+          >
+            {project.linkLabel ?? "Open project"}
+            <ArrowUpRight className="size-4" aria-hidden="true" />
+          </a>
+        )}
 
         <button
           type="button"
           onClick={onClose}
-          className="mt-8 w-full rounded-full bg-primary px-6 py-3 font-mono-label text-[11px] text-black transition-transform hover:-translate-y-0.5"
+          className="mt-8 w-full rounded-full px-6 py-3 font-display text-[13px] font-medium tracking-[0.16em] text-black transition-transform hover:-translate-y-0.5"
+          style={{ background: accent }}
         >
           Back to gallery
         </button>

@@ -86,8 +86,10 @@ export default function JourneyScene() {
             stencil: false,
           }}
           camera={{
-            position: [1.05, 1.5, 9.4],
-            fov: 40,
+            // Matches CAMERA_KEYS[0] so the first painted frame is already
+            // the opening composition — no jump when the rig takes over.
+            position: [1.5, 1.55, 9.6],
+            fov: 41,
             near: 0.1,
             far: 3400,
           }}

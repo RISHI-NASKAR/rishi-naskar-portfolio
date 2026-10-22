@@ -41,9 +41,11 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Editorial type scale */
-  --font-serif: "Cormorant Garamond", "Iowan Old Style", "Times New Roman", "Georgia", serif;
-  --font-sans: "Instrument Sans", "Helvetica Neue", "Arial", sans-serif;
+  /* Cinematic type scale: Space Grotesk for display, Inter for reading,
+     JetBrains Mono only for genuine technical readouts. */
+  --font-serif: "Space Grotesk", "Helvetica Neue", "Arial", sans-serif;
+  --font-display: "Space Grotesk", "Helvetica Neue", "Arial", sans-serif;
+  --font-sans: "Inter", "Helvetica Neue", "Arial", sans-serif;
   --font-mono: "JetBrains Mono", "Consolas", monospace;
 }
 
@@ -168,12 +170,89 @@
   .rule-heavy {
     border-top: 2px solid var(--foreground);
   }
+  /* Display face: oversized film-title composition. */
   .font-display {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
+    font-synthesis-weight: none;
+  }
+  /* Elegant italic accent — real Inter italic, never a faked oblique. */
+  .type-italic {
+    font-family: var(--font-sans);
+    font-style: italic;
+    font-optical-sizing: auto;
+    letter-spacing: -0.01em;
+  }
+  /* Occasionally outlined display text. */
+  .type-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.15px rgba(245, 244, 241, 0.62);
+    paint-order: stroke fill;
+  }
+  .type-outline-blue {
+    color: transparent;
+    -webkit-text-stroke: 1.15px rgba(90, 169, 255, 0.75);
+    paint-order: stroke fill;
   }
   .font-mono-label {
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.18em;
+  }
+
+  /* ---------------------------------------------------------- title sequence
+     The name is revealed *through* the environment: the track collapses from a
+     wide cinematic spread while each letter resolves out of blur on its own
+     beat. One shot on load — reduced motion flattens it to a static frame. */
+  @keyframes title-track {
+    from {
+      letter-spacing: 0.34em;
+      opacity: 0;
+    }
+    35% {
+      opacity: 1;
+    }
+    to {
+      letter-spacing: -0.012em;
+      opacity: 1;
+    }
+  }
+  @keyframes title-letter {
+    from {
+      opacity: 0;
+      filter: blur(18px);
+      transform: translateY(0.28em) scaleY(1.12);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0) scaleY(1);
+    }
+  }
+  @keyframes cue-drop {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .title-track {
+    animation: title-track 2.4s cubic-bezier(0.16, 0.9, 0.2, 1) both;
+  }
+  .title-letter {
+    display: inline-block;
+    animation: title-letter 1.15s cubic-bezier(0.16, 0.9, 0.2, 1) both;
+    animation-delay: calc(0.34s + var(--i, 0) * 0.075s);
+    will-change: transform, filter, opacity;
+  }
+  .title-line {
+    animation: title-letter 1.4s cubic-bezier(0.16, 0.9, 0.2, 1) both;
+    animation-delay: calc(1.5s + var(--i, 0) * 0.14s);
+  }
+  .cue-in {
+    animation: cue-drop 1.2s cubic-bezier(0.16, 0.9, 0.2, 1) both;
+    animation-delay: 2.2s;
   }
 }

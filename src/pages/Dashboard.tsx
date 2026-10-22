@@ -9,19 +9,19 @@ const tiles = [
     icon: Bookmark,
     title: "Saved projects",
     value: "—",
-    note: "Placeholder — bookings and favourites will appear here.",
+    note: "Nothing here yet — this space is reserved for saved projects.",
   },
   {
     icon: Mail,
     title: "Enquiries",
     value: "—",
-    note: "Placeholder — new briefs land in this inbox.",
+    note: "Nothing here yet — new briefs will land in this inbox.",
   },
   {
     icon: LayoutDashboard,
     title: "Active collaborations",
     value: "—",
-    note: "Placeholder — in-progress work with studios and brands.",
+    note: "Nothing here yet — active work with studios and brands shows up here.",
   },
 ];
 
@@ -43,7 +43,7 @@ export default function Dashboard() {
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-10">
         <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="font-mono-label text-[11px] text-muted-foreground">
+            <p className="font-display text-[13px] tracking-[0.2em] text-muted-foreground">
               Studio desk — signed in
             </p>
             <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight sm:text-5xl">
@@ -86,9 +86,11 @@ export default function Dashboard() {
         </section>
 
         <footer className="rule flex flex-wrap items-center justify-between gap-3 pt-4">
-          <p className="font-display text-base font-semibold tracking-tight">Rishi Naskar</p>
-          <p className="font-mono-label text-[10px] text-muted-foreground">
-            Studio desk — starter content, replace with real data
+          <p className="font-display text-base font-medium tracking-[-0.01em]">
+            Rishi Naskar
+          </p>
+          <p className="font-display text-[13px] tracking-[0.06em] text-muted-foreground">
+            Studio desk — private workspace
           </p>
         </footer>
       </div>

@@ -58,7 +58,7 @@ const SEEDS: PhaseSeed[] = [
     index: "02",
     label: "Journey",
     kicker: "02 — Journey",
-    title: "THOUGHTS IN MOTION",
+    title: "Thoughts in motion",
     body: [
       "Ideas, people, moments… all connected.",
       "Hundreds of filaments of thought leave the head and travel the dark — different directions, different speeds — then intertwine into a single, impossibly bright point.",
@@ -71,8 +71,8 @@ const SEEDS: PhaseSeed[] = [
     rail: 2,
     index: "03",
     label: "Universes",
-    kicker: "03 — The Black Hole",
-    title: "WHERE IMAGINATION BREAKS REALITY",
+    kicker: "03 — The black hole",
+    title: "Where imagination breaks reality",
     body: [
       "The converged wires begin to turn.",
       "Thought becomes gravity. Gravity becomes an accretion disk — blue, violet and amber — bending light around a shadow that swallows the frame.",
@@ -96,8 +96,8 @@ const SEEDS: PhaseSeed[] = [
     rail: 2,
     index: "03",
     label: "Universes",
-    kicker: "04 — Many Universes",
-    title: "MANY UNIVERSES",
+    kicker: "04 — Many universes",
+    title: "Many universes",
     body: [
       "Different worlds. Different stories. The same mind.",
       "Planets turning on their own light. Spiral galaxies. Nebulae. Rings of rock. Cosmic islands. Civilisations too far away to name — each one behind its own portal.",
@@ -110,8 +110,8 @@ const SEEDS: PhaseSeed[] = [
     rail: 3,
     index: "04",
     label: "Works",
-    kicker: "05 — My Works",
-    title: "CREATIVE UNIVERSE",
+    kicker: "05 — My works",
+    title: "Three universes of work",
     body: [
       "Films. Visuals. Creative experiments. AI projects. Designs.",
       "The worlds resolve into work — each project a body drifting in the same dark, waiting to be opened.",
@@ -278,24 +278,26 @@ export interface CameraKey {
 export const CAMERA_KEYS: CameraKey[] = [
   {
     p: 0,
-    pos: [1.05, 1.5, 9.4],
-    look: [-0.5, 1.25, 0],
-    fov: 40,
+    pos: [1.5, 1.55, 9.6],
+    look: [-1.7, 1.3, -1],
+    fov: 41,
     roll: 0,
   },
   {
+    // The camera arcs left around the head — an orbit, not a straight dolly.
     p: at("mind", 0.42),
-    pos: [0.85, 1.35, 7.4],
-    look: [-0.9, 1.5, -1.5],
-    fov: 42,
-    roll: 0.012,
+    pos: [-0.7, 1.2, 7.0],
+    look: [-1.15, 1.5, -2.2],
+    fov: 45,
+    roll: 0.03,
   },
   {
+    // …and swings back out to the right as it lines up with the corridor.
     p: at("mind", 0.86),
-    pos: [0.55, 1.4, 4.2],
-    look: [-0.3, 1.2, -14],
-    fov: 48,
-    roll: -0.02,
+    pos: [0.95, 1.5, 3.4],
+    look: [0.1, 1.1, -18],
+    fov: 50,
+    roll: -0.035,
   },
   {
     p: at("convergence", 0.18),

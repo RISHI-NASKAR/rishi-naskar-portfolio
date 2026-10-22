@@ -66,23 +66,23 @@ export default function Contact() {
       className="relative mx-auto w-full max-w-[1400px] px-5 pt-24 pb-16 sm:px-8 sm:pt-32 lg:px-14"
     >
       <div className="mb-12 flex items-baseline justify-between gap-4 border-t border-white/12 pt-5">
-        <span className="font-mono-label text-[10px] text-primary">
+        <span className="font-display text-[12px] tracking-[0.26em] text-primary sm:text-[13px]">
           07 — Contact
         </span>
-        <span className="font-mono-label text-[10px] text-white/35">
+        <span className="font-display text-[13px] tracking-[0.06em] text-white/55">
           The next world starts here
         </span>
       </div>
 
-      <h2 className="font-display text-[clamp(2.2rem,7.4vw,6.4rem)] leading-[0.9] font-semibold tracking-[-0.01em] text-white uppercase">
+      <h2 className="font-display text-[clamp(2.3rem,7.6vw,6.6rem)] leading-[0.92] font-medium tracking-[-0.03em] text-white">
         Got a good idea?
         <br />
-        <span className="text-primary italic">Let&apos;s make it visual.</span>
+        <span className="type-italic text-primary">Let&apos;s make it visual.</span>
       </h2>
 
       <div className="mt-12 grid gap-10 sm:grid-cols-2 sm:gap-16">
         <div className="space-y-6">
-          <p className="max-w-md text-base leading-relaxed text-white/60 sm:text-lg">
+          <p className="max-w-md text-base leading-relaxed text-white/70 sm:text-lg">
             For studios, founders and brands with something to say — pitch the
             idea, the deadline and the feeling you&apos;re after. I&apos;ll reply
             with a point of view.
@@ -92,9 +92,9 @@ export default function Contact() {
             <a
               href={mailto}
               data-cursor="Say hello"
-              className="inline-flex items-center gap-3 rounded-full bg-primary px-7 py-4 font-mono-label text-[10px] text-black transition-transform hover:-translate-y-0.5"
+              className="inline-flex items-center gap-3 rounded-full bg-primary px-7 py-4 font-display text-[13.5px] font-medium tracking-[0.12em] text-black transition-transform hover:-translate-y-0.5"
             >
-              <Mail className="size-3.5" aria-hidden="true" />
+              <Mail className="size-4" aria-hidden="true" />
               Email me
               <span aria-hidden="true">→</span>
             </a>
@@ -103,9 +103,9 @@ export default function Contact() {
               target="_blank"
               rel="noreferrer noopener"
               data-cursor="WhatsApp"
-              className="inline-flex items-center gap-3 rounded-full border border-white/25 px-7 py-4 font-mono-label text-[10px] text-white/90 transition-colors hover:border-white/60"
+              className="inline-flex items-center gap-3 rounded-full border border-white/25 px-7 py-4 font-display text-[13.5px] font-medium tracking-[0.1em] text-white/90 transition-colors hover:border-white/60"
             >
-              <MessageCircle className="size-3.5" aria-hidden="true" />
+              <MessageCircle className="size-4" aria-hidden="true" />
               Message on WhatsApp
             </a>
           </div>
@@ -113,9 +113,9 @@ export default function Contact() {
           <a
             href={tel}
             data-cursor="Call"
-            className="inline-flex items-center gap-3 font-mono-label text-[10px] text-white/45 transition-colors hover:text-white"
+            className="inline-flex items-center gap-3 text-[15px] text-white/60 transition-colors hover:text-white"
           >
-            <Phone className="size-3.5" aria-hidden="true" />
+            <Phone className="size-4" aria-hidden="true" />
             {LINKS.phoneDisplay}
           </a>
         </div>
@@ -126,8 +126,8 @@ export default function Contact() {
               key={social.label}
               className="flex items-baseline justify-between gap-4 border-t border-white/12 py-4"
             >
-              <dt className="flex items-center gap-2 font-mono-label text-[9px] text-white/40">
-                <social.icon className="size-3.5" aria-hidden="true" />
+              <dt className="flex items-center gap-2 font-display text-[12.5px] tracking-[0.14em] text-white/55">
+                <social.icon className="size-4" aria-hidden="true" />
                 {social.label}
               </dt>
               <dd className="text-right">
@@ -136,7 +136,7 @@ export default function Contact() {
                   target={social.external ? "_blank" : undefined}
                   rel={social.external ? "noreferrer noopener" : undefined}
                   data-cursor={social.label}
-                  className="text-sm break-words text-white/80 underline decoration-white/25 underline-offset-4 transition-colors hover:text-white hover:decoration-primary"
+                  className="text-sm break-words text-white/85 underline decoration-white/25 underline-offset-4 transition-colors hover:text-white hover:decoration-primary sm:text-[15px]"
                 >
                   {social.display}
                 </a>
@@ -144,32 +144,36 @@ export default function Contact() {
             </div>
           ))}
           <div className="flex items-baseline justify-between gap-4 border-t border-white/12 py-4">
-            <dt className="font-mono-label text-[9px] text-white/40">Brand</dt>
-            <dd className="text-sm text-white/80">Rishi Naskar Films</dd>
+            <dt className="font-display text-[12.5px] tracking-[0.14em] text-white/55">
+              Brand
+            </dt>
+            <dd className="text-sm text-white/85 sm:text-[15px]">
+              Rishi Naskar Films
+            </dd>
           </div>
         </dl>
       </div>
 
       <footer className="mt-20 flex flex-wrap items-center justify-between gap-4 border-t border-white/12 pt-6">
-        <p className="font-display text-lg font-semibold tracking-tight text-white">
+        <p className="font-display text-lg font-medium tracking-[-0.01em] text-white">
           Rishi Naskar
         </p>
         <nav className="flex flex-wrap items-center gap-5" aria-label="Footer">
           <a
             href="#works"
-            className="font-mono-label text-[9px] text-white/40 transition-colors hover:text-white"
+            className="font-display text-[13px] tracking-[0.06em] text-white/55 transition-colors hover:text-white"
           >
             Work
           </a>
           <a
             href="#about"
-            className="font-mono-label text-[9px] text-white/40 transition-colors hover:text-white"
+            className="font-display text-[13px] tracking-[0.06em] text-white/55 transition-colors hover:text-white"
           >
             About
           </a>
           <a
             href={mailto}
-            className="font-mono-label text-[9px] text-white/40 transition-colors hover:text-white"
+            className="font-display text-[13px] tracking-[0.06em] text-white/55 transition-colors hover:text-white"
           >
             {LINKS.email}
           </a>
@@ -177,7 +181,7 @@ export default function Contact() {
             href={LINKS.linkedin}
             target="_blank"
             rel="noreferrer noopener"
-            className="font-mono-label text-[9px] text-white/40 transition-colors hover:text-white"
+            className="font-display text-[13px] tracking-[0.06em] text-white/55 transition-colors hover:text-white"
           >
             LinkedIn
           </a>
@@ -185,18 +189,18 @@ export default function Contact() {
             href={whatsapp}
             target="_blank"
             rel="noreferrer noopener"
-            className="font-mono-label text-[9px] text-white/40 transition-colors hover:text-white"
+            className="font-display text-[13px] tracking-[0.06em] text-white/55 transition-colors hover:text-white"
           >
             WhatsApp
           </a>
           <a
             href="/dashboard"
-            className="font-mono-label text-[9px] text-white/40 transition-colors hover:text-white"
+            className="font-display text-[13px] tracking-[0.06em] text-white/55 transition-colors hover:text-white"
           >
             Studio desk
           </a>
         </nav>
-        <p className="font-mono-label text-[9px] text-white/30">
+        <p className="font-display text-[12.5px] tracking-[0.06em] text-white/45">
           © 2026 — All frames reserved
         </p>
       </footer>

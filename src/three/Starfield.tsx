@@ -11,6 +11,8 @@ const vertexShader = /* glsl */ `
   uniform vec2 uLensCenter;
   uniform float uLens;
   uniform float uWarp;
+  uniform vec2 uPointer;
+  uniform float uPull;
 
   attribute float aSize;
   attribute float aSeed;
@@ -31,6 +33,16 @@ const vertexShader = /* glsl */ `
       float r = max(length(d), 0.0006);
       float amount = min(uLens / (r * r * 24.0 + 0.32), 0.9);
       gl_Position.xy += normalize(d) * amount * gl_Position.w;
+    }
+
+    // The cursor carries a small gravity well of its own: nearby stars lean
+    // toward it and let go as it passes — restrained, never a swirl.
+    if (gl_Position.w > 0.0 && uPull > 0.0001) {
+      vec2 ndc = gl_Position.xy / gl_Position.w;
+      vec2 d = uPointer - ndc;
+      float r = max(length(d), 0.0008);
+      float amount = min(uPull / (r * 6.0 + 1.0), 0.05);
+      gl_Position.xy += (d / r) * amount * gl_Position.w;
     }
 
     // Warp: the whole sky stretches radially while falling through.
@@ -119,6 +131,8 @@ export default function Starfield({ count }: { count: number }) {
       uLensCenter: { value: new THREE.Vector2(0, 0) },
       uLens: { value: 0 },
       uWarp: { value: 0 },
+      uPointer: { value: new THREE.Vector2(0, 0) },
+      uPull: { value: 0 },
       uOpacity: { value: 0.9 },
     }),
     [],
@@ -138,6 +152,12 @@ export default function Starfield({ count }: { count: number }) {
     }
     uniforms.uLens.value = lensStrength(progress);
     uniforms.uWarp.value = warpStrength(progress);
+
+    // Pointer gravity: only for a live pointer, never under reduced motion,
+    // and faded while the real singularity is doing the bending.
+    const pointerWell = journey.pointerActive && !journey.reduced ? 0.034 : 0;
+    uniforms.uPull.value = pointerWell * (1 - uniforms.uLens.value * 0.6);
+    uniforms.uPointer.value.set(journey.pointerX, -journey.pointerY);
   });
 
   return (

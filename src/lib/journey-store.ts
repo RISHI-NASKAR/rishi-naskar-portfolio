@@ -18,6 +18,9 @@ export interface JourneyState {
   /** Smoothed pointer, -1..1 from the centre of the viewport. */
   pointerX: number;
   pointerY: number;
+  /** True once a real pointer has moved — touch devices never set it, so
+      pointer-driven effects simply never start there. */
+  pointerActive: boolean;
   /** Normalised scroll speed, for motion-reactive effects. */
   velocity: number;
   /** Seconds of scene time; frozen when reduced motion is requested. */
@@ -26,6 +29,9 @@ export interface JourneyState {
   reduced: boolean;
   /** 0..1 detail scale chosen from the device (mobile, low core count). */
   quality: number;
+  /** Selected work universe: 0 = all, 1..3 = index into UNIVERSES.
+      The scene re-colours its wires toward the active universe. */
+  universe: number;
 }
 
 /**
@@ -54,10 +60,12 @@ export const journey: JourneyState = {
   progress: 0,
   pointerX: 0,
   pointerY: 0,
+  pointerActive: false,
   velocity: 0,
   time: 0,
   reduced: detectReducedMotion(),
   quality: detectQuality(),
+  universe: 0,
 };
 
 export interface HudSnapshot {

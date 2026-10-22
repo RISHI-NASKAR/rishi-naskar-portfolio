@@ -39,11 +39,11 @@ export default function JourneyHud() {
             data-cursor="Home"
             className="group flex shrink-0 cursor-pointer items-baseline gap-2"
           >
-            <span className="font-display text-xl leading-none font-semibold italic tracking-tight text-[#f5f4f1] sm:text-2xl">
+            <span className="font-display text-xl leading-none font-medium tracking-[-0.01em] text-[#f5f4f1] sm:text-2xl">
               Rishi Naskar
             </span>
-            <span className="font-mono-label hidden text-[9px] text-white/45 transition-colors group-hover:text-primary sm:inline">
-              Films
+            <span className="hidden font-display text-[10px] tracking-[0.42em] text-white/50 transition-colors group-hover:text-primary sm:inline">
+              FILMS
             </span>
           </button>
 
@@ -54,8 +54,8 @@ export default function JourneyHud() {
             <button
               type="button"
               onClick={() => scrollToProgress(0)}
-              className={`font-mono-label relative py-1 text-[10px] transition-colors ${
-                rail === 0 ? "text-white" : "text-white/50 hover:text-white"
+              className={`font-display relative py-1 text-[14px] tracking-[0.04em] transition-colors ${
+                rail === 0 ? "text-white" : "text-white/60 hover:text-white"
               }`}
             >
               Home
@@ -68,10 +68,10 @@ export default function JourneyHud() {
                 key={entry.label}
                 type="button"
                 onClick={jump(i + 1)}
-                className={`font-mono-label relative py-1 text-[10px] transition-colors ${
+                className={`font-display relative py-1 text-[14px] tracking-[0.04em] transition-colors ${
                   rail === i + 1
                     ? "text-white"
-                    : "text-white/50 hover:text-white"
+                    : "text-white/60 hover:text-white"
                 }`}
               >
                 {entry.label}
@@ -82,23 +82,23 @@ export default function JourneyHud() {
             ))}
             <a
               href={`#${ABOUT_ID}`}
-              className={`font-mono-label relative py-1 text-[10px] transition-colors ${
-                rail === 4 ? "text-white" : "text-white/50 hover:text-white"
+              className={`font-display relative py-1 text-[14px] tracking-[0.04em] transition-colors ${
+                rail === 4 ? "text-white" : "text-white/60 hover:text-white"
               }`}
             >
               About
             </a>
             <a
               href={`#${CONTACT_ID}`}
-              className={`font-mono-label relative py-1 text-[10px] transition-colors ${
-                rail === 5 ? "text-white" : "text-white/50 hover:text-white"
+              className={`font-display relative py-1 text-[14px] tracking-[0.04em] transition-colors ${
+                rail === 5 ? "text-white" : "text-white/60 hover:text-white"
               }`}
             >
               Contact
             </a>
             <a
               href="/dashboard"
-              className="font-mono-label py-1 text-[10px] text-white/40 transition-colors hover:text-white/80"
+              className="font-display py-1 text-[14px] tracking-[0.04em] text-white/50 transition-colors hover:text-white/90"
             >
               Studio desk
             </a>
@@ -107,7 +107,7 @@ export default function JourneyHud() {
           <a
             href={`#${CONTACT_ID}`}
             data-cursor="Say hello"
-            className="shrink-0 rounded-full border border-white/25 bg-white/5 px-4 py-2.5 font-mono-label text-[10px] text-white/90 backdrop-blur-sm transition-colors hover:border-primary hover:bg-primary hover:text-black sm:px-5"
+            className="shrink-0 rounded-full border border-white/25 bg-white/5 px-4 py-2.5 font-display text-[13px] tracking-[0.12em] text-white/90 backdrop-blur-sm transition-colors hover:border-primary hover:bg-primary hover:text-black sm:px-5"
           >
             Let&apos;s create
           </a>
@@ -156,17 +156,17 @@ export default function JourneyHud() {
                     style={{ transitionTimingFunction: EASE }}
                   />
                   <span
-                    className={`font-mono-label text-[9px] transition-colors ${
-                      active ? "text-primary" : "text-white/35"
+                    className={`font-mono text-[10.5px] tracking-[0.14em] transition-colors ${
+                      active ? "text-primary" : "text-white/45"
                     }`}
                   >
                     {entry.index}
                   </span>
                   <span
-                    className={`font-mono-label text-[10px] transition-colors ${
+                    className={`font-display text-[12.5px] tracking-[0.06em] transition-colors ${
                       active
                         ? "text-white"
-                        : "text-white/40 group-hover:text-white/75"
+                        : "text-white/55 group-hover:text-white/85"
                     }`}
                   >
                     {entry.label}
@@ -181,19 +181,19 @@ export default function JourneyHud() {
       {/* ----------------------------------------------- status readout */}
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30">
         <div className="flex items-center justify-between gap-4 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-4 py-4 sm:px-7">
-          <p className="font-mono-label text-[9px] text-white/45 sm:text-[10px]">
+          <p className="font-mono text-[10.5px] tracking-[0.16em] text-white/60 sm:text-[11px]">
             <span className="text-primary">
               {String(Math.round(percent)).padStart(3, "0")}
             </span>
-            <span className="mx-1.5 text-white/25">/</span>
+            <span className="mx-1.5 text-white/30">/</span>
             {current.kicker}
           </p>
-          <p className="font-mono-label text-[9px] text-white/35 sm:text-[10px]">
+          <p className="hidden font-display text-[12.5px] tracking-[0.08em] text-white/55 sm:block">
             {phase === 0 ? (
               <span className="flex items-center gap-2">
                 <span
                   aria-hidden="true"
-                  className="inline-block h-3 w-[7px] rounded-full border border-white/40"
+                  className="inline-block h-3 w-[7px] rounded-full border border-white/45"
                 />
                 Scroll to enter my universe
               </span>

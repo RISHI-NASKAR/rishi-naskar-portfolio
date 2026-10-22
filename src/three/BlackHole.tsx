@@ -266,6 +266,113 @@ function AsteroidBelt({ count }: { count: number }) {
   );
 }
 
+/* ------------------------------------------------------- horizon swarm */
+
+const swarmVertex = /* glsl */ `
+  uniform float uTime;
+  uniform float uPixelRatio;
+  attribute float aRadius;
+  attribute float aAngle;
+  attribute float aY;
+  attribute float aSeed;
+  varying float vBright;
+
+  void main() {
+    // Keplerian shear: the closer a grain orbits, the harder it is whipped
+    // around the shadow — the swarm visibly smears into the flow.
+    float kepler = 2.6 / pow(aRadius / 6.6, 1.5);
+    float ang = aAngle + uTime * kepler * 0.42;
+    vec3 p = vec3(
+      cos(ang) * aRadius,
+      aY + sin(ang * 2.0 + aSeed * 6.28) * 0.14,
+      sin(ang) * aRadius
+    );
+
+    vec4 mv = modelViewMatrix * vec4(p, 1.0);
+    gl_Position = projectionMatrix * mv;
+    gl_PointSize = clamp(
+      (0.55 + aSeed * 1.7) * uPixelRatio * (150.0 / max(-mv.z, 0.9)),
+      0.7,
+      5.5
+    );
+    vBright = 0.45 + 0.55 * sin(uTime * 2.4 + aSeed * 47.0);
+  }
+`;
+
+const swarmFragment = /* glsl */ `
+  uniform float uOpacity;
+  varying float vBright;
+
+  void main() {
+    float d = length(gl_PointCoord - 0.5) * 2.0;
+    float core = smoothstep(1.0, 0.0, d);
+    float alpha = pow(core, 2.2) * vBright * uOpacity;
+    if (alpha < 0.004) discard;
+    vec3 color = mix(vec3(0.55, 0.72, 1.0), vec3(1.0, 0.88, 0.7), vBright - 0.45);
+    gl_FragColor = vec4(color * alpha, alpha);
+  }
+`;
+
+/** Fine grains bending around the event horizon, just inside the disk. */
+function HorizonSwarm({ count }: { count: number }) {
+  const geometry = useMemo(() => {
+    const rand = makeRandom(3311);
+    const radius = new Float32Array(count);
+    const angle = new Float32Array(count);
+    const ys = new Float32Array(count);
+    const seeds = new Float32Array(count);
+    for (let i = 0; i < count; i++) {
+      radius[i] = HORIZON_RADIUS + 0.55 + Math.pow(rand(), 1.6) * 7.4;
+      angle[i] = rand() * Math.PI * 2;
+      ys[i] = (rand() - 0.5) * 1.5;
+      seeds[i] = rand();
+    }
+    const geo = new THREE.BufferGeometry();
+    // Position stays empty on purpose: the shader places every grain from the
+    // polar attributes, so nothing is rewritten on the CPU each frame.
+    geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(count * 3), 3));
+    geo.setAttribute("aRadius", new THREE.BufferAttribute(radius, 1));
+    geo.setAttribute("aAngle", new THREE.BufferAttribute(angle, 1));
+    geo.setAttribute("aY", new THREE.BufferAttribute(ys, 1));
+    geo.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
+    geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 18);
+    return geo;
+  }, [count]);
+
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uOpacity: { value: 0 },
+      uPixelRatio: { value: 1 },
+    }),
+    [],
+  );
+
+  useFrame(() => {
+    uniforms.uTime.value = journey.time;
+    uniforms.uOpacity.value = presence(journey.progress);
+    uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio || 1, 1.5);
+  });
+
+  return (
+    <points
+      geometry={geometry}
+      frustumCulled={false}
+      // Same plane as the main disk, so the grains ride the flow.
+      rotation={[-Math.PI / 2 + 0.3, 0, 0.55]}
+    >
+      <shaderMaterial
+        uniforms={uniforms}
+        vertexShader={swarmVertex}
+        fragmentShader={swarmFragment}
+        transparent
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  );
+}
+
 /* ------------------------------------------------------------------ group */
 
 /**
@@ -289,6 +396,7 @@ export default function BlackHole({ quality }: { quality: number }) {
       <EventHorizon />
       <AccretionDisk />
       <PhotonRing />
+      <HorizonSwarm count={Math.max(260, Math.round(900 * quality))} />
       <AsteroidBelt count={Math.max(28, Math.round(96 * quality))} />
     </group>
   );
