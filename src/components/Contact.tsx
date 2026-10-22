@@ -1,8 +1,93 @@
-import { ArrowUpRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowUpRight, Check, Copy, Mail } from "lucide-react";
 import { Flourish, Monogram } from "@/components/ornaments";
 import { Reveal } from "@/components/Reveal";
 import { LINKS, mailto, tel, whatsapp } from "@/lib/links";
 import SocialIcons from "@/components/SocialIcons";
+
+/**
+ * The compact connect block — label, email row with copy, divider, socials.
+ *
+ * Replaces the oversized standalone email address. Aligned with the call-to-
+ * action buttons above it and sized down so the section reads as one column:
+ * buttons, then connect, then the centred flourish. Email and socials reuse the
+ * existing LINKS configuration; nothing is hardcoded here.
+ */
+function ConnectBlock() {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!copied) return;
+    const timer = window.setTimeout(() => setCopied(false), 2200);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(LINKS.email);
+    } catch {
+      // Clipboard API unavailable (older browsers / insecure contexts).
+      const field = document.createElement("textarea");
+      field.value = LINKS.email;
+      field.setAttribute("readonly", "");
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      document.execCommand("copy");
+      field.remove();
+    }
+    setCopied(true);
+  };
+
+  return (
+    <div className="w-full max-w-md">
+      <p className="meta text-[10px] tracking-[0.32em] text-ivory/50">
+        Let&apos;s connect
+      </p>
+
+      <div className="group/row mt-3 flex min-w-0 items-center gap-3 border border-ivory/12 bg-[#0e0c0e]/55 px-4 py-3 transition-colors duration-300 focus-within:border-crimson hover:border-crimson/60">
+        <a
+          href={mailto}
+          className="flex min-w-0 flex-1 items-center gap-3 focus-visible:outline-none"
+        >
+          <Mail
+            className="size-4 shrink-0 text-crimson/85 transition-colors duration-300 group-hover/row:text-crimson"
+            aria-hidden="true"
+          />
+          <span className="truncate font-mono text-[15px] tracking-[0.02em] text-ivory/85 transition-colors duration-300 group-hover/row:text-white">
+            {LINKS.email}
+          </span>
+        </a>
+
+        <button
+          type="button"
+          onClick={copyEmail}
+          aria-label={copied ? "Email copied" : "Copy email address"}
+          className={`flex shrink-0 items-center gap-1.5 px-1.5 py-1.5 font-mono text-[9.5px] uppercase tracking-[0.2em] transition-colors duration-300 ${
+            copied ? "text-ember" : "text-ivory/55 hover:text-ivory"
+          }`}
+        >
+          {copied ? (
+            <>
+              <Check className="size-3.5" aria-hidden="true" />
+              Email copied
+            </>
+          ) : (
+            <Copy className="size-3.5" aria-hidden="true" />
+          )
+          }
+        </button>
+      </div>
+
+      <div className="hairline mt-6" aria-hidden="true" />
+
+      <div className="mt-5">
+        <SocialIcons />
+      </div>
+    </div>
+  );
+}
 
 const COLUMNS = [
   {
@@ -98,12 +183,7 @@ export default function Contact() {
             </Reveal>
 
             <Reveal delay={220}>
-              <a
-                href={mailto}
-                className="mt-10 inline-block font-editorial text-[clamp(1.35rem,3vw,2.1rem)] text-ivory/85 underline decoration-crimson/50 decoration-1 underline-offset-[10px] transition-colors duration-300 hover:text-white hover:decoration-ember"
-              >
-                {LINKS.email}
-              </a>
+              <ConnectBlock />
             </Reveal>
           </div>
 
@@ -152,8 +232,6 @@ export default function Contact() {
         <div className="mt-20 flex items-center justify-center">
           <Flourish className="w-full max-w-md text-ember/60" />
         </div>
-
-        <SocialIcons />
 
         <footer className="mt-8 border-t border-ivory/12 pt-8">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
