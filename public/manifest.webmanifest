@@ -1,11 +1,11 @@
 {
-  "name": "Rishi Naskar — One Mind. Infinite Worlds.",
+  "name": "Rishi Naskar — AI Engineer, Cinematographer & Graphic Designer",
   "short_name": "Rishi Naskar",
   "description": "Portfolio of Rishi Naskar — AI engineer, cinematographer and graphic designer.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#04050c",
-  "theme_color": "#04050c",
+  "background_color": "#080808",
+  "theme_color": "#080808",
   "icons": [
     {
       "src": "/logo.svg",

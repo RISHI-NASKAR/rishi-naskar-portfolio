@@ -1,11 +1,7 @@
-import { motion } from "framer-motion";
+import { Reveal } from "./Reveal";
+import { ChapterRule, Flourish, Monogram } from "./ornaments";
 
-const reveal = {
-  hidden: { opacity: 0, y: 28 },
-  show: { opacity: 1, y: 0 },
-};
-
-const facts: { label: string; value: string }[] = [
+const FACTS: { label: string; value: string }[] = [
   { label: "Focus", value: "Graphic design, film & visual storytelling" },
   { label: "Approach", value: "Imagery, typography, composition, atmosphere" },
   { label: "Study", value: "Computer Science & Engineering (AI), UEM Kolkata" },
@@ -13,185 +9,141 @@ const facts: { label: string; value: string }[] = [
 ];
 
 /**
- * Skills — EDIT HERE. Three disciplines, each with its working parts. Kept in
- * step with the disciplines named in the opening frame.
- */
-const disciplines: { title: string; note: string; skills: string[] }[] = [
-  {
-    title: "AI Engineering",
-    note: "Where the machine meets the frame.",
-    skills: [
-      "Applied machine learning",
-      "Generative & creative tooling",
-      "Computer vision experiments",
-      "Automation for post-production",
-    ],
-  },
-  {
-    title: "Cinematography",
-    note: "Light, movement and the cut.",
-    skills: [
-      "Framing & composition",
-      "Lighting for mood",
-      "Edit, colour & grade",
-      "Cinematic photo retouching",
-    ],
-  },
-  {
-    title: "Graphic Design",
-    note: "Type, grid and atmosphere.",
-    skills: [
-      "Posters & campaign systems",
-      "Visual identity",
-      "Editorial & social design",
-      "Typography & layout",
-    ],
-  },
-];
-
-/**
- * About — the landing at the end of the journey. Oversized editorial headline,
- * intro copy, the three disciplines with their skills, and a small facts grid.
+ * Chapter 04 — about.
+ *
+ * The intimate frame in the middle of the journal: a serif statement, three
+ * short paragraphs of real biography, and a dossier plate with the facts that
+ * are actually known. Nothing here is padded with invented credits.
  */
 export default function About() {
   return (
     <section
       id="about"
-      className="relative mx-auto w-full max-w-[1400px] px-5 py-24 sm:px-8 sm:py-32 lg:px-14"
+      className="relative border-t border-line/60 px-5 py-24 sm:px-8 sm:py-28 lg:px-12 lg:py-36"
     >
-      <div className="mb-12 flex items-baseline justify-between gap-4 border-t border-white/12 pt-5">
-        <span className="font-display text-[12px] tracking-[0.26em] text-primary sm:text-[13px]">
-          06 — About
-        </span>
-        <span className="font-display text-[13px] tracking-[0.06em] text-white/55">
-          The mind behind the worlds
-        </span>
-      </div>
+      <div className="mx-auto w-full max-w-[1560px]">
+        <Reveal>
+          <div className="flex items-baseline justify-between gap-4">
+            <span className="meta text-[10.5px] tracking-[0.34em] text-crimson">
+              Chapter 04 — About
+            </span>
+            <span className="meta hidden text-[10.5px] tracking-[0.34em] sm:block">
+              The person behind the practice
+            </span>
+          </div>
+        </Reveal>
 
-      <motion.h2
-        variants={reveal}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 0.7, ease: [0.22, 0.68, 0.16, 1] }}
-        className="font-display text-[clamp(2.1rem,6.6vw,5.8rem)] leading-[0.94] font-medium tracking-[-0.03em] text-white text-balance"
-      >
-        Design is how
-        <br />
-        I see <span className="type-italic text-primary">the world.</span>
-      </motion.h2>
+        <div className="mt-10 grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20 xl:gap-28">
+          <div>
+            <Reveal delay={60}>
+              <h2 className="font-editorial text-[clamp(2.4rem,5.6vw,4.9rem)] leading-[0.98] text-ivory">
+                Design is how
+                <br />I see <span className="type-italic text-crimson">the world.</span>
+              </h2>
+            </Reveal>
 
-      <div className="mt-14 grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
-        <motion.div
-          variants={reveal}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 0.68, 0.16, 1] }}
-          className="space-y-6"
-        >
-          <p className="text-lg leading-relaxed text-white/90 sm:text-xl">
-            I&apos;m Rishi Naskar, a creative working across artificial
-            intelligence, cinema and graphic design. I use imagery, typography,
-            composition and atmosphere to turn ideas into visual experiences —
-            and now and then I build the tools that make them possible.
-          </p>
-          <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-            My work sits between the edit suite and the layout grid: cinematic
-            photo editing and poster design on one side, visual identity and
-            storytelling through film on the other. Alongside that I study
-            Computer Science and Engineering with a specialisation in Artificial
-            Intelligence at UEM Kolkata, because technology keeps expanding what
-            a story can look like.
-          </p>
-          <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-            I don&apos;t want to make visuals that simply look good. I want work
-            that feels something, says something, and stays with people.
-          </p>
-          <p className="type-italic text-xl leading-snug text-white/90 sm:text-2xl">
-            “Create with intention. Tell stories through visuals. Never stop
-            experimenting.”
-          </p>
-        </motion.div>
+            <div className="mt-10 max-w-2xl space-y-6">
+              <Reveal delay={90}>
+                <p className="font-editorial text-[1.55rem] leading-[1.4] text-ivory/90 sm:text-[1.7rem]">
+                  I&apos;m Rishi Naskar, a creative working across artificial
+                  intelligence, cinema and graphic design.
+                </p>
+              </Reveal>
 
-        <motion.dl
-          variants={reveal}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 0.68, 0.16, 1] }}
-          className="grid grid-cols-1 gap-px self-start overflow-hidden rounded-2xl border border-white/10 bg-white/10"
-        >
-          {facts.map((fact) => (
-            <div key={fact.label} className="bg-[#070a14] px-5 py-5">
-              <dt className="font-display text-[12px] tracking-[0.16em] text-primary">
-                {fact.label}
-              </dt>
-              <dd className="mt-2 text-sm leading-relaxed text-white/85">
-                {fact.value}
-              </dd>
+              <Reveal delay={140}>
+                <p className="text-[14.5px] leading-[1.9] text-ash sm:text-[15px]">
+                  I use imagery, typography, composition and atmosphere to turn
+                  ideas into visual experiences — and now and then I build the
+                  tools that make them possible. My work sits between the edit
+                  suite and the layout grid: cinematic photo editing and poster
+                  design on one side, visual identity and storytelling through
+                  film on the other.
+                </p>
+              </Reveal>
+
+              <Reveal delay={190}>
+                <p className="text-[14.5px] leading-[1.9] text-ash sm:text-[15px]">
+                  Alongside that I study Computer Science and Engineering with a
+                  specialisation in Artificial Intelligence at UEM Kolkata,
+                  because technology keeps expanding what a story can look like.
+                </p>
+              </Reveal>
+
+              <Reveal delay={240}>
+                <p className="type-italic text-[1.3rem] leading-snug text-ivory/85 sm:text-[1.45rem]">
+                  I don&apos;t want to make visuals that simply look good. I want
+                  work that feels something, says something, and stays with
+                  people.
+                </p>
+              </Reveal>
+
+              <Reveal delay={280}>
+                <div className="flex flex-wrap items-end justify-between gap-4 pt-4">
+                  <span className="font-signature text-[1.35rem] tracking-[0.06em] text-ivory">
+                    Rishi Naskar
+                  </span>
+                  <span className="meta text-[10px] tracking-[0.3em]">
+                    AI · Cinema · Design
+                  </span>
+                </div>
+              </Reveal>
             </div>
-          ))}
-        </motion.dl>
-      </div>
+          </div>
 
-      {/* skills */}
-      <div className="mt-20">
-        <div className="flex items-baseline justify-between gap-4 border-t border-white/12 pt-5">
-          <h3 className="font-display text-[13px] tracking-[0.26em] text-primary">
-            Skills &amp; disciplines
-          </h3>
-          <span className="font-display text-[13px] tracking-[0.06em] text-white/50">
-            Three universes, one mind
-          </span>
+          <div className="lg:pt-4">
+            <Reveal delay={120}>
+              <div className="relative border border-line/70 bg-charcoal/40">
+                <div className="flex items-center justify-between gap-6 border-b border-line/60 px-6 py-6">
+                  <Monogram className="w-24" />
+                  <div className="text-right">
+                    <p className="meta text-[10px] tracking-[0.3em] text-crimson/90">
+                      Dossier
+                    </p>
+                    <p className="mt-2 font-editorial text-xl leading-tight text-ivory">
+                      Rishi
+                      <br />
+                      Naskar
+                    </p>
+                  </div>
+                </div>
+
+                <dl>
+                  {FACTS.map((fact) => (
+                    <div
+                      key={fact.label}
+                      className="grid grid-cols-[6.5rem_1fr] gap-4 border-b border-line/50 px-6 py-4 last:border-b-0"
+                    >
+                      <dt className="meta pt-1 text-[9.5px] tracking-[0.26em] text-crimson/90">
+                        {fact.label}
+                      </dt>
+                      <dd className="text-[13px] leading-relaxed text-ivory/80">
+                        {fact.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <div className="px-6 py-5">
+                  <p className="meta text-[9.5px] leading-[1.9] tracking-[0.24em] text-ash/70">
+                    Currently studying AI engineering while taking on film,
+                    identity and machine-learning work.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={200}>
+              <div className="mt-8 flex items-center justify-between gap-4">
+                <Flourish className="w-40 opacity-70" />
+                <span className="meta text-[9.5px] tracking-[0.3em]">
+                  Rishi Naskar Films
+                </span>
+              </div>
+            </Reveal>
+          </div>
         </div>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {disciplines.map((discipline, index) => (
-            <motion.div
-              key={discipline.title}
-              variants={reveal}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{
-                duration: 0.7,
-                delay: index * 0.08,
-                ease: [0.22, 0.68, 0.16, 1],
-              }}
-              className="group rounded-2xl border border-white/10 bg-[#070a14]/80 p-6 transition-colors hover:border-primary/45"
-            >
-              <p className="font-mono text-[11px] tracking-[0.16em] text-white/50">
-                {String(index + 1).padStart(2, "0")}
-              </p>
-              <h4 className="mt-3 font-display text-2xl font-medium tracking-[-0.01em] text-white">
-                {discipline.title}
-              </h4>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-white/55">
-                {discipline.note}
-              </p>
-              <ul className="mt-5 space-y-2.5">
-                {discipline.skills.map((skill) => (
-                  <li
-                    key={skill}
-                    className="flex items-start gap-3 text-sm leading-relaxed text-white/75"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="mt-2 h-px w-4 shrink-0 bg-primary/70"
-                    />
-                    {skill}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-
-        <p className="mt-6 text-[13px] leading-relaxed text-white/50">
-          Editable list — update the disciplines and skills in{" "}
-          <span className="font-mono text-white/65">src/components/About.tsx</span>
-        </p>
+        <ChapterRule className="mt-20" />
       </div>
     </section>
   );
