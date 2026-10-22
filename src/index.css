@@ -489,6 +489,39 @@
     );
 }
 
+/* The photograph again in the closing interlude — an echo rather than a second
+   hero: desaturated, feathered into the oxblood on two edges, no frame. */
+.portrait-echo {
+  opacity: 0.55;
+  filter: saturate(0.72) contrast(1.04) brightness(0.9);
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0) 0%,
+      #000 46%
+    ),
+    linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 62%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0) 0%,
+      #000 46%
+    ),
+    linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 62%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  mask-composite: intersect;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .portrait-stage {
     transform: none;

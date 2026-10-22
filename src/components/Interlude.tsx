@@ -1,5 +1,5 @@
 import { Reveal } from "./Reveal";
-import { Flourish, Monogram } from "./ornaments";
+import { Flourish } from "./ornaments";
 
 const PILLARS = [
   { label: "Intelligence", detail: "Systems, models, experiments" },
@@ -22,8 +22,16 @@ export default function Interlude() {
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(120%_130%_at_15%_0%,rgba(101,13,25,0.85)_0%,rgba(52,8,14,0.65)_38%,rgba(8,8,8,0.98)_78%)]" />
-        <div className="absolute -right-24 top-1/2 hidden -translate-y-1/2 text-crimson/25 lg:block">
-          <Monogram className="w-[26rem] text-crimson/40 lg:w-[34rem]" />
+        <div className="pointer-events-none absolute -right-14 top-1/2 hidden w-[21rem] -translate-y-1/2 lg:block xl:w-[29rem]">
+          <img
+            src="/portrait-echo.webp"
+            alt=""
+            width={900}
+            height={900}
+            loading="lazy"
+            decoding="async"
+            className="portrait-echo w-full"
+          />
         </div>
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ember/50 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-ember/30 to-transparent" />

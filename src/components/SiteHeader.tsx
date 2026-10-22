@@ -20,6 +20,7 @@ export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("home");
   const [open, setOpen] = useState(false);
+  const [mark, setMark] = useState(true);
   const closeMenuRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -74,9 +75,21 @@ export default function SiteHeader() {
       >
         <div className="mx-auto flex h-[72px] w-full max-w-[1560px] items-center justify-between gap-6 px-5 sm:h-20 sm:px-8 lg:px-12">
           <a href="#home" className="group flex items-center gap-3.5" aria-label="Rishi Naskar — home">
-            <span className="grid size-10 place-items-center border border-line/80 font-signature text-[15px] leading-none text-ivory transition-colors duration-500 group-hover:border-crimson/80">
-              RN
-            </span>
+            {mark ? (
+              <img
+                src="/portrait-thumb.webp"
+                alt=""
+                width={192}
+                height={192}
+                decoding="async"
+                onError={() => setMark(false)}
+                className="size-10 shrink-0 rounded-full object-cover object-top"
+              />
+            ) : (
+              <span className="grid size-10 shrink-0 place-items-center border border-line/80 font-signature text-[15px] leading-none text-ivory">
+                RN
+              </span>
+            )}
             <span className="hidden leading-none sm:block">
               <span className="font-signature block text-[14px] tracking-[0.14em] text-ivory">
                 Rishi Naskar
