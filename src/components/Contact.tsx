@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Instagram, X, Twitter } from "lucide-react";
 import { LINKS, mailto, tel, whatsapp } from "@/lib/links";
 import { Reveal } from "./Reveal";
 import { Flourish, Monogram } from "./ornaments";
@@ -19,9 +19,7 @@ const COLUMNS: {
         external: true,
       },
     ],
-  },
-  {
-    label: "Elsewhere",
+  },  { label: "Elsewhere",
     rows: [
       {
         label: "LinkedIn",
@@ -39,6 +37,12 @@ const COLUMNS: {
         label: "Instagram",
         href: LINKS.instagram,
         display: `@${LINKS.instagramHandle}`,
+        external: true,
+      },
+      {
+        label: "X",
+        href: "https://twitter.com/rishi_naskar_",
+        display: "@rishi_naskar_",
         external: true,
       },
       {
@@ -174,9 +178,50 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="mt-20 flex items-center justify-center">
-          <Flourish className="w-full max-w-md text-ember/60" />
-        </div>
+  <div className="mt-20 flex items-center justify-center">
+    <Flourish className="w-full max-w-md text-ember/60" />
+  </div>
+
+  {/* Social row: four outlined square buttons, mauve background, charcoal
+      border, light-gray icons, crimson hover. */}
+  <div className="mt-8 flex items-center gap-3">
+    <a
+      href={LINKS.github}
+      target="_blank"
+      rel="noreferrer noopener"
+      className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+      aria-label="Rishi Naskar on GitHub"
+    >
+      <Github className="size-4" aria-hidden="true" />
+    </a>
+    <a
+      href={LINKS.linkedin}
+      target="_blank"
+      rel="noreferrer noopener"
+      className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+      aria-label="Rishi Naskar on LinkedIn"
+    >
+      <Linkedin className="size-4" aria-hidden="true" />
+    </a>
+    <a
+      href="https://twitter.com/rishi_naskar_"
+      target="_blank"
+      rel="noreferrer noopener"
+      className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+      aria-label="Rishi Naskar on X"
+    >
+      <X className="size-4" aria-hidden="true" />
+    </a>
+    <a
+      href={LINKS.instagram}
+      target="_blank"
+      rel="noreferrer noopener"
+      className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+      aria-label="Rishi Naskar on Instagram"
+    >
+      <Instagram className="size-4" aria-hidden="true" />
+    </a>
+  </div>
 
         <footer className="mt-8 border-t border-ivory/12 pt-8">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
