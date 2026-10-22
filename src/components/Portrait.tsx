@@ -15,7 +15,7 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
  * If none of them exists the component renders nothing rather than a
  * placeholder.
  */
-const PORTRAIT_SOURCES = [
+const PORTRAIT_SOURCES_ORDERED = [
   "/portrait.webp",
   "/portrait.png",
   "/portrait.jpg",
@@ -27,6 +27,8 @@ type Status = "loading" | "ready" | "missing";
 export default function Portrait({ className }: { className?: string }) {
   const [status, setStatus] = useState<Status>("loading");
   const [source, setSource] = useState(0);
+  const tried = useRef(new Set<number>());
+  const lastError = useRef<string | null>(null);
   const stage = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
 
@@ -66,8 +68,8 @@ export default function Portrait({ className }: { className?: string }) {
       <div aria-hidden="true" className="portrait-floor" />
 
       <img
-        key={PORTRAIT_SOURCES[source]}
-        src={PORTRAIT_SOURCES[source]}
+        key={PORTRAIT_SOURCES_ORDERED[source]}
+        src={PORTRAIT_SOURCES_ORDERED[source]}
         alt="Rishi Naskar"
         width={1254}
         height={1254}
@@ -79,8 +81,12 @@ export default function Portrait({ className }: { className?: string }) {
         }}
         onError={() => {
           const next = source + 1;
-          if (next >= PORTRAIT_SOURCES.length) setStatus("missing");
-          else setSource(next);
+          // If the last file also failed, stop retrying instead of looping.
+          if (next >= PORTRAIT_SOURCES_ORDERED.length) {
+            setStatus("missing");
+          } else {
+            setSource(next);
+          }
         }}
         className="portrait-img"
       />
