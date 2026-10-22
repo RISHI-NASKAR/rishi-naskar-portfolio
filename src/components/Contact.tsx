@@ -1,4 +1,4 @@
-import { ArrowUpRight, Github, Linkedin, Instagram, X, Twitter } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Instagram, X } from "lucide-react";
 import { LINKS, mailto, tel, whatsapp } from "@/lib/links";
 import { Reveal } from "./Reveal";
 import { Flourish, Monogram } from "./ornaments";
