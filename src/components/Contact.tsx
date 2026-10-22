@@ -41,12 +41,12 @@ function ConnectBlock() {
   };
 
   return (
-    <div className="w-full max-w-md">
+    <div className="mt-6 w-full max-w-md">
       <p className="meta text-[10px] tracking-[0.32em] text-ivory/50">
         Let&apos;s connect
       </p>
 
-      <div className="group/row mt-3 flex min-w-0 items-center gap-3 border border-ivory/12 bg-[#0e0c0e]/55 px-4 py-3 transition-colors duration-300 focus-within:border-crimson hover:border-crimson/60">
+      <div className="group/row mt-4 flex min-w-0 items-center gap-3 border border-ivory/12 bg-[#0e0c0e]/55 px-4 py-3.5 transition-colors duration-300 focus-within:border-crimson hover:border-crimson/60">
         <a
           href={mailto}
           className="flex min-w-0 flex-1 items-center gap-3 focus-visible:outline-none"
@@ -80,7 +80,7 @@ function ConnectBlock() {
         </button>
       </div>
 
-      <div className="hairline mt-6" aria-hidden="true" />
+      <div className="hairline mt-7" aria-hidden="true" />
 
       <div className="mt-5">
         <SocialIcons />
