@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router";
 
 /**
  * Logo — the typographic "Rishi Naskar" wordmark in the header.
@@ -11,39 +11,21 @@ export function Logo({
   onClick,
 }: {
   className?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }) {
-  const anchorRef = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    const a = anchorRef.current;
-    if (!a) return;
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        a.click();
-      }
-    };
-    a.addEventListener("keydown", onKeyDown);
-    return () => a.removeEventListener("keydown", onKeyDown);
-  }, []);
+  const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (onClick) onClick(event);
     if (window.location.pathname === "/") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      window.location.href = "/";
-      // @ts-ignore
-      (window.location as Location & { href: string }).href = "/";
-      void (window.location as Location & { href: string }).href;
+      navigate("/", { replace: true });
     }
   };
 
   return (
     <a
-      ref={anchorRef}
       href="/"
       onClick={handleClick}
       className={className}

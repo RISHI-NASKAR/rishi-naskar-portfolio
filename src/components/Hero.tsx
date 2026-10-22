@@ -37,49 +37,59 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-[1.28fr_0.72fr] lg:items-start lg:gap-16 lg:[&:has([data-portrait=missing])]:grid-cols-[1fr] xl:gap-24">
-          {/* ---------------------------------------------------------- social row */}
-          <div className="flex items-center gap-3 self-start sm:hidden lg:flex">
-            <a
-              href={LINKS.github}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
-              aria-label="Rishi Naskar on GitHub"
+        <div className="mt-10 grid items-start gap-12 sm:mt-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16 xl:gap-24 lg:[&:has([data-portrait=missing])]:grid-cols-[1fr]">
+          {/* ------------------------------------------------------- portrait */}
+          <div className="relative order-2 flex justify-center lg:order-none lg:justify-start lg:[&:has([data-portrait=missing])]:hidden">
+            <div
+              className="hero-rise w-full max-w-[26rem] sm:max-w-[31rem] lg:mt-0 lg:w-[118%] lg:max-w-none lg:-ml-4 xl:-ml-8"
+              style={{ "--delay": "0.62s" } as React.CSSProperties}
             >
-              <Github className="size-4" aria-hidden="true" />
-            </a>
-            <a
-              href={LINKS.linkedin}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
-              aria-label="Rishi Naskar on LinkedIn"
-            >
-              <Linkedin className="size-4" aria-hidden="true" />
-            </a>
-            <a
-              href={LINKS.twitter}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
-              aria-label="Rishi Naskar on X"
-            >
-              <X className="size-4" aria-hidden="true" />
-            </a>
-            <a
-              href={LINKS.instagram}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
-              aria-label="Rishi Naskar on Instagram"
-            >
-              <Instagram className="size-4" aria-hidden="true" />
-            </a>
+              <Portrait />
+            </div>
           </div>
 
           {/* ---------------------------------------------------------- name */}
-          <div>
+          <div className="order-1 lg:order-none">
+            {/* -------------------------------------------------- social row */}
+            <div className="mb-10 flex items-center gap-3 sm:hidden lg:flex">
+              <a
+                href={LINKS.github}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+                aria-label="Rishi Naskar on GitHub"
+              >
+                <Github className="size-4" aria-hidden="true" />
+              </a>
+              <a
+                href={LINKS.linkedin}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+                aria-label="Rishi Naskar on LinkedIn"
+              >
+                <Linkedin className="size-4" aria-hidden="true" />
+              </a>
+              <a
+                href={LINKS.twitter}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+                aria-label="Rishi Naskar on X"
+              >
+                <X className="size-4" aria-hidden="true" />
+              </a>
+              <a
+                href={LINKS.instagram}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+                aria-label="Rishi Naskar on Instagram"
+              >
+                <Instagram className="size-4" aria-hidden="true" />
+              </a>
+            </div>
+
             <h1 className="font-signature text-ivory">
               <span className="sr-only">Rishi Naskar</span>
               <span aria-hidden="true" className="block">
@@ -192,16 +202,6 @@ export default function Hero() {
                   />
                 </a>
               </div>
-            </div>
-          </div>
-
-          {/* ------------------------------------------------------- portrait */}
-          <div className="relative flex justify-center lg:justify-end lg:pt-10 lg:[&:has([data-portrait=missing])]:hidden">
-            <div
-              className="hero-rise w-full max-w-[26rem] sm:max-w-[31rem] lg:mt-8 lg:w-[118%] lg:max-w-none lg:-mr-8 xl:-mr-16"
-              style={{ "--delay": "0.62s" } as React.CSSProperties}
-            >
-              <Portrait />
             </div>
           </div>
         </div>
