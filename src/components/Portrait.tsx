@@ -31,6 +31,7 @@ export default function Portrait({ className }: { className?: string }) {
   const lastError = useRef<string | null>(null);
   const stage = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
+  const camClass = cn("portrait-stage", status === "ready" && source === 3 && "cam", className);
 
   useEffect(() => {
     if (reduced) return;
@@ -55,14 +56,12 @@ export default function Portrait({ className }: { className?: string }) {
       window.removeEventListener("pointermove", onMove);
       if (frame) window.cancelAnimationFrame(frame);
     };
-  }, [reduced]);
-
-  /* When the file is absent the column quietly collapses — no emblem, no
+  }, [reduced]);    /* When the file is absent the column quietly collapses — no emblem, no
      placeholder, just the hero's negative space. */
-  if (status === "missing") return <span hidden data-portrait="missing" />;
+    if (status === "missing") return <span hidden data-portrait="missing" />;
 
-  return (
-    <div ref={stage} className={cn("portrait-stage", className)}>
+    return (
+      <div ref={stage} className={cn("portrait-stage", className)}>
       {/* The light the subject is standing in — behind, never a frame. */}
       <div aria-hidden="true" className="portrait-halo" />
       <div aria-hidden="true" className="portrait-floor" />
