@@ -11,15 +11,22 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
  * (slight desaturation, a touch of contrast, a soft crimson light from the
  * right). No border, no card, no emblem, no caption.
  *
- * The photograph is read from `public/portrait.png`. If that file is absent the
- * component renders nothing rather than a placeholder.
+ * The photograph is read from `public/`, trying the usual filenames in order.
+ * If none of them exists the component renders nothing rather than a
+ * placeholder.
  */
-const PORTRAIT_SRC = "/portrait.png";
+const PORTRAIT_SOURCES = [
+  "/portrait.png",
+  "/portrait.jpg",
+  "/portrait.jpeg",
+  "/portrait.webp",
+];
 
 type Status = "loading" | "ready" | "missing";
 
 export default function Portrait({ className }: { className?: string }) {
   const [status, setStatus] = useState<Status>("loading");
+  const [source, setSource] = useState(0);
   const stage = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
 
@@ -48,7 +55,9 @@ export default function Portrait({ className }: { className?: string }) {
     };
   }, [reduced]);
 
-  if (status === "missing") return null;
+  /* When the file is absent the column quietly collapses — no emblem, no
+     placeholder, just the hero's negative space. */
+  if (status === "missing") return <span hidden data-portrait="missing" />;
 
   return (
     <div ref={stage} className={cn("portrait-stage", className)}>
@@ -57,7 +66,8 @@ export default function Portrait({ className }: { className?: string }) {
       <div aria-hidden="true" className="portrait-floor" />
 
       <img
-        src={PORTRAIT_SRC}
+        key={PORTRAIT_SOURCES[source]}
+        src={PORTRAIT_SOURCES[source]}
         alt="Rishi Naskar"
         width={1254}
         height={1254}
@@ -67,7 +77,11 @@ export default function Portrait({ className }: { className?: string }) {
           if (!event.currentTarget.naturalWidth) setStatus("missing");
           else setStatus("ready");
         }}
-        onError={() => setStatus("missing")}
+        onError={() => {
+          const next = source + 1;
+          if (next >= PORTRAIT_SOURCES.length) setStatus("missing");
+          else setSource(next);
+        }}
         className="portrait-img"
       />
 

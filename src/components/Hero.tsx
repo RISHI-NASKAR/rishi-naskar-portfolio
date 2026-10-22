@@ -37,7 +37,7 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-[1.28fr_0.72fr] lg:items-start lg:gap-16 xl:gap-24">
+        <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-[1.28fr_0.72fr] lg:items-start lg:gap-16 lg:[&:has([data-portrait=missing])]:grid-cols-[1fr] xl:gap-24">
           {/* ---------------------------------------------------------- name */}
           <div>
             <h1 className="font-signature text-ivory">
@@ -156,9 +156,9 @@ export default function Hero() {
           </div>
 
           {/* ------------------------------------------------------- portrait */}
-          <div className="relative flex justify-center lg:justify-end lg:pt-10">
+          <div className="relative flex justify-center lg:justify-end lg:pt-10 lg:[&:has([data-portrait=missing])]:hidden">
             <div
-              className="hero-rise w-full max-w-[26rem] sm:max-w-[30rem] lg:mt-8 lg:w-[112%] lg:max-w-none lg:-mr-8 xl:-mr-14"
+              className="hero-rise w-full max-w-[26rem] sm:max-w-[31rem] lg:mt-8 lg:w-[118%] lg:max-w-none lg:-mr-8 xl:-mr-16"
               style={{ ["--delay" as string]: "0.62s" }}
             >
               <Portrait />

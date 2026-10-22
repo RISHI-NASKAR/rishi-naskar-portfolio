@@ -23,7 +23,8 @@ design holds up as a still composition with every animation switched off.
 
 ## Portrait
 
-The photograph is read from `public/portrait.png`. A cut-out PNG (transparent
+The photograph is read from `public/` — it tries `portrait.png`, `portrait.jpg`,
+`portrait.jpeg` then `portrait.webp`, in that order. A cut-out PNG (transparent
 background) reads best, because the image is blended straight into the page:
 feathered at the sides, top and bottom with a CSS mask, grounded by a soft
 shadow, and graded with a restrained warm-crimson light from the right so the
