@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowUpRight } from "lucide-react";
-import { mailto } from "@/lib/links";
+import { ArrowDown, ArrowUpRight, Github, Linkedin, Instagram, X } from "lucide-react";
+import { LINKS, mailto } from "@/lib/links";
 import Portrait from "./Portrait";
 
 const DISCIPLINES = ["AI Engineer", "Cinematographer", "Graphic Designer"];
@@ -38,6 +38,46 @@ export default function Hero() {
         </div>
 
         <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-[1.28fr_0.72fr] lg:items-start lg:gap-16 lg:[&:has([data-portrait=missing])]:grid-cols-[1fr] xl:gap-24">
+          {/* ---------------------------------------------------------- social row */}
+          <div className="flex items-center gap-3 self-start sm:hidden lg:flex">
+            <a
+              href={LINKS.github}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+              aria-label="Rishi Naskar on GitHub"
+            >
+              <Github className="size-4" aria-hidden="true" />
+            </a>
+            <a
+              href={LINKS.linkedin}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+              aria-label="Rishi Naskar on LinkedIn"
+            >
+              <Linkedin className="size-4" aria-hidden="true" />
+            </a>
+            <a
+              href="https://twitter.com/rishi_naskar_"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+              aria-label="Rishi Naskar on X"
+            >
+              <X className="size-4" aria-hidden="true" />
+            </a>
+            <a
+              href={LINKS.instagram}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+              aria-label="Rishi Naskar on Instagram"
+            >
+              <Instagram className="size-4" aria-hidden="true" />
+            </a>
+          </div>
+
           {/* ---------------------------------------------------------- name */}
           <div>
             <h1 className="font-signature text-ivory">
