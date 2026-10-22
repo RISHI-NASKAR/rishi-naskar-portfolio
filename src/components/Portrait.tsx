@@ -28,11 +28,9 @@ type Status = "loading" | "ready" | "missing";
 export default function Portrait({ className }: { className?: string }) {
   const [status, setStatus] = useState<Status>("loading");
   const [source, setSource] = useState(0);
-  const tried = useRef(new Set<number>());
-  const lastError = useRef<string | null>(null);
   const stage = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-  const camClass = cn("portrait-stage", status === "ready" && source === 3 && "cam", className);
+  const stageClass = cn("portrait-stage", status === "ready" && className);
 
   useEffect(() => {
     if (reduced) return;
@@ -61,8 +59,8 @@ export default function Portrait({ className }: { className?: string }) {
      placeholder, just the hero's negative space. */
     if (status === "missing") return <span hidden data-portrait="missing" />;
 
-    return (
-      <div ref={stage} className={cn("portrait-stage", className)}>
+  return (
+    <div ref={stage} className={stageClass}>
       {/* The light the subject is standing in — behind, never a frame. */}
       <div aria-hidden="true" className="portrait-halo" />
       <div aria-hidden="true" className="portrait-floor" />
