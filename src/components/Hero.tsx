@@ -93,7 +93,7 @@ export default function Hero() {
                 <span className="relative mt-3 block sm:mt-4">
                   <span
                     className="hero-wipe block text-[clamp(3.1rem,11.4vw,9.4rem)] leading-[0.82] tracking-[0.005em]"
-                    style={{ "--delay": "0.18s" }}
+                    style={{ "--delay": "0.18s" } as React.CSSProperties}
                   >
                     NASKAR
                   </span>
@@ -109,26 +109,26 @@ export default function Hero() {
                   >
                     <path
                       className="swash-draw"
-                      style={{ "--dash": "900", "--delay": "0.85s" }}
+                      style={{ "--dash": "900", "--delay": "0.85s" } as React.CSSProperties}
                       d="M6 26c52 0 84-9 132-12 44-3 74 3 108 6 30 3 56 1 84-4 32-6 62-9 96-4 46 7 88 9 138 2"
                       strokeWidth="0.9"
                     />
                     <path
                       className="swash-draw"
-                      style={{ "--dash": "1200", "--delay": "1.05s" }}
+                      style={{ "--dash": "1200", "--delay": "1.05s" } as React.CSSProperties}
                       d="M58 33c44 0 78-6 116-8 36-2 62 2 92 4 34 2 62-1 92-6 36-6 68-4 102 0 42 5 80 4 116 0"
                       strokeWidth="0.5"
                       opacity="0.6"
                     />
                     <path
                       className="swash-draw"
-                      style={{ "--dash": "160", "--delay": "1.25s" }}
+                      style={{ "--dash": "160", "--delay": "1.25s" } as React.CSSProperties}
                       d="M556 12c12-4 24-4 36 1-12 1-22 4-31 9"
                       strokeWidth="0.8"
                     />
                     <circle
                       className="hero-rise"
-                      style={{ "--delay": "1.4s" }}
+                      style={{ "--delay": "1.4s" } as React.CSSProperties}
                       cx="604"
                       cy="18"
                       r="2"
@@ -143,7 +143,7 @@ export default function Hero() {
             {/* Three disciplines, equal weight. */}
             <ul
               className="hero-rise mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 sm:mt-7"
-              style={{ "--delay": "0.9s" }}
+              style={{ "--delay": "0.9s" } as React.CSSProperties}
             >
               {DISCIPLINES.map((discipline, index) => (
                 <li key={discipline} className="flex items-center gap-4">
@@ -159,7 +159,7 @@ export default function Hero() {
 
             <div
               className="hero-rise mt-10 max-w-2xl sm:mt-12"
-              style={{ "--delay": "1.05s" }}
+              style={{ "--delay": "1.05s" } as React.CSSProperties}
             >
               <p className="font-editorial text-[clamp(1.85rem,3.7vw,3.15rem)] leading-[1.04] text-ivory">
                 Building <span className="type-italic text-crimson">intelligence.</span>
@@ -199,7 +199,7 @@ export default function Hero() {
           <div className="relative flex justify-center lg:justify-end lg:pt-10 lg:[&:has([data-portrait=missing])]:hidden">
             <div
               className="hero-rise w-full max-w-[26rem] sm:max-w-[31rem] lg:mt-8 lg:w-[118%] lg:max-w-none lg:-mr-8 xl:-mr-16"
-              style={{ "--delay": "0.62s" }}
+              style={{ "--delay": "0.62s" } as React.CSSProperties}
             >
               <Portrait />
             </div>
