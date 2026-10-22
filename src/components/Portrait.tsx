@@ -17,10 +17,10 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
  */
 const PORTRAIT_SOURCES_ORDERED = [
   "/portrait-new.webp",
+  "/portrait.webp",
   "/portrait.png",
   "/portrait.jpg",
   "/portrait.jpeg",
-  "/portrait.webp",
 ];
 
 type Status = "loading" | "ready" | "missing";
