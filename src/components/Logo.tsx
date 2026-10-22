@@ -35,8 +35,7 @@ export function Logo({
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       window.location.href = "/";
-      // Using the non-null assertion to satisfy the DOM typecheck without
-      // constructing an alternative runtime path.
+      // @ts-ignore
       (window.location as Location & { href: string }).href = "/";
       void (window.location as Location & { href: string }).href;
     }
