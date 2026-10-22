@@ -23,13 +23,19 @@ design holds up as a still composition with every animation switched off.
 
 ## Portrait
 
-The photograph is read from `public/portrait.png` (a 4:5 crop works best; the
-plate renders at `object-cover`).
+The photograph is read from `public/portrait.png`. A cut-out PNG (transparent
+background) reads best, because the image is blended straight into the page:
+feathered at the sides, top and bottom with a CSS mask, grounded by a soft
+shadow, and graded with a restrained warm-crimson light from the right so the
+skin, glasses and fabric stay photographic.
 
-**That file is not in the project yet.** Until it is added, `Portrait` falls
-back to the engraved RN crest composition, so no visitor ever sees a broken
-image or an "add a photo" note. Drop the file in and it fades in automatically —
-no code change, no restart of the layout.
+There is no frame, card, crest or caption around it — only the photograph and
+the atmosphere behind it. It fades in when the file loads and gets 12px of
+pointer parallax on fine pointers (`prefers-reduced-motion` disables both).
+
+**That file is not in the project yet**, so `Portrait` currently renders nothing
+in the hero. Drop the file at `public/portrait.png` and it appears with no code
+change.
 
 ## Typography
 

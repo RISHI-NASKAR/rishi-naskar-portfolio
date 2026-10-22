@@ -1,7 +1,6 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { mailto } from "@/lib/links";
 import Portrait from "./Portrait";
-import { Flourish } from "./ornaments";
 
 const DISCIPLINES = ["AI Engineer", "Cinematographer", "Graphic Designer"];
 
@@ -38,7 +37,7 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-[1.35fr_0.65fr] lg:items-start lg:gap-16 xl:gap-24">
+        <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-[1.28fr_0.72fr] lg:items-start lg:gap-16 xl:gap-24">
           {/* ---------------------------------------------------------- name */}
           <div>
             <h1 className="font-signature text-ivory">
@@ -157,26 +156,13 @@ export default function Hero() {
           </div>
 
           {/* ------------------------------------------------------- portrait */}
-          <div className="relative lg:pt-6">
+          <div className="relative flex justify-center lg:justify-end lg:pt-10">
             <div
-              className="hero-rise mb-4 flex items-center justify-between"
-              style={{ ["--delay" as string]: "0.55s" }}
-            >
-              <span className="meta text-[10px] tracking-[0.32em] text-ash">
-                The face behind the frames
-              </span>
-              <span className="meta text-[10px] tracking-[0.32em] text-crimson">
-                Fig. 01
-              </span>
-            </div>
-            <div
-              className="hero-rise"
+              className="hero-rise w-full max-w-[26rem] sm:max-w-[30rem] lg:mt-8 lg:w-[112%] lg:max-w-none lg:-mr-8 xl:-mr-14"
               style={{ ["--delay" as string]: "0.62s" }}
             >
               <Portrait />
             </div>
-
-            <Flourish className="mt-8 hidden w-full opacity-60 lg:block" />
           </div>
         </div>
 
