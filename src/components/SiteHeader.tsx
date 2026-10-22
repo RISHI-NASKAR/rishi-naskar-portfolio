@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { useNavigate } from "react-router";
+import { cn } from "@/lib/utils";
 import { LINKS, mailto } from "@/lib/links";
 
 const NAV = [
@@ -73,7 +73,24 @@ export default function SiteHeader() {
         )}
       >
         <div className="mx-auto flex h-[72px] w-full max-w-[1560px] items-center justify-between gap-6 px-5 sm:h-20 sm:px-8 lg:px-12">
-          <Logo className="group flex items-center gap-3.5" aria-label="Rishi Naskar — back to homepage" />
+          <a href="/" className="group flex items-center gap-3.5" aria-label="Rishi Naskar — back to homepage">
+            <img
+              src="/portrait-thumb.webp"
+              alt=""
+              width={192}
+              height={192}
+              decoding="async"
+              className="size-10 shrink-0 rounded-full object-cover object-top"
+            />
+            <span className="hidden leading-none sm:block">
+              <span className="font-signature block text-[14px] tracking-[0.14em] text-ivory">
+                Rishi Naskar
+              </span>
+              <span className="meta mt-1.5 block text-[10px] tracking-[0.28em] text-ash">
+                AI · Cinema · Design
+              </span>
+            </span>
+          </a>
 
           <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
             {NAV.map((item) => {

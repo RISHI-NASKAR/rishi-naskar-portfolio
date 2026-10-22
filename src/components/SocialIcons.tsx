@@ -1,28 +1,16 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
 import { Github, Linkedin, X, Instagram } from "lucide-react";
+import { LINKS } from "@/lib/links";
 
-/**
- * SocialIcons — four square, outlined brand buttons.
- *
- * Design tokens mirror the site's editorial headroom: small square buttons,
- * a subtle dark chip, a charcoal border, muted light-gray icons, and a crimson
- * hover lift. Dimensions, gaps and padding stay aligned with the header's
- * 72px/96px tight editorial rhythm.
- */
-export function SocialIcons() {
-  const navigate = useNavigate();
+function resolveHref(path: string): string {
+  if (path.startsWith("http") || path.startsWith("//")) return path;
+  return `/${path.startsWith("/") ? path.slice(1) : path}`;
+}
 
-  const href = (path: string) => {
-    if (path.startsWith("http") || path.startsWith("//")) return path;
-    return `/${path.startsWith("/") ? path.slice(1) : path}`;
-  };
-
+export default function SocialIcons() {
   return (
     <div className="flex items-center gap-3">
-      {/* GitHub */}
       <a
-        href={href(LINKS.github)}
+        href={resolveHref(LINKS.github)}
         target="_blank"
         rel="noreferrer noopener"
         aria-label="Rishi Naskar — GitHub"
@@ -30,10 +18,8 @@ export function SocialIcons() {
       >
         <Github className="size-4" aria-hidden="true" />
       </a>
-
-      {/* LinkedIn */}
       <a
-        href={href(LINKS.linkedin)}
+        href={resolveHref(LINKS.linkedin)}
         target="_blank"
         rel="noreferrer noopener"
         aria-label="Rishi Naskar — LinkedIn"
@@ -41,10 +27,8 @@ export function SocialIcons() {
       >
         <Linkedin className="size-4" aria-hidden="true" />
       </a>
-
-      {/* X */}
       <a
-        href={href(LINKS.twitter)}
+        href={resolveHref(LINKS.twitter)}
         target="_blank"
         rel="noreferrer noopener"
         aria-label="Rishi Naskar — X"
@@ -52,10 +36,8 @@ export function SocialIcons() {
       >
         <X className="size-4" aria-hidden="true" />
       </a>
-
-      {/* Instagram */}
       <a
-        href={href(LINKS.instagram)}
+        href={resolveHref(LINKS.instagram)}
         target="_blank"
         rel="noreferrer noopener"
         aria-label="Rishi Naskar — Instagram"
@@ -66,5 +48,3 @@ export function SocialIcons() {
     </div>
   );
 }
-
-export default SocialIcons;

@@ -1,55 +1,26 @@
-import { ArrowUpRight, Github, Linkedin, Instagram, X } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { Flourish, Monogram } from "@/components/ornaments";
+import { Reveal } from "@/components/Reveal";
 import { LINKS, mailto, tel, whatsapp } from "@/lib/links";
-import { Reveal } from "./Reveal";
-import { Flourish, Monogram } from "./ornaments";
+import SocialIcons from "@/components/SocialIcons";
 
-const COLUMNS: {
-  label: string;
-  rows: { label: string; href: string; display: string; external?: boolean }[];
-}[] = [
+const COLUMNS = [
   {
     label: "Direct",
     rows: [
       { label: "Email", href: mailto, display: LINKS.email },
       { label: "Phone", href: tel, display: LINKS.phoneDisplay },
-      {
-        label: "WhatsApp",
-        href: whatsapp,
-        display: LINKS.phoneDisplay,
-        external: true,
-      },
+      { label: "WhatsApp", href: whatsapp, display: LINKS.phoneDisplay, external: true },
     ],
-  },  { label: "Elsewhere",
+  },
+  {
+    label: "Elsewhere",
     rows: [
-      {
-        label: "LinkedIn",
-        href: LINKS.linkedin,
-        display: "linkedin.com/in/rishi-naskar",
-        external: true,
-      },
-      {
-        label: "GitHub",
-        href: LINKS.github,
-        display: LINKS.githubDisplay,
-        external: true,
-      },
-      {
-        label: "Instagram",
-        href: LINKS.instagram,
-        display: `@${LINKS.instagramHandle}`,
-        external: true,
-      },
-      {
-        label: "X",
-        href: "https://twitter.com/rishi_naskar_",
-        display: "@rishi_naskar_",
-        external: true,
-      },
-      {
-        label: "Studio desk",
-        href: "/dashboard",
-        display: "Private workspace",
-      },
+      { label: "LinkedIn", href: LINKS.linkedin, display: "linkedin.com/in/rishi-naskar", external: true },
+      { label: "GitHub", href: LINKS.github, display: LINKS.githubDisplay, external: true },
+      { label: "Instagram", href: LINKS.instagram, display: `@${LINKS.instagramHandle}`, external: true },
+      { label: "X", href: LINKS.twitter, display: "@rishi_naskar_", external: true },
+      { label: "Studio desk", href: "/dashboard", display: "Private workspace" },
     ],
   },
 ];
@@ -178,13 +149,11 @@ export default function Contact() {
           </div>
         </div>
 
-  <div className="mt-20 flex items-center justify-center">
-    <Flourish className="w-full max-w-md text-ember/60" />
-  </div>
+        <div className="mt-20 flex items-center justify-center">
+          <Flourish className="w-full max-w-md text-ember/60" />
+        </div>
 
-  {/* Social row: four outlined square buttons, charcoal chip, light-gray
-      icons, crimson hover. */}
-  <SocialIcons />
+        <SocialIcons />
 
         <footer className="mt-8 border-t border-ivory/12 pt-8">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">

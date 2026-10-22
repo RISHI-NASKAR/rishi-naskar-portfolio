@@ -1,12 +1,8 @@
-import { ArrowDown } from "lucide-react";
-import { useNavigate } from "react-router";
+import { ArrowDown, ArrowUpRight, Github, Linkedin, Instagram, X } from "lucide-react";
 import { LINKS, mailto } from "@/lib/links";
-import SocialIcons from "./SocialIcons";
-import Logo from "./Logo";
-
 import Portrait from "./Portrait";
 
-const NAV = ["AI Engineer", "Cinematographer", "Graphic Designer"];
+const DISCIPLINES = ["AI Engineer", "Cinematographer", "Graphic Designer"];
 
 /**
  * Chapter 01 — the introduction.
@@ -16,20 +12,10 @@ const NAV = ["AI Engineer", "Cinematographer", "Graphic Designer"];
  * rest of the page is static until it is scrolled into view.
  */
 export default function Hero() {
-  const navigate = useNavigate();
-  return (      <section
+  return (
+    <section
       id="home"
       className="grain relative isolate overflow-hidden px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32 lg:px-12 lg:pb-24 lg:pt-36"
-      onWheel={(event) => {
-        if (event.deltaY > 0 && window.location.pathname !== "/") {
-          navigate("/", { replace: true });
-        }
-      }}
-      onTouchStart={() => {
-        if (window.location.pathname !== "/") {
-          navigate("/", { replace: true });
-        }
-      }}
     >
       {/* Atmosphere: one deep crimson bloom, one cold ivory rim. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
@@ -53,7 +39,44 @@ export default function Hero() {
 
         <div className="mt-10 grid gap-12 sm:mt-14 lg:grid-cols-[1.28fr_0.72fr] lg:items-start lg:gap-16 lg:[&:has([data-portrait=missing])]:grid-cols-[1fr] xl:gap-24">
           {/* ---------------------------------------------------------- social row */}
-          <SocialIcons />
+          <div className="flex items-center gap-3 self-start sm:hidden lg:flex">
+            <a
+              href={LINKS.github}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+              aria-label="Rishi Naskar on GitHub"
+            >
+              <Github className="size-4" aria-hidden="true" />
+            </a>
+            <a
+              href={LINKS.linkedin}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+              aria-label="Rishi Naskar on LinkedIn"
+            >
+              <Linkedin className="size-4" aria-hidden="true" />
+            </a>
+            <a
+              href={LINKS.twitter}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+              aria-label="Rishi Naskar on X"
+            >
+              <X className="size-4" aria-hidden="true" />
+            </a>
+            <a
+              href={LINKS.instagram}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="flex size-9 items-center justify-center border border-line/90 bg-[#0e0c0e] transition-colors duration-300 hover:border-crimson hover:text-white"
+              aria-label="Rishi Naskar on Instagram"
+            >
+              <Instagram className="size-4" aria-hidden="true" />
+            </a>
+          </div>
 
           {/* ---------------------------------------------------------- name */}
           <div>
@@ -70,7 +93,7 @@ export default function Hero() {
                 <span className="relative mt-3 block sm:mt-4">
                   <span
                     className="hero-wipe block text-[clamp(3.1rem,11.4vw,9.4rem)] leading-[0.82] tracking-[0.005em]"
-                    style={{ ["--delay" as string]: "0.18s" }}
+                    style={{ "--delay": "0.18s" }}
                   >
                     NASKAR
                   </span>
@@ -86,26 +109,26 @@ export default function Hero() {
                   >
                     <path
                       className="swash-draw"
-                      style={{ ["--dash" as string]: "900", ["--delay" as string]: "0.85s" }}
+                      style={{ "--dash": "900", "--delay": "0.85s" }}
                       d="M6 26c52 0 84-9 132-12 44-3 74 3 108 6 30 3 56 1 84-4 32-6 62-9 96-4 46 7 88 9 138 2"
                       strokeWidth="0.9"
                     />
                     <path
                       className="swash-draw"
-                      style={{ ["--dash" as string]: "1200", ["--delay" as string]: "1.05s" }}
+                      style={{ "--dash": "1200", "--delay": "1.05s" }}
                       d="M58 33c44 0 78-6 116-8 36-2 62 2 92 4 34 2 62-1 92-6 36-6 68-4 102 0 42 5 80 4 116 0"
                       strokeWidth="0.5"
                       opacity="0.6"
                     />
                     <path
                       className="swash-draw"
-                      style={{ ["--dash" as string]: "160", ["--delay" as string]: "1.25s" }}
+                      style={{ "--dash": "160", "--delay": "1.25s" }}
                       d="M556 12c12-4 24-4 36 1-12 1-22 4-31 9"
                       strokeWidth="0.8"
                     />
                     <circle
                       className="hero-rise"
-                      style={{ ["--delay" as string]: "1.4s" }}
+                      style={{ "--delay": "1.4s" }}
                       cx="604"
                       cy="18"
                       r="2"
@@ -120,7 +143,7 @@ export default function Hero() {
             {/* Three disciplines, equal weight. */}
             <ul
               className="hero-rise mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 sm:mt-7"
-              style={{ ["--delay" as string]: "0.9s" }}
+              style={{ "--delay": "0.9s" }}
             >
               {DISCIPLINES.map((discipline, index) => (
                 <li key={discipline} className="flex items-center gap-4">
@@ -136,7 +159,7 @@ export default function Hero() {
 
             <div
               className="hero-rise mt-10 max-w-2xl sm:mt-12"
-              style={{ ["--delay" as string]: "1.05s" }}
+              style={{ "--delay": "1.05s" }}
             >
               <p className="font-editorial text-[clamp(1.85rem,3.7vw,3.15rem)] leading-[1.04] text-ivory">
                 Building <span className="type-italic text-crimson">intelligence.</span>
@@ -176,7 +199,7 @@ export default function Hero() {
           <div className="relative flex justify-center lg:justify-end lg:pt-10 lg:[&:has([data-portrait=missing])]:hidden">
             <div
               className="hero-rise w-full max-w-[26rem] sm:max-w-[31rem] lg:mt-8 lg:w-[118%] lg:max-w-none lg:-mr-8 xl:-mr-16"
-              style={{ ["--delay" as string]: "0.62s" }}
+              style={{ "--delay": "0.62s" }}
             >
               <Portrait />
             </div>
