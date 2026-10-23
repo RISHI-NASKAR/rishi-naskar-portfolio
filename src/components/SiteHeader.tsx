@@ -81,6 +81,7 @@ export default function SiteHeader() {
               height={192}
               decoding="async"
               className="size-10 shrink-0 rounded-full object-cover object-top"
+              aria-hidden="true"
             />
             <span className="hidden leading-none sm:block">
               <span className="font-signature block text-[14px] tracking-[0.14em] text-ivory">
@@ -102,7 +103,7 @@ export default function SiteHeader() {
                   aria-current={isActive ? "true" : undefined}
                   className={cn(
                     "group relative px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.24em] transition-colors duration-300",
-                    isActive ? "text-ivory" : "text-ash hover:text-ivory",
+                    isActive ? "text-ivory border-b-2 border-crimson" : "text-ash hover:text-ivory hover:border-b-2 hover:border-crimson",
                   )}
                 >
                   {item.label}
@@ -126,6 +127,13 @@ export default function SiteHeader() {
               Enquire
               <ArrowUpRight className="size-3.5" aria-hidden="true" />
             </a>
+            <button
+              type="button"
+              className="hidden items-center gap-2 border border-line/90 px-4 py-2.5 font-mono text-[10.5px] uppercase tracking-[0.22em] text-ivory transition-colors duration-300 hover:border-crimson hover:text-white sm:inline-flex"
+              aria-label="Start an enquiry"
+            >
+              Enquire
+            </button>
             <button
               type="button"
               onClick={() => setOpen(true)}

@@ -159,12 +159,12 @@
   }
 
   ::selection {
-    background: rgba(181, 18, 43, 0.45);
+    background: #b5122b;
     color: #f7f0e9;
   }
 
   :focus-visible {
-    outline: 1px solid #d32640;
+    outline: 1px solid #b5122b;
     outline-offset: 3px;
   }
 
@@ -241,7 +241,7 @@
   border-top: 1px solid var(--border);
 }
 
-/* A single hairline that fades at both ends — the site's recurring separator. */
+/* A single editorial divider hairline — the site's recurring separator. */
 .hairline {
   height: 1px;
   background: linear-gradient(
@@ -357,6 +357,18 @@
     transform: none;
     scale: 1 1;
   }
+}
+
+/* A single editorial divider hairline — the site's recurring separator. */
+.hairline {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(48, 39, 42, 0) 0%,
+    #30272a 12%,
+    #30272a 88%,
+    rgba(48, 39, 42, 0) 100%
+  );
 }
 
 /* ------------------------------------------------------------------ portrait */
