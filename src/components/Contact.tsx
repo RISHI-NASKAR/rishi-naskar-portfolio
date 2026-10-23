@@ -364,10 +364,11 @@ function ConnectBlock() {
             </>
           ) : (
             <Copy className="size-3.5" aria-hidden="true" />
-          )
-          }
+          )}
         </button>
       </div>
+
+      <div className="hairline" style={css} aria-hidden="true" />
 
       <div className="mt-6">
         <SocialIcons />
