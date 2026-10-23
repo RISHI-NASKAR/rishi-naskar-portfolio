@@ -16,8 +16,8 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
  * placeholder.
  */
 const PORTRAIT_SOURCES_ORDERED = [
-  "/portrait-new.webp",
   "/portrait.webp",
+  "/portrait-new.webp",
   "/portrait.png",
   "/portrait.jpg",
   "/portrait.jpeg",
