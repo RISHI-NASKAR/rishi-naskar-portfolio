@@ -292,9 +292,11 @@ function InquiryForm() {
 /**
  * The compact connect block — label, email row with copy, divider, socials.
  *
- * Aligned with the call-to-action buttons above it and sized down so the left
- * column reads as one composition: headline, then buttons, then connect.
- * Email and socials reuse the existing LINKS configuration.
+ * The body and the four buttons are a single editorial group: a 16px opening
+ * margin above the label, an 8px internal email-row padding, a 28px space
+ * before the hairline, and a 24px space above the social row. The divider is
+ * the recurring 1px editorial hairline, and the four socials are evenly
+ * tracked by the shared SocialIcons row.
  */
 function ConnectBlock() {
   const [copied, setCopied] = useState(false);
@@ -304,6 +306,10 @@ function ConnectBlock() {
     const timer = window.setTimeout(() => setCopied(false), 2200);
     return () => window.clearTimeout(timer);
   }, [copied]);
+
+  const css = {
+    marginBottom: 24,
+  } as React.CSSProperties;
 
   const copyEmail = async () => {
     try {
@@ -332,7 +338,7 @@ function ConnectBlock() {
       <div className="group/row mt-4 flex min-w-0 items-center gap-3 border border-ivory/12 bg-[#0e0c0e]/55 px-4 py-3.5 transition-colors duration-300 focus-within:border-crimson hover:border-crimson/60">
         <a
           href={mailto}
-          className="flex min-w-0 flex-1 items-center gap-3 focus-visible:outline-none"
+          className="flex min-w-0 flex-1 items-center gap-3 transition-colors duration-300 focus-visible:outline-none"
         >
           <Mail
             className="size-4 shrink-0 text-crimson/85 transition-colors duration-300 group-hover/row:text-crimson"
@@ -363,9 +369,7 @@ function ConnectBlock() {
         </button>
       </div>
 
-      <div className="hairline mt-7" aria-hidden="true" />
-
-      <div className="mt-5">
+      <div className="mt-6">
         <SocialIcons />
       </div>
     </div>
@@ -392,6 +396,7 @@ const COLUMNS = [
     ],
   },
 ];
+
 
 /**
  * Chapter 07 — connect, and the closing frame.
