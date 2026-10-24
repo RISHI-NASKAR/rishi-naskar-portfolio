@@ -304,9 +304,7 @@ function ConnectBlock() {
     return () => window.clearTimeout(timer);
   }, [copied]);
 
-  const css = {
-    marginBottom: 24,
-  } as React.CSSProperties;
+  
 
   const copyEmail = async () => {
     try {
@@ -328,12 +326,14 @@ function ConnectBlock() {
   };
 
   return (
-    <div className="mt-6 w-full max-w-md">
+    <div className="space-y-5">
       <p className="meta text-[10px] tracking-[0.32em] text-ivory/50">
         Let&apos;s connect
       </p>
 
-      <div className="group/row mt-4 flex min-w-0 items-center gap-3 border border-ivory/12 bg-[#0e0c0e]/55 px-4 py-3.5 transition-colors duration-300 focus-within:border-crimson hover:border-crimson/60">
+      <div
+        className="group/row mt-5 flex min-w-0 items-center gap-3 border border-ivory/12 bg-[#0e0c0e]/55 px-4 py-4 transition-colors duration-300 focus-within:border-crimson hover:border-crimson/60"
+      >
         <a
           href={mailto}
           className="flex min-w-0 flex-1 items-center gap-3 transition-colors duration-300 focus-visible:outline-none"
@@ -366,8 +366,9 @@ function ConnectBlock() {
         </button>
       </div>
 
-      <div className="hairline" style={css} aria-hidden="true" />
-      <div className="mt-6">
+      <div className="hairline" aria-hidden="true" />
+
+      <div className="flex items-center gap-3">
         <SocialIcons />
       </div>
     </div>
@@ -451,8 +452,8 @@ export default function Contact() {
             </Reveal>
 
             <Reveal delay={200}>
-              <div className="mt-9 flex flex-wrap items-center gap-4">
-                <a href={mailto} className="btn-noir group">
+              <div className="flex flex-wrap items-center gap-4">
+                <a href={mailto} className="btn-noir group mb-5">
                   Email me
                   <ArrowUpRight
                     className="size-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
@@ -463,7 +464,7 @@ export default function Contact() {
                   href={whatsapp}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="btn-noir btn-ghost group"
+                  className="btn-noir btn-ghost group mb-5"
                 >
                   Message on WhatsApp
                   <ArrowUpRight
