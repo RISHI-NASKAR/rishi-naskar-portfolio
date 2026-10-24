@@ -1,7 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import {
   ArrowUpRight,
-  ArrowRight,
   Check,
   Copy,
   Mail,
@@ -241,7 +240,6 @@ function InquiryForm() {
         {showError("message")}
       </div>
 
-      <div>
         <button
           type="submit"
           disabled={status === "sending"}
@@ -265,7 +263,7 @@ function InquiryForm() {
           ) : (
             <>
               Send Inquiry
-              <ArrowRight
+              <ArrowUpRight
                 className="size-3.5 shrink-0 transition-transform duration-500 group-hover:translate-x-1.5"
                 aria-hidden="true"
               />
@@ -284,7 +282,6 @@ function InquiryForm() {
             </p>
           ) : null}
         </div>
-      </div>
     </form>
   );
 }
@@ -326,6 +323,7 @@ function ConnectBlock() {
       document.execCommand("copy");
       field.remove();
     }
+
     setCopied(true);
   };
 
@@ -369,7 +367,6 @@ function ConnectBlock() {
       </div>
 
       <div className="hairline" style={css} aria-hidden="true" />
-
       <div className="mt-6">
         <SocialIcons />
       </div>
