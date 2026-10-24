@@ -18,12 +18,29 @@ export default function Hero() {
       className="grain relative isolate overflow-hidden px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32 lg:px-12 lg:pb-24 lg:pt-36"
     >
       {/* Atmosphere: one deep crimson bloom, one cold ivory rim. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-40 top-24 h-[38rem] w-[38rem] rounded-full bg-oxblood/35 blur-[140px]" />
-        <div className="absolute -right-20 top-0 h-[26rem] w-[26rem] rounded-full bg-crimson/10 blur-[120px]" />
+      <div
+        aria-hidden="true"
+        className="depth-plane pointer-events-none absolute inset-0 -z-10"
+      >
+        <div
+          data-depth="0.06"
+          data-depth-z="-90"
+          className="absolute -left-40 top-24 h-[38rem] w-[38rem] rounded-full bg-oxblood/35 blur-[140px]"
+        />
+        <div
+          data-depth="0.1"
+          data-depth-z="-160"
+          className="absolute -right-20 top-0 h-[26rem] w-[26rem] rounded-full bg-crimson/10 blur-[120px]"
+        />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-ink" />
-        <div className="absolute inset-y-0 left-1/3 hidden w-px bg-line/25 lg:block" />
-        <div className="absolute inset-y-0 left-2/3 hidden w-px bg-line/25 lg:block" />
+        <div
+          data-depth="0.05"
+          className="absolute inset-y-[-8%] left-1/3 hidden w-px bg-line/25 lg:block"
+        />
+        <div
+          data-depth="0.05"
+          className="absolute inset-y-[-8%] left-2/3 hidden w-px bg-line/25 lg:block"
+        />
       </div>
 
       <div className="mx-auto w-full max-w-[1560px]">
@@ -39,7 +56,10 @@ export default function Hero() {
 
         <div className="mt-10 grid items-start gap-12 sm:mt-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16 xl:gap-24 lg:[&:has([data-portrait=missing])]:grid-cols-[1fr]">
           {/* ------------------------------------------------------- portrait */}
-          <div className="relative order-2 flex justify-center lg:order-none lg:justify-start lg:[&:has([data-portrait=missing])]:hidden">
+          <div
+            data-depth="0.03"
+            className="relative order-2 flex justify-center lg:order-none lg:justify-start lg:[&:has([data-portrait=missing])]:hidden"
+          >
             <div
               className="hero-rise w-full max-w-[26rem] sm:max-w-[31rem] lg:mt-0 lg:w-[118%] lg:max-w-none lg:-ml-4 xl:-ml-8"
               style={{ "--delay": "0.62s" } as React.CSSProperties}
@@ -187,7 +207,7 @@ export default function Hero() {
               </p>
 
               <div className="mt-9 flex flex-wrap items-center gap-4">
-                <a href="#work" className="btn-noir group">
+                <a href="#work" className="btn-noir group" data-cursor="explore">
                   Explore the work
                   <ArrowDown
                     className="size-3.5 transition-transform duration-500 group-hover:translate-y-1"

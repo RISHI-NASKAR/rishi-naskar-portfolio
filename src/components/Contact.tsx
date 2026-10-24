@@ -396,6 +396,7 @@ function InquiryForm() {
           type="submit"
           disabled={status === "sending"}
           aria-live="polite"
+          data-cursor="connect"
           className={`flex h-14 w-full items-center justify-center gap-3.5 font-mono text-[11px] uppercase tracking-[0.26em] text-[#f6ede4] transition-colors duration-500 ${
             status === "sent"
               ? "bg-[#1d5c44] hover:bg-[#25704a]"
@@ -563,10 +564,18 @@ export default function Contact() {
       id="contact"
       className="grain relative isolate overflow-hidden border-t border-crimson/30 px-5 pb-12 pt-24 sm:px-8 sm:pt-28 lg:px-12 lg:pt-36"
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+      <div
+        aria-hidden="true"
+        className="depth-plane pointer-events-none absolute inset-0 -z-10"
+      >
         <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_50%_115%,rgba(181,18,43,0.5)_0%,rgba(101,13,25,0.55)_28%,rgba(20,6,9,0.9)_62%,#080808_92%)]" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ember/60 to-transparent" />
-        <div className="absolute left-1/2 top-24 hidden h-64 w-64 -translate-x-1/2 rounded-full bg-crimson/20 blur-[110px] sm:block" />
+        <div
+          data-depth="0.08"
+          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ember/60 to-transparent"
+        />
+        <div className="absolute left-1/2 top-24 hidden sm:block" data-depth="0.1">
+          <div className="h-64 w-64 -translate-x-1/2 rounded-full bg-crimson/20 blur-[110px]" />
+        </div>
       </div>
 
       <div className="mx-auto w-full max-w-[1560px]">
@@ -627,7 +636,7 @@ export default function Contact() {
 
             <Reveal delay={250}>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <a href={mailto} className="btn-noir group">
+                <a href={mailto} className="btn-noir group" data-cursor="connect">
                   Email me
                   <ArrowUpRight
                     className="size-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
@@ -639,6 +648,7 @@ export default function Contact() {
                   target="_blank"
                   rel="noreferrer noopener"
                   className="btn-noir btn-ghost group"
+                  data-cursor="connect"
                 >
                   Message on WhatsApp
                   <ArrowUpRight
@@ -702,7 +712,7 @@ export default function Contact() {
           ))}
         </div>
 
-        <div className="mt-20 flex items-center justify-center">
+        <div className="mt-20 flex items-center justify-center" data-depth="0.06">
           <Flourish className="w-full max-w-md text-ember/60" />
         </div>
 

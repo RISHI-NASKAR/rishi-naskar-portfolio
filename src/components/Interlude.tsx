@@ -30,6 +30,7 @@ export default function Interlude() {
             height={900}
             loading="lazy"
             decoding="async"
+            data-depth="0.05"
             className="portrait-echo w-full"
           />
         </div>

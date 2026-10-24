@@ -104,6 +104,7 @@ export default function Work() {
                         <button
                           type="button"
                           onClick={() => setActive(project)}
+                          data-cursor="view"
                           className="work-row group grid w-full grid-cols-[2.2rem_1fr_auto] items-center gap-4 border-b border-line/60 py-7 text-left sm:grid-cols-[3rem_1fr_9rem_auto] sm:gap-6 sm:py-8"
                           aria-haspopup="dialog"
                         >

@@ -582,6 +582,221 @@
   }
 }
 
+/* ------------------------------------------------------------- RISHI ORBIT */
+/* A small 3D orbital cursor: luminous crimson core, a metallic orbital ring,
+   a second ring tilted out of the plane, and a satellite on its own path.
+   Pointer-driven only — it never mounts on touch devices. */
+
+body[data-orbit="on"],
+body[data-orbit="on"] * {
+  cursor: none !important;
+}
+/* Typing still wants its caret: the native text cursor stays in fields. */
+body[data-orbit="on"] input,
+body[data-orbit="on"] textarea,
+body[data-orbit="on"] [contenteditable="true"] {
+  cursor: text !important;
+}
+
+.orbit-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  perspective: 720px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  will-change: transform;
+}
+.orbit-cursor.is-live {
+  opacity: 1;
+}
+
+.orbit-cursor__stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  transform-style: preserve-3d;
+}
+
+.orbit-cursor__scale {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.16, 0.86, 0.2, 1);
+}
+
+/* The metallic main orbit — a conic sweep masked down to a 1.2px ring. */
+.orbit-cursor__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 210deg,
+    rgba(101, 13, 25, 0.25),
+    rgba(211, 38, 64, 0.9) 18%,
+    rgba(255, 150, 160, 0.8) 28%,
+    rgba(101, 13, 25, 0.4) 46%,
+    rgba(181, 18, 43, 0.9) 64%,
+    rgba(101, 13, 25, 0.3) 84%,
+    rgba(211, 38, 64, 0.9)
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.2px), #000 calc(100% - 1.2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 1.2px), #000 calc(100% - 1.2px));
+  animation: orbit-spin 15s linear infinite;
+}
+
+/* The second ring: tilted out of the plane, partial, counter-rotating. The
+   spin lives in `transform` and the tilt in the individual `rotate` property,
+   so the ring turns *inside* its own tilted plane. */
+.orbit-cursor__ring--arc {
+  background: conic-gradient(
+    from 0deg,
+    rgba(211, 38, 64, 0.95) 0deg,
+    rgba(255, 150, 160, 0.55) 46deg,
+    rgba(101, 13, 25, 0) 92deg,
+    rgba(101, 13, 25, 0) 196deg,
+    rgba(101, 13, 25, 0.85) 232deg,
+    rgba(211, 38, 64, 0.95) 268deg,
+    rgba(101, 13, 25, 0) 320deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1px), #000 calc(100% - 1px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 1px), #000 calc(100% - 1px));
+  rotate: x 66deg;
+  animation: orbit-spin-rev 9.5s linear infinite;
+}
+
+.orbit-cursor__tilt {
+  position: absolute;
+  inset: -3px;
+}
+
+/* The satellite rides a third, differently tilted plane. */
+.orbit-cursor__sat-orbit {
+  position: absolute;
+  inset: 1px;
+  border-radius: 9999px;
+  rotate: x 58deg;
+  animation: orbit-spin 6.5s linear infinite;
+}
+
+.orbit-cursor__sat {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 3px;
+  height: 3px;
+  margin-left: -1.5px;
+  border-radius: 9999px;
+  background: #ff7a88;
+  box-shadow:
+    0 0 6px rgba(255, 122, 136, 0.95),
+    0 0 14px rgba(211, 38, 64, 0.7);
+  animation: orbit-spin-rev 6.5s linear infinite;
+}
+
+/* The stable luminous core. */
+.orbit-cursor__dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 9999px;
+  background: #d32640;
+  box-shadow:
+    0 0 6px rgba(211, 38, 64, 0.95),
+    0 0 16px rgba(181, 18, 43, 0.6);
+  transition: box-shadow 0.35s ease;
+}
+
+.orbit-cursor__pulse {
+  position: absolute;
+  inset: 2px;
+  border-radius: 9999px;
+  border: 1px solid rgba(211, 38, 64, 0.9);
+  opacity: 0;
+}
+.orbit-cursor.is-pulse .orbit-cursor__pulse {
+  animation: orbit-pulse 0.55s ease-out;
+}
+
+.orbit-cursor__label {
+  position: absolute;
+  left: 50%;
+  top: 38px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #f4dfe0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Interactive states. */
+.orbit-cursor[data-state="hover"] .orbit-cursor__scale {
+  transform: scale(0.78);
+}
+.orbit-cursor[data-state="hover"] .orbit-cursor__dot {
+  box-shadow:
+    0 0 8px rgba(255, 122, 136, 1),
+    0 0 20px rgba(211, 38, 64, 0.8);
+}
+.orbit-cursor[data-state="tagged"] .orbit-cursor__scale {
+  transform: scale(1.45);
+}
+.orbit-cursor[data-state="tagged"] .orbit-cursor__label {
+  opacity: 1;
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes orbit-spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes orbit-pulse {
+  from {
+    opacity: 0.85;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-cursor__ring,
+  .orbit-cursor__sat-orbit,
+  .orbit-cursor__sat,
+  .orbit-cursor.is-pulse .orbit-cursor__pulse {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------- depth */
+/* Parallax planes: a perspective context for the layers marked with
+   `data-depth-z`, used by CinematicDepth. */
+.depth-plane {
+  perspective: 1400px;
+  perspective-origin: 50% 45%;
+}
+
 /* --------------------------------------------------------------- detail sheet */
 @keyframes veil-in {
   from {

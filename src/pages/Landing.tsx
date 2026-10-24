@@ -6,6 +6,8 @@ import About from "@/components/About";
 import Work from "@/components/Work";
 import Skills from "@/components/Skills";
 import Contact from "@/components/Contact";
+import OrbitCursor from "@/components/OrbitCursor";
+import CinematicDepth from "@/components/CinematicDepth";
 
 /**
  * The portfolio as a visual journal: an opening frame, the creative identity,
@@ -24,6 +26,11 @@ export default function Landing() {
       </a>
 
       <SiteHeader />
+
+      {/* Two enhancements over the same page: the orbital cursor, and the
+          scroll-driven depth that only ever moves decorative layers. */}
+      <OrbitCursor />
+      <CinematicDepth />
 
       <main id="main">
         <Hero />

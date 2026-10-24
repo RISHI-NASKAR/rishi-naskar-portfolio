@@ -92,7 +92,10 @@ export default function About() {
 
           <div className="lg:pt-4">
             <Reveal delay={120}>
-              <div className="relative border border-line/70 bg-charcoal/40">
+              <div
+                data-depth="0.035"
+                className="relative border border-line/70 bg-charcoal/40"
+              >
                 <div className="flex items-center justify-between gap-6 border-b border-line/60 px-6 py-6">
                   <Monogram className="w-24" />
                   <div className="text-right">
@@ -133,7 +136,10 @@ export default function About() {
             </Reveal>
 
             <Reveal delay={200}>
-              <div className="mt-8 flex items-center justify-between gap-4">
+              <div
+                data-depth="0.06"
+                className="mt-8 flex items-center justify-between gap-4"
+              >
                 <Flourish className="w-40 opacity-70" />
                 <span className="meta text-[9.5px] tracking-[0.3em]">
                   Rishi Naskar Films
