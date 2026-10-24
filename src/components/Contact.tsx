@@ -10,7 +10,7 @@ import { useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Flourish, Monogram } from "@/components/ornaments";
 import { Reveal } from "@/components/Reveal";
-import { LINKS, mailto, tel, whatsapp } from "@/lib/links";
+import { LINKS, mailto, whatsapp } from "@/lib/links";
 import SocialIcons from "@/components/SocialIcons";
 
 const PROJECT_TYPES = [
@@ -302,7 +302,15 @@ function InquiryForm() {
 
   return (
     <form noValidate onSubmit={onSubmit} className="space-y-9">
-      <p className="meta text-[9.5px] tracking-[0.32em] text-ivory/50">Project inquiry</p>
+      <div>
+        <p className="meta text-[9.5px] tracking-[0.32em] text-ivory/50">
+          Start a conversation
+        </p>
+        <div
+          aria-hidden="true"
+          className="mt-4 h-px w-full bg-gradient-to-r from-ivory/25 via-ivory/10 to-transparent"
+        />
+      </div>
 
       <div>
         <label
@@ -382,6 +390,8 @@ function InquiryForm() {
         {showError("message")}
       </div>
 
+      <div className="hairline" aria-hidden="true" />
+
         <button
           type="submit"
           disabled={status === "sending"}
@@ -431,11 +441,9 @@ function InquiryForm() {
 /**
  * The compact connect block — label, email row with copy, divider, socials.
  *
- * The body and the four buttons are a single editorial group: a 16px opening
- * margin above the label, an 8px internal email-row padding, a 28px space
- * before the hairline, and a 24px space above the social row. The divider is
- * the recurring 1px editorial hairline, and the four socials are evenly
- * tracked by the shared SocialIcons row.
+ * It anchors the base of the studio panel: the label opens the group, the email
+ * row carries a copy button, the 1px editorial hairline separates, and the four
+ * socials finish the panel on a shared, evenly tracked row.
  */
 function ConnectBlock() {
   const [copied, setCopied] = useState(false);
@@ -445,8 +453,6 @@ function ConnectBlock() {
     const timer = window.setTimeout(() => setCopied(false), 2200);
     return () => window.clearTimeout(timer);
   }, [copied]);
-
-  
 
   const copyEmail = async () => {
     try {
@@ -522,8 +528,13 @@ const COLUMNS = [
     label: "Direct",
     rows: [
       { label: "Email", href: mailto, display: LINKS.email },
-      { label: "Phone", href: tel, display: LINKS.phoneDisplay },
-      { label: "WhatsApp", href: whatsapp, display: LINKS.phoneDisplay, external: true },
+      {
+        label: "Instagram",
+        href: LINKS.instagram,
+        display: `@${LINKS.instagramHandle}`,
+        external: true,
+      },
+      { label: "WhatsApp", href: whatsapp, display: "Direct chat", external: true },
     ],
   },
   {
@@ -565,37 +576,58 @@ export default function Contact() {
               07 / Connect
             </span>
             <span className="meta hidden text-[10.5px] tracking-[0.34em] text-ivory/50 sm:block">
-              Let&apos;s begin a conversation
+              Rishi Naskar Films · Studio
             </span>
           </div>
         </Reveal>
 
         <div className="mt-12 grid gap-14 lg:grid-cols-[0.92fr_1.08fr] lg:gap-0 xl:gap-0">
-          <div className="lg:pr-16 xl:pr-24">
+          {/* --------------------------------------------- the studio panel */}
+          <div className="flex flex-col lg:pr-16 xl:pr-24">
             <Reveal delay={60}>
-              <h2 className="font-editorial text-[clamp(2.6rem,6.6vw,5.8rem)] leading-[0.98] text-ivory">
-                Have an idea
+              <p className="meta text-[10.5px] tracking-[0.34em] text-ember/85">
+                Let&apos;s create something
+              </p>
+            </Reveal>
+
+            <Reveal delay={110}>
+              <h2 className="mt-7 font-editorial text-[clamp(2.6rem,6.6vw,5.4rem)] leading-[0.98] text-ivory">
+                Have a story
                 <br />
-                <span className="type-italic text-crimson">worth making</span>?
+                <span className="type-italic text-crimson">worth telling</span>?
               </h2>
             </Reveal>
 
-            <Reveal delay={120}>
-              <p className="mt-7 max-w-md text-[15px] leading-[1.85] text-ivory/70">
-                From intelligent systems to cinematic stories, let&apos;s create
-                something meaningful.
+            {/* The one bright line of the section. */}
+            <Reveal delay={150} className="mt-9">
+              <div
+                aria-hidden="true"
+                className="h-px w-24 bg-crimson shadow-[0_0_22px_2px_rgba(181,18,43,0.4)]"
+              />
+            </Reveal>
+
+            <Reveal delay={190}>
+              <p className="mt-9 max-w-md text-[15px] leading-[1.85] text-ivory/70">
+                For films, creative collaborations, AI-driven ideas, and
+                projects worth bringing to life.
               </p>
             </Reveal>
 
-            <Reveal delay={160}>
-              <p className="type-italic mt-6 text-[1.2rem] leading-snug text-ivory/75">
-                I read every message myself, and reply with a point of view.
+            <Reveal delay={220}>
+              <p className="mt-8 flex items-center gap-3">
+                <span className="relative flex size-2" aria-hidden="true">
+                  <span className="absolute inline-flex size-full rounded-full bg-crimson/50 motion-safe:animate-ping" />
+                  <span className="relative inline-flex size-2 rounded-full bg-crimson" />
+                </span>
+                <span className="meta text-[10px] tracking-[0.3em] text-ivory/65">
+                  Open for select projects
+                </span>
               </p>
             </Reveal>
 
-            <Reveal delay={200}>
-              <div className="flex flex-wrap items-center gap-4">
-                <a href={mailto} className="btn-noir group mb-5">
+            <Reveal delay={250}>
+              <div className="mt-10 flex flex-wrap items-center gap-4">
+                <a href={mailto} className="btn-noir group">
                   Email me
                   <ArrowUpRight
                     className="size-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
@@ -606,7 +638,7 @@ export default function Contact() {
                   href={whatsapp}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="btn-noir btn-ghost group mb-5"
+                  className="btn-noir btn-ghost group"
                 >
                   Message on WhatsApp
                   <ArrowUpRight
@@ -617,7 +649,9 @@ export default function Contact() {
               </div>
             </Reveal>
 
-            <Reveal delay={240}>
+            {/* The connect block anchors the base of the panel — never a
+                floating gap beneath the socials. */}
+            <Reveal delay={280} className="mt-14 lg:mt-auto lg:pt-16">
               <ConnectBlock />
             </Reveal>
           </div>
