@@ -71,6 +71,7 @@ export default function Portrait({ className }: { className?: string }) {
         alt="Rishi Naskar"
         width={1254}
         height={1254}
+        fetchPriority="high"
         decoding="async"
         data-ready={status === "ready"}
         onLoad={(event) => {

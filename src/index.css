@@ -163,6 +163,34 @@
     color: #f7f0e9;
   }
 
+  ::-moz-selection {
+    background: #b5122b;
+    color: #f7f0e9;
+  }
+
+  /* Form controls: the browser's default accent is blue. Every native control
+     (checkbox, radio, range, progress) and any future <select> popup takes the
+     film's crimson instead, so no system blue can appear in the interface. */
+  input,
+  textarea,
+  select,
+  option,
+  progress,
+  meter {
+    accent-color: #b5122b;
+  }
+
+  select option {
+    background-color: #0e0c0e;
+    color: #e8e0d8;
+  }
+
+  select option:checked,
+  select option:hover {
+    background-color: #650d19;
+    color: #f7f0e9;
+  }
+
   :focus-visible {
     outline: 1px solid #b5122b;
     outline-offset: 3px;
@@ -482,11 +510,11 @@
   transform: scale(1);
 }
 
-/* Preserve the original, non-degraded source for rendering. Never upscale past
-the source's native pixel grid — the browser should only ever downscale. */
-.portrait-img:not([data-ready="true"]) {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+/* Let the browser resample the repaired 1254 px master with its smooth,
+   high-quality filter. `crisp-edges` / pixelated sharpening would re-introduce
+   the stair-stepped edges this asset was rebuilt to remove. */
+.portrait-img {
+  image-rendering: auto;
 }
 
 .portrait-grade {

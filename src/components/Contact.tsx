@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import {
   ArrowUpRight,
   Check,
@@ -34,6 +34,165 @@ type FieldErrors = Partial<Record<keyof InquiryValues, string>>;
 type SendStatus = "idle" | "sending" | "sent" | "error";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const TYPE_PLACEHOLDER = "Select the closest fit";
+
+/**
+ * Project type, as a themed listbox rather than a native <select>.
+ *
+ * The native popup is drawn by the operating system in the system accent, which
+ * is why those options flashed blue; here every state is ours — a dark oxblood
+ * wash, a crimson rule and light ivory text on hover, focus, and selection.
+ * Keyboard behaviour follows the listbox pattern (arrows, Home/End, Enter, Esc).
+ */
+function ProjectTypeField({
+  value,
+  fieldClass,
+  invalid,
+  onChange,
+}: {
+  value: string;
+  fieldClass: string;
+  invalid: boolean;
+  onChange: (next: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
+  const container = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const list = useRef<HTMLUListElement>(null);
+
+  const selectedIndex = PROJECT_TYPES.indexOf(value as (typeof PROJECT_TYPES)[number]);
+
+  useEffect(() => {
+    if (!open) return;
+    const dismiss = (event: PointerEvent) => {
+      if (!container.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", dismiss);
+    return () => document.removeEventListener("pointerdown", dismiss);
+  }, [open]);
+
+  useEffect(() => {
+    if (open) list.current?.focus();
+  }, [open]);
+
+  const openList = (start?: number) => {
+    setActive(start ?? (selectedIndex >= 0 ? selectedIndex : 0));
+    setOpen(true);
+  };
+
+  const commit = (index: number) => {
+    onChange(PROJECT_TYPES[index]);
+    setOpen(false);
+    trigger.current?.focus();
+  };
+
+  const onTriggerKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (["Enter", " ", "ArrowDown", "ArrowUp"].includes(event.key)) {
+      event.preventDefault();
+      openList(event.key === "ArrowUp" ? PROJECT_TYPES.length - 1 : undefined);
+    }
+  };
+
+  const onListKeyDown = (event: KeyboardEvent<HTMLUListElement>) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setOpen(false);
+      trigger.current?.focus();
+      return;
+    }
+    if (event.key === "Tab") {
+      setOpen(false);
+      return;
+    }
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      const step = event.key === "ArrowDown" ? 1 : -1;
+      setActive((current) => (current + step + PROJECT_TYPES.length) % PROJECT_TYPES.length);
+      return;
+    }
+    if (event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      setActive(event.key === "Home" ? 0 : PROJECT_TYPES.length - 1);
+      return;
+    }
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      commit(active);
+    }
+  };
+
+  return (
+    <div ref={container} className="relative">
+      <button
+        ref={trigger}
+        type="button"
+        id="inquiry-type"
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls="inquiry-type-listbox"
+        aria-labelledby="inquiry-type-label"
+        aria-invalid={invalid}
+        onClick={() => (open ? setOpen(false) : openList())}
+        onKeyDown={onTriggerKeyDown}
+        className={`${fieldClass} flex cursor-pointer items-center justify-between gap-4 pr-1 text-left ${
+          value ? "text-ivory" : "text-ivory/35"
+        } ${open ? "border-crimson" : ""}`}
+      >
+        <span className="truncate">{value || TYPE_PLACEHOLDER}</span>
+        <ChevronDown
+          className={`size-3.5 shrink-0 transition-all duration-300 ${
+            open ? "rotate-180 text-crimson" : "text-ivory/45"
+          }`}
+          aria-hidden="true"
+        />
+      </button>
+
+      {open ? (
+        <ul
+          ref={list}
+          id="inquiry-type-listbox"
+          role="listbox"
+          tabIndex={-1}
+          aria-labelledby="inquiry-type-label"
+          aria-activedescendant={`inquiry-type-option-${active}`}
+          onKeyDown={onListKeyDown}
+          className="absolute inset-x-0 top-full z-30 mt-2 max-h-64 overflow-y-auto border border-line bg-[#100d0f] py-1 shadow-[0_28px_70px_-30px_rgba(0,0,0,0.95)] focus-visible:outline-offset-[-2px]"
+        >
+          {PROJECT_TYPES.map((type, index) => {
+            const selected = index === selectedIndex;
+            const highlighted = index === active;
+            return (
+              <li
+                key={type}
+                id={`inquiry-type-option-${index}`}
+                role="option"
+                aria-selected={selected}
+                onPointerEnter={() => setActive(index)}
+                onClick={() => commit(index)}
+                className={`flex cursor-pointer items-center justify-between gap-3 border-l-2 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.18em] transition-colors duration-200 ${
+                  highlighted || selected
+                    ? "border-crimson bg-oxblood/45 text-ivory"
+                    : "border-transparent text-ivory/65 hover:border-crimson/60 hover:bg-oxblood/25 hover:text-ivory"
+                }`}
+              >
+                {type}
+                <Check
+                  className={`size-3.5 shrink-0 text-crimson transition-opacity duration-200 ${
+                    selected ? "opacity-100" : "opacity-0"
+                  }`}
+                  aria-hidden="true"
+                />
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
 
 function validate(values: InquiryValues): FieldErrors {
   const errors: FieldErrors = {};
@@ -188,35 +347,18 @@ function InquiryForm() {
       </div>
 
       <div>
-        <label
-          htmlFor="inquiry-type"
+        <span
+          id="inquiry-type-label"
           className="meta block text-[9.5px] tracking-[0.3em] text-ivory/55"
         >
           Project Type
-        </label>
-        <div className="relative">
-          <select
-            id="inquiry-type"
-            name="projectType"
-            value={values.projectType}
-            onChange={(event) => setField("projectType", event.target.value)}
-            className={`${fieldClass} cursor-pointer appearance-none pr-9 [&>option]:bg-[#121012] [&>option]:text-ivory`}
-            aria-invalid={Boolean(errors.projectType)}
-          >
-            <option value="" disabled>
-              Select the closest fit
-            </option>
-            {PROJECT_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-          <ChevronDown
-            className="pointer-events-none absolute right-0 top-1/2 size-3.5 -translate-y-1/2 text-ivory/45 transition-colors duration-300"
-            aria-hidden="true"
-          />
-        </div>
+        </span>
+        <ProjectTypeField
+          value={values.projectType}
+          fieldClass={fieldClass}
+          invalid={Boolean(errors.projectType)}
+          onChange={(next) => setField("projectType", next)}
+        />
         {showError("projectType")}
       </div>
 
