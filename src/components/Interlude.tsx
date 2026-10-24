@@ -27,7 +27,7 @@ export default function Interlude() {
             src="/portrait-echo.webp"
             alt=""
             width={900}
-            height={890}
+            height={900}
             loading="lazy"
             decoding="async"
             className="portrait-echo w-full"

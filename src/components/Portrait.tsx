@@ -11,16 +11,13 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
  * (slight desaturation, a touch of contrast, a soft crimson light from the
  * right). No border, no card, no emblem, no caption.
  *
- * The photograph is read from `public/`, trying the usual filenames in order.
- * If none of them exists the component renders nothing rather than a
- * placeholder.
+ * The photograph is read from `public/`: the optimised WEBP first, then the
+ * untouched original PNG that was supplied. If neither exists the component
+ * renders nothing rather than a placeholder.
  */
 const PORTRAIT_SOURCES_ORDERED = [
   "/portrait.webp",
-  "/portrait-new.webp",
   "/portrait.png",
-  "/portrait.jpg",
-  "/portrait.jpeg",
 ];
 
 type Status = "loading" | "ready" | "missing";
