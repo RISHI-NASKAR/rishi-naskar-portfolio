@@ -11,9 +11,10 @@ const DISCIPLINES = ["AI Engineer", "Cinematographer", "Creative Designer"];
  * wordmark and the portrait plate. The title resolves line by line on load; the
  * rest of the page is static until it is scrolled into view.
  *
- * On mobile the frame is a tight, thumb-friendly sequence: the name, one
- * subtitle line, the portrait held in the same composition, one short sentence,
- * and the two actions. The long editorial paragraph is sm-and-up only.
+ * On every width the frame is compact: the portrait, the name and the
+ * disciplines sit side by side in one row — on mobile the portrait holds the
+ * left of the name row while the short sentence and actions sit directly
+ * beneath. The long editorial paragraph is sm-and-up only.
  */
 export default function Hero() {
   return (
@@ -58,7 +59,7 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="mt-8 grid grid-rows-[auto_auto_auto] items-start gap-8 [grid-template-areas:'copy'_'portrait'_'copy2'] sm:mt-12 sm:gap-10 sm:[grid-template-areas:'copy'_'portrait'_'copy2'] lg:grid-cols-[0.72fr_1.28fr] lg:grid-rows-[auto_auto] lg:gap-16 lg:[grid-template-areas:'portrait_copy'_'portrait_copy2'] lg:[&:has([data-portrait=missing])]:[grid-template-areas:'copy'_'copy2'] xl:gap-24">
+        <div className="mt-8 grid grid-cols-[0.46fr_0.54fr] grid-rows-[auto_auto] items-start gap-x-5 gap-y-6 [grid-template-areas:'portrait_copy'_'copy2'] sm:mt-12 sm:gap-x-8 sm:gap-y-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16 lg:[grid-template-areas:'portrait_copy'_'portrait_copy2'] lg:[&:has([data-portrait=missing])]:[grid-template-areas:'copy'_'copy2'] xl:gap-24">
           {/* ------------------------------------------------------------ name */}
           <div className="[grid-area:copy]">
             {/* -------------------------------------------------- social row */}
@@ -104,16 +105,16 @@ export default function Hero() {
             <h1 className="font-signature text-ivory">
               <span className="sr-only">Rishi Naskar</span>
               <span aria-hidden="true" className="block">
-                <span className="hero-rise flex items-center gap-4 sm:gap-5">
-                  <span className="h-px w-8 bg-crimson sm:w-12" />
-                  <span className="text-[clamp(1.5rem,4.2vw,3.1rem)] leading-none tracking-[0.32em] text-crimson">
+                <span className="hero-rise flex items-center gap-3 sm:gap-5">
+                  <span className="h-px w-6 bg-crimson sm:w-12" />
+                  <span className="text-[clamp(1.05rem,4.4vw,3.1rem)] leading-none tracking-[0.32em] text-crimson">
                     RISHI
                   </span>
                 </span>
 
                 <span className="relative mt-3 block sm:mt-4">
                   <span
-                    className="hero-wipe block text-[clamp(3.1rem,11.4vw,9.4rem)] leading-[0.82] tracking-[0.005em]"
+                    className="hero-wipe block text-[clamp(2.05rem,9vw,9.4rem)] leading-[0.86] tracking-[0.005em]"
                     style={{ "--delay": "0.18s" } as React.CSSProperties}
                   >
                     NASKAR
