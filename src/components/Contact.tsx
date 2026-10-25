@@ -284,7 +284,7 @@ function InquiryForm() {
       setStatus("sent");
       setFeedback({
         tone: "success",
-        text: "Thank you — your inquiry is in Rishi's inbox. A reply follows as soon as it is read.",
+        text: "Inquiry sent successfully! Your message is in Rishi's inbox — a reply follows as soon as it is read.",
       });
     } catch (error) {
       setStatus("error");
@@ -485,6 +485,8 @@ function ConnectBlock() {
       >
         <a
           href={mailto}
+          target="_blank"
+          rel="noreferrer noopener"
           className="flex min-w-0 flex-1 items-center gap-3 transition-colors duration-300 focus-visible:outline-none"
         >
           <Mail
@@ -636,7 +638,13 @@ export default function Contact() {
 
             <Reveal delay={250}>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <a href={mailto} className="btn-noir group" data-cursor="connect">
+                <a
+                  href={mailto}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="btn-noir group"
+                  data-cursor="connect"
+                >
                   Email me
                   <ArrowUpRight
                     className="size-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"

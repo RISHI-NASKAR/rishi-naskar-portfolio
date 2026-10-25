@@ -122,6 +122,8 @@ export default function SiteHeader() {
           <div className="flex items-center gap-3">
             <a
               href={mailto}
+              target="_blank"
+              rel="noreferrer noopener"
               className="hidden items-center gap-2 border border-line/90 px-4 py-2.5 font-mono text-[10.5px] uppercase tracking-[0.22em] text-ivory transition-colors duration-300 hover:border-crimson hover:text-white sm:inline-flex"
             >
               Enquire
@@ -193,7 +195,12 @@ export default function SiteHeader() {
           </nav>
 
           <div className="mt-auto space-y-3 pt-10">
-            <a href={mailto} className="block font-editorial text-lg text-ivory">
+            <a
+              href={mailto}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="block font-editorial text-lg text-ivory"
+            >
               {LINKS.email}
             </a>
             <div className="flex gap-5">

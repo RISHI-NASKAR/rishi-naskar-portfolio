@@ -72,7 +72,7 @@ export const sendInquiry = action({
     const from = process.env.RESEND_FROM_EMAIL ?? "Portfolio Inquiry <onboarding@resend.dev>";
 
     const submittedAt = new Date();
-    const subject = `New project inquiry — ${projectType} — ${name}`;
+    const subject = `New Portfolio Inquiry — Rishi Naskar`;
 
     const text = [
       "NEW PORTFOLIO INQUIRY",

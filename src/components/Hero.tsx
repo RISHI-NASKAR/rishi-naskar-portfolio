@@ -59,7 +59,7 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="mt-8 grid grid-cols-[0.46fr_0.54fr] grid-rows-[auto_auto] items-start gap-x-5 gap-y-6 [grid-template-areas:'portrait_copy'_'copy2'] sm:mt-12 sm:gap-x-8 sm:gap-y-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16 lg:[grid-template-areas:'portrait_copy'_'portrait_copy2'] lg:[&:has([data-portrait=missing])]:[grid-template-areas:'copy'_'copy2'] xl:gap-24">
+        <div className="mt-6 grid grid-cols-[minmax(8rem,0.44fr)_minmax(0,0.56fr)] grid-rows-[auto_auto] items-start gap-x-5 gap-y-5 [grid-template-areas:'portrait_copy'_'copy2'] sm:mt-10 sm:gap-x-8 sm:gap-y-7 lg:mt-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16 lg:[grid-template-areas:'portrait_copy'_'portrait_copy2'] lg:[&:has([data-portrait=missing])]:[grid-template-areas:'copy'_'copy2'] xl:gap-24">
           {/* ------------------------------------------------------------ name */}
           <div className="[grid-area:copy]">
             {/* -------------------------------------------------- social row */}
@@ -220,15 +220,25 @@ export default function Hero() {
                 through technology and creativity.
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4 sm:mt-9">
-                <a href="#work" className="btn-noir group" data-cursor="explore">
+              <div className="mt-7 flex flex-col items-stretch gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+                <a
+                  href="#work"
+                  className="btn-noir w-full justify-center sm:w-auto"
+                  data-cursor="explore"
+                >
                   Explore the work
                   <ArrowDown
                     className="size-3.5 transition-transform duration-500 group-hover:translate-y-1"
                     aria-hidden="true"
                   />
                 </a>
-                <a href={mailto} className="btn-noir btn-ghost group">
+                <a
+                  href={mailto}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="btn-noir btn-ghost w-full justify-center sm:w-auto"
+                  data-cursor="connect"
+                >
                   Start a conversation
                   <ArrowUpRight
                     className="size-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
