@@ -19,7 +19,7 @@ export const LINKS = {
 } as const;
 
 /** Opens the visitor's mail client with the subject already filled in. */
-export const mailto = `mailto:${LINKS.email}?subject=Project%20enquiry%20%E2%80%94%20Rishi%20Naskar%20Films`;
+export const mailto = `mailto:${LINKS.email}?subject=Portfolio%20Inquiry%20%E2%80%94%20Rishi%20Naskar`;
 
 /** Opens WhatsApp with a chat already addressed to Rishi. */
 export const whatsapp = `${LINKS.whatsapp}?text=${encodeURIComponent(
