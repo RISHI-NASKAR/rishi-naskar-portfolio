@@ -11,10 +11,12 @@ const DISCIPLINES = ["AI Engineer", "Cinematographer", "Creative Designer"];
  * wordmark and the portrait plate. The title resolves line by line on load; the
  * rest of the page is static until it is scrolled into view.
  *
- * On every width the frame is compact: the portrait, the name and the
- * disciplines sit side by side in one row — on mobile the portrait holds the
- * left of the name row while the short sentence and actions sit directly
- * beneath. The long editorial paragraph is sm-and-up only.
+ * Layout: one grid, three children, no named areas. Phones stack the blocks
+ * (name, portrait, intro + CTAs) with even spacing; from md the portrait takes
+ * the left column beside the name and spans both rows; at lg the copy spans the
+ * right column and the original desktop composition is restored. Explicit
+ * `col-start`/`row-start` anchors on all grid children keep auto-placement from
+ * ever stacking two blocks in one cell at any width.
  */
 export default function Hero() {
   return (
@@ -59,9 +61,9 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="mt-6 grid grid-cols-[minmax(8rem,0.44fr)_minmax(0,0.56fr)] grid-rows-[auto_auto] items-start gap-x-5 gap-y-5 [grid-template-areas:'portrait_copy'_'copy2'] sm:mt-10 sm:gap-x-8 sm:gap-y-7 lg:mt-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16 lg:[grid-template-areas:'portrait_copy'_'portrait_copy2'] lg:[&:has([data-portrait=missing])]:[grid-template-areas:'copy'_'copy2'] xl:gap-24">
+        <div className="mt-7 grid grid-cols-1 items-start gap-x-14 gap-y-9 sm:mt-10 md:grid-cols-[0.72fr_1.28fr] md:gap-y-10 lg:mt-12 lg:gap-16 xl:gap-24">
           {/* ------------------------------------------------------------ name */}
-          <div className="[grid-area:copy]">
+          <div className="md:col-start-2 md:row-start-1">
             {/* -------------------------------------------------- social row */}
             <div className="mb-10 flex items-center gap-3 sm:hidden lg:flex">
               <a
@@ -106,15 +108,15 @@ export default function Hero() {
               <span className="sr-only">Rishi Naskar</span>
               <span aria-hidden="true" className="block">
                 <span className="hero-rise flex items-center gap-3 sm:gap-5">
-                  <span className="h-px w-6 bg-crimson sm:w-12" />
-                  <span className="text-[clamp(1.05rem,4.4vw,3.1rem)] leading-none tracking-[0.32em] text-crimson">
+                  <span className="h-px w-8 bg-crimson sm:w-12" />
+                  <span className="text-[clamp(1.3rem,5vw,3.1rem)] leading-none tracking-[0.32em] text-crimson">
                     RISHI
                   </span>
                 </span>
 
                 <span className="relative mt-3 block sm:mt-4">
                   <span
-                    className="hero-wipe block text-[clamp(2.05rem,9vw,9.4rem)] leading-[0.86] tracking-[0.005em]"
+                    className="hero-wipe block text-[clamp(2.5rem,11vw,9.4rem)] leading-[0.86] tracking-[0.005em]"
                     style={{ "--delay": "0.18s" } as React.CSSProperties}
                   >
                     NASKAR
@@ -164,15 +166,15 @@ export default function Hero() {
 
             {/* Three disciplines, equal weight — the compact subtitle. */}
             <ul
-              className="hero-rise mt-5 flex flex-wrap items-center gap-x-3.5 gap-y-2 sm:mt-7 sm:gap-x-4"
+              className="hero-rise mt-5 flex flex-wrap items-center gap-x-3.5 gap-y-2 sm:mt-6 sm:gap-x-4"
               style={{ "--delay": "0.9s" } as React.CSSProperties}
             >
               {DISCIPLINES.map((discipline, index) => (
-                <li key={discipline} className="flex items-center gap-3.5 sm:gap-4">
+                <li key={discipline} className="flex max-w-full items-center gap-3.5 sm:gap-4">
                   {index > 0 ? (
-                    <span aria-hidden="true" className="size-1 rotate-45 bg-crimson" />
+                    <span aria-hidden="true" className="size-1 shrink-0 rotate-45 bg-crimson" />
                   ) : null}
-                  <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ivory/85 sm:text-[11.5px] sm:tracking-[0.26em]">
+                  <span className="min-w-0 font-mono text-[10px] uppercase tracking-[0.2em] text-ivory/85 sm:text-[11.5px] sm:tracking-[0.26em]">
                     {discipline}
                   </span>
                 </li>
@@ -183,10 +185,10 @@ export default function Hero() {
           {/* ------------------------------------------------------- portrait */}
           <div
             data-depth="0.03"
-            className="relative flex justify-center [grid-area:portrait] lg:justify-start lg:[&:has([data-portrait=missing])]:hidden"
+            className="relative z-0 flex justify-center md:col-start-1 md:row-start-1 md:row-span-2 md:justify-start"
           >
             <div
-              className="hero-rise w-full max-w-[19rem] sm:max-w-[31rem] lg:mt-0 lg:w-[118%] lg:max-w-none lg:-ml-4 xl:-ml-8"
+              className="hero-rise w-full max-w-[22rem] sm:max-w-[26rem] md:max-w-none lg:w-[118%] lg:-ml-4 xl:-ml-8"
               style={{ "--delay": "0.62s" } as React.CSSProperties}
             >
               <Portrait />
@@ -194,7 +196,7 @@ export default function Hero() {
           </div>
 
           {/* --------------------------------------------------- intro + CTAs */}
-          <div className="[grid-area:copy2]">
+          <div className="md:col-start-2 md:row-start-2">
             <div
               className="hero-rise sm:max-w-2xl"
               style={{ "--delay": "1.05s" } as React.CSSProperties}
@@ -209,7 +211,7 @@ export default function Hero() {
               </p>
 
               {/* Mobile keeps exactly one short sentence. */}
-              <p className="mt-1 text-[15px] leading-[1.75] text-ash sm:hidden">
+              <p className="mt-2 text-[15px] leading-[1.7] text-ash sm:hidden">
                 AI, cinema and design — turning ideas into experiences you can
                 feel.
               </p>
@@ -220,7 +222,7 @@ export default function Hero() {
                 through technology and creativity.
               </p>
 
-              <div className="mt-7 flex flex-col items-stretch gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <div className="mt-8 flex flex-col items-stretch gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
                 <a
                   href="#work"
                   className="btn-noir w-full justify-center sm:w-auto"
