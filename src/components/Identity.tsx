@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { MobileCollapse } from "./MobileCollapse";
 import { ChapterRule } from "./ornaments";
 
 const DISCIPLINES = [
@@ -116,20 +117,22 @@ export default function Identity() {
                   </p>
                 </div>
 
-                <ul className="grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2 lg:pt-1.5">
-                  {discipline.parts.map((part) => (
-                    <li
-                      key={part}
-                      className="flex items-baseline gap-3 border-b border-line/40 pb-2 text-[13px] leading-snug text-ivory/75"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="mt-1 size-1 shrink-0 rotate-45 bg-crimson/70"
-                      />
-                      {part}
-                    </li>
-                  ))}
-                </ul>
+                <MobileCollapse summary="Capabilities">
+                  <ul className="grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2 lg:pt-1.5">
+                    {discipline.parts.map((part) => (
+                      <li
+                        key={part}
+                        className="flex items-baseline gap-3 border-b border-line/40 pb-2 text-[13px] leading-snug text-ivory/75"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="mt-1 size-1 shrink-0 rotate-45 bg-crimson/70"
+                        />
+                        {part}
+                      </li>
+                    ))}
+                  </ul>
+                </MobileCollapse>
               </article>
             </Reveal>
           ))}

@@ -2,6 +2,7 @@ import SiteHeader from "@/components/SiteHeader";
 import Hero from "@/components/Hero";
 import Identity from "@/components/Identity";
 import Interlude from "@/components/Interlude";
+import OrbitInstallation from "@/components/OrbitInstallation";
 import About from "@/components/About";
 import Work from "@/components/Work";
 import Skills from "@/components/Skills";
@@ -36,6 +37,7 @@ export default function Landing() {
         <Hero />
         <Identity />
         <Interlude />
+        <OrbitInstallation />
         <About />
         <Work />
         <Skills />

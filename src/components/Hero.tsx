@@ -2,7 +2,7 @@ import { ArrowDown, ArrowUpRight, Github, Linkedin, Instagram, X } from "lucide-
 import { LINKS, mailto } from "@/lib/links";
 import Portrait from "./Portrait";
 
-const DISCIPLINES = ["AI Engineer", "Cinematographer", "Graphic Designer"];
+const DISCIPLINES = ["AI Engineer", "Cinematographer", "Creative Designer"];
 
 /**
  * Chapter 01 — the introduction.
@@ -10,6 +10,10 @@ const DISCIPLINES = ["AI Engineer", "Cinematographer", "Graphic Designer"];
  * Near-black, one crimson light source low in the frame, an oversized ornamental
  * wordmark and the portrait plate. The title resolves line by line on load; the
  * rest of the page is static until it is scrolled into view.
+ *
+ * On mobile the frame is a tight, thumb-friendly sequence: the name, one
+ * subtitle line, the portrait held in the same composition, one short sentence,
+ * and the two actions. The long editorial paragraph is sm-and-up only.
  */
 export default function Hero() {
   return (
@@ -54,22 +58,9 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="mt-10 grid items-start gap-12 sm:mt-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16 xl:gap-24 lg:[&:has([data-portrait=missing])]:grid-cols-[1fr]">
-          {/* ------------------------------------------------------- portrait */}
-          <div
-            data-depth="0.03"
-            className="relative order-2 flex justify-center lg:order-none lg:justify-start lg:[&:has([data-portrait=missing])]:hidden"
-          >
-            <div
-              className="hero-rise w-full max-w-[26rem] sm:max-w-[31rem] lg:mt-0 lg:w-[118%] lg:max-w-none lg:-ml-4 xl:-ml-8"
-              style={{ "--delay": "0.62s" } as React.CSSProperties}
-            >
-              <Portrait />
-            </div>
-          </div>
-
-          {/* ---------------------------------------------------------- name */}
-          <div className="order-1 lg:order-none">
+        <div className="mt-8 grid grid-rows-[auto_auto_auto] items-start gap-8 [grid-template-areas:'copy'_'portrait'_'copy2'] sm:mt-12 sm:gap-10 sm:[grid-template-areas:'copy'_'portrait'_'copy2'] lg:grid-cols-[0.72fr_1.28fr] lg:grid-rows-[auto_auto] lg:gap-16 lg:[grid-template-areas:'portrait_copy'_'portrait_copy2'] lg:[&:has([data-portrait=missing])]:[grid-template-areas:'copy'_'copy2'] xl:gap-24">
+          {/* ------------------------------------------------------------ name */}
+          <div className="[grid-area:copy]">
             {/* -------------------------------------------------- social row */}
             <div className="mb-10 flex items-center gap-3 sm:hidden lg:flex">
               <a
@@ -170,28 +161,44 @@ export default function Hero() {
               </span>
             </h1>
 
-            {/* Three disciplines, equal weight. */}
+            {/* Three disciplines, equal weight — the compact subtitle. */}
             <ul
-              className="hero-rise mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 sm:mt-7"
+              className="hero-rise mt-5 flex flex-wrap items-center gap-x-3.5 gap-y-2 sm:mt-7 sm:gap-x-4"
               style={{ "--delay": "0.9s" } as React.CSSProperties}
             >
               {DISCIPLINES.map((discipline, index) => (
-                <li key={discipline} className="flex items-center gap-4">
+                <li key={discipline} className="flex items-center gap-3.5 sm:gap-4">
                   {index > 0 ? (
                     <span aria-hidden="true" className="size-1 rotate-45 bg-crimson" />
                   ) : null}
-                  <span className="font-mono text-[10.5px] uppercase tracking-[0.26em] text-ivory/85 sm:text-[11.5px]">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ivory/85 sm:text-[11.5px] sm:tracking-[0.26em]">
                     {discipline}
                   </span>
                 </li>
               ))}
             </ul>
+          </div>
 
+          {/* ------------------------------------------------------- portrait */}
+          <div
+            data-depth="0.03"
+            className="relative flex justify-center [grid-area:portrait] lg:justify-start lg:[&:has([data-portrait=missing])]:hidden"
+          >
             <div
-              className="hero-rise mt-10 max-w-2xl sm:mt-12"
+              className="hero-rise w-full max-w-[19rem] sm:max-w-[31rem] lg:mt-0 lg:w-[118%] lg:max-w-none lg:-ml-4 xl:-ml-8"
+              style={{ "--delay": "0.62s" } as React.CSSProperties}
+            >
+              <Portrait />
+            </div>
+          </div>
+
+          {/* --------------------------------------------------- intro + CTAs */}
+          <div className="[grid-area:copy2]">
+            <div
+              className="hero-rise sm:max-w-2xl"
               style={{ "--delay": "1.05s" } as React.CSSProperties}
             >
-              <p className="font-editorial text-[clamp(1.85rem,3.7vw,3.15rem)] leading-[1.04] text-ivory">
+              <p className="hidden font-editorial text-[clamp(1.85rem,3.7vw,3.15rem)] leading-[1.04] text-ivory sm:block">
                 Building <span className="type-italic text-crimson">intelligence.</span>
                 <br />
                 Framing <span className="type-italic">stories.</span>
@@ -200,13 +207,19 @@ export default function Hero() {
                 <span className="type-outline">perspectives.</span>
               </p>
 
-              <p className="mt-7 max-w-lg text-[15px] leading-[1.8] text-ash sm:text-base">
+              {/* Mobile keeps exactly one short sentence. */}
+              <p className="mt-1 text-[15px] leading-[1.75] text-ash sm:hidden">
+                AI, cinema and design — turning ideas into experiences you can
+                feel.
+              </p>
+
+              <p className="mt-7 hidden max-w-lg text-[15px] leading-[1.8] text-ash sm:block">
                 I work at the intersection of artificial intelligence, cinematic
                 storytelling and visual design — turning ideas into experiences
                 through technology and creativity.
               </p>
 
-              <div className="mt-9 flex flex-wrap items-center gap-4">
+              <div className="mt-8 flex flex-wrap items-center gap-4 sm:mt-9">
                 <a href="#work" className="btn-noir group" data-cursor="explore">
                   Explore the work
                   <ArrowDown
@@ -227,7 +240,7 @@ export default function Hero() {
         </div>
 
         {/* Footer of the opening frame */}
-        <div className="mt-14 flex items-end justify-between gap-6 border-t border-line/60 pt-5 sm:mt-20">
+        <div className="mt-12 flex items-end justify-between gap-6 border-t border-line/60 pt-5 sm:mt-20">
           <a
             href="#identity"
             className="group inline-flex items-center gap-3 font-mono text-[10.5px] uppercase tracking-[0.28em] text-ash transition-colors hover:text-ivory"

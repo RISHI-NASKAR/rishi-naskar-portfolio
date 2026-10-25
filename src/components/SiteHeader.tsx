@@ -129,13 +129,6 @@ export default function SiteHeader() {
             </a>
             <button
               type="button"
-              className="hidden items-center gap-2 border border-line/90 px-4 py-2.5 font-mono text-[10.5px] uppercase tracking-[0.22em] text-ivory transition-colors duration-300 hover:border-crimson hover:text-white sm:inline-flex"
-              aria-label="Start an enquiry"
-            >
-              Enquire
-            </button>
-            <button
-              type="button"
               onClick={() => setOpen(true)}
               aria-expanded={open}
               aria-controls="mobile-menu"

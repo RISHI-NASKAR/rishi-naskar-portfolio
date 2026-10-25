@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { MobileCollapse } from "./MobileCollapse";
 import { ChapterRule, Flourish, Monogram } from "./ornaments";
 
 const FACTS: { label: string; value: string }[] = [
@@ -50,24 +51,28 @@ export default function About() {
                 </p>
               </Reveal>
 
-              <Reveal delay={140}>
-                <p className="text-[14.5px] leading-[1.9] text-ash sm:text-[15px]">
-                  I use imagery, typography, composition and atmosphere to turn
-                  ideas into visual experiences — and now and then I build the
-                  tools that make them possible. My work sits between the edit
-                  suite and the layout grid: cinematic photo editing and poster
-                  design on one side, visual identity and storytelling through
-                  film on the other.
-                </p>
-              </Reveal>
+              <MobileCollapse summary="The full story">
+                <div className="space-y-6 pt-4">
+                  <Reveal delay={140}>
+                    <p className="text-[14.5px] leading-[1.9] text-ash sm:text-[15px]">
+                      I use imagery, typography, composition and atmosphere to turn
+                      ideas into visual experiences — and now and then I build the
+                      tools that make them possible. My work sits between the edit
+                      suite and the layout grid: cinematic photo editing and poster
+                      design on one side, visual identity and storytelling through
+                      film on the other.
+                    </p>
+                  </Reveal>
 
-              <Reveal delay={190}>
-                <p className="text-[14.5px] leading-[1.9] text-ash sm:text-[15px]">
-                  Alongside that I study Computer Science and Engineering with a
-                  specialisation in Artificial Intelligence at UEM Kolkata,
-                  because technology keeps expanding what a story can look like.
-                </p>
-              </Reveal>
+                  <Reveal delay={190}>
+                    <p className="text-[14.5px] leading-[1.9] text-ash sm:text-[15px]">
+                      Alongside that I study Computer Science and Engineering with a
+                      specialisation in Artificial Intelligence at UEM Kolkata,
+                      because technology keeps expanding what a story can look like.
+                    </p>
+                  </Reveal>
+                </div>
+              </MobileCollapse>
 
               <Reveal delay={240}>
                 <p className="type-italic text-[1.3rem] leading-snug text-ivory/85 sm:text-[1.45rem]">

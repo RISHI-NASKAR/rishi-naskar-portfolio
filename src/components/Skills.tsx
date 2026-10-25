@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { MobileCollapse } from "./MobileCollapse";
 
 const GROUPS = [
   {
@@ -103,25 +104,27 @@ export default function Skills() {
                 <h3 className="mt-4 max-w-[18ch] font-editorial text-[1.65rem] leading-[1.1] text-ivory">
                   {group.label}
                 </h3>
-                <ul className="mt-6">
-                  {group.items.map((item, itemIndex) => (
-                    <li
-                      key={item}
-                      className="group flex items-baseline justify-between gap-6 border-b border-line/40 py-3 text-[13.5px] leading-snug text-ivory/80 transition-colors duration-300 hover:text-ivory"
-                    >
-                      <span className="flex items-baseline gap-3">
-                        <span
-                          aria-hidden="true"
-                          className="size-1 shrink-0 rotate-45 bg-crimson/0 transition-colors duration-300 group-hover:bg-crimson"
-                        />
-                        {item}
-                      </span>
-                      <span className="meta text-[9.5px] tracking-[0.24em] text-ash/50">
-                        {String(itemIndex + 1).padStart(2, "0")}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                <MobileCollapse summary="Show the craft">
+                  <ul className="mt-6">
+                    {group.items.map((item, itemIndex) => (
+                      <li
+                        key={item}
+                        className="group flex items-baseline justify-between gap-6 border-b border-line/40 py-3 text-[13.5px] leading-snug text-ivory/80 transition-colors duration-300 hover:text-ivory"
+                      >
+                        <span className="flex items-baseline gap-3">
+                          <span
+                            aria-hidden="true"
+                            className="size-1 shrink-0 rotate-45 bg-crimson/0 transition-colors duration-300 group-hover:bg-crimson"
+                          />
+                          {item}
+                        </span>
+                        <span className="meta text-[9.5px] tracking-[0.24em] text-ash/50">
+                          {String(itemIndex + 1).padStart(2, "0")}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </MobileCollapse>
               </div>
             </Reveal>
           ))}
