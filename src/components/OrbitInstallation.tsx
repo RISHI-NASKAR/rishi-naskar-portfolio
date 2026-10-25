@@ -16,21 +16,22 @@ export default function OrbitInstallation() {
   const reduced = useReducedMotion();
   const stage = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
-  const [noWebGL, setNoWebGL] = useState(false);
   const [active, setActive] = useState(true); // corrected by the observer on mount
 
-  useEffect(() => {
+  // Client-only probe: WebGL either exists or it doesn't, so resolve it during
+  // the first render instead of in an effect (no cascading render).
+  const [noWebGL] = useState(() => {
     try {
       const probe = document.createElement("canvas");
       const gl =
         probe.getContext("webgl2") ??
         probe.getContext("webgl") ??
         probe.getContext("experimental-webgl");
-      if (!gl) setNoWebGL(true);
+      return !gl;
     } catch {
-      setNoWebGL(true);
+      return true;
     }
-  }, []);
+  });
 
   // Animate only while on screen (with a small lead margin) and only while the
   // tab is actually visible.
