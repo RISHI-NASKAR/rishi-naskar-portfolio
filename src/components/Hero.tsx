@@ -1,22 +1,16 @@
 import { ArrowDown, ArrowUpRight, Github, Linkedin, Instagram, X } from "lucide-react";
 import { LINKS, mailto } from "@/lib/links";
-import Portrait from "./Portrait";
-
-const DISCIPLINES = ["AI Engineer", "Cinematographer", "Creative Designer"];
+import HeroSolar from "@/components/HeroSolar";
 
 /**
- * Chapter 01 — the introduction.
+ * Chapter 01 — the introduction, rebuilt as an orbital frame.
  *
- * Near-black, one crimson light source low in the frame, an oversized ornamental
- * wordmark and the portrait plate. The title resolves line by line on load; the
- * rest of the page is static until it is scrolled into view.
- *
- * Layout: one grid, three children, no named areas. Phones stack the blocks
- * (name, portrait, intro + CTAs) with even spacing; from md the portrait takes
- * the left column beside the name and spans both rows; at lg the copy spans the
- * right column and the original desktop composition is restored. Explicit
- * `col-start`/`row-start` anchors on all grid children keep auto-placement from
- * ever stacking two blocks in one cell at any width.
+ * The portrait is the anchor of an interactive solar-system composition
+ * (HeroSolar); the copy sits beside it — the studio headline, the description
+ * and the two actions. On phones everything stacks: wordmark, headline,
+ * orbital stage with the profession list, then the CTAs and the scroll cue.
+ * Desktop keeps the left copy column with the stage opposite, spanning the
+ * full copy height.
  */
 export default function Hero() {
   return (
@@ -42,11 +36,11 @@ export default function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-ink" />
         <div
           data-depth="0.05"
-          className="absolute inset-y-[-8%] left-1/3 hidden w-px bg-line/25 lg:block"
+          className="absolute inset-y-[-8%] right-[calc(50%-22rem)] hidden w-px bg-line/25 lg:block"
         />
         <div
           data-depth="0.05"
-          className="absolute inset-y-[-8%] left-2/3 hidden w-px bg-line/25 lg:block"
+          className="absolute inset-y-[-8%] right-[calc(50%-30rem)] hidden w-px bg-line/25 lg:block"
         />
       </div>
 
@@ -57,15 +51,15 @@ export default function Hero() {
             Chapter 01 — Introduction
           </span>
           <span className="meta hero-rise hidden text-[10.5px] tracking-[0.34em] text-ash sm:block">
-            Portfolio · MMXXVI
+            Beyond the frame · MMXXVI
           </span>
         </div>
 
-        <div className="mt-7 grid grid-cols-1 items-start gap-x-14 gap-y-9 sm:mt-10 md:grid-cols-[0.72fr_1.28fr] md:gap-y-10 lg:mt-12 lg:gap-16 xl:gap-24">
-          {/* ------------------------------------------------------------ name */}
-          <div className="md:col-start-2 md:row-start-1">
+        <div className="mt-7 grid grid-cols-1 items-start gap-x-14 gap-y-10 sm:mt-10 md:grid-cols-[0.95fr_1.05fr] md:gap-y-7 lg:mt-12 lg:gap-16 xl:gap-24">
+          {/* ------------------------------------------------- name / wordmark */}
+          <div className="order-1 md:col-start-2 md:row-start-1">
             {/* -------------------------------------------------- social row */}
-            <div className="mb-10 flex items-center gap-3 sm:hidden lg:flex">
+            <div className="mb-8 flex items-center gap-3 sm:hidden lg:flex lg:mb-10">
               <a
                 href={LINKS.github}
                 target="_blank"
@@ -105,124 +99,94 @@ export default function Hero() {
             </div>
 
             <h1 className="font-signature text-ivory">
-              <span className="sr-only">Rishi Naskar</span>
-              <span aria-hidden="true" className="block">
-                <span className="hero-rise flex items-center gap-3 sm:gap-5">
-                  <span className="h-px w-8 bg-crimson sm:w-12" />
-                  <span className="text-[clamp(1.3rem,5vw,3.1rem)] leading-none tracking-[0.32em] text-crimson">
-                    RISHI
-                  </span>
-                </span>
-
-                <span className="relative mt-3 block sm:mt-4">
-                  <span
-                    className="hero-wipe block text-[clamp(2.5rem,11vw,9.4rem)] leading-[0.86] tracking-[0.005em]"
-                    style={{ "--delay": "0.18s" } as React.CSSProperties}
-                  >
-                    NASKAR
-                  </span>
-
-                  {/* Hand-drawn swash beneath the name. */}
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 620 40"
-                    fill="none"
-                    className="mt-2 w-full max-w-[620px] text-crimson sm:mt-3"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                  >
-                    <path
-                      className="swash-draw"
-                      style={{ "--dash": "900", "--delay": "0.85s" } as React.CSSProperties}
-                      d="M6 26c52 0 84-9 132-12 44-3 74 3 108 6 30 3 56 1 84-4 32-6 62-9 96-4 46 7 88 9 138 2"
-                      strokeWidth="0.9"
-                    />
-                    <path
-                      className="swash-draw"
-                      style={{ "--dash": "1200", "--delay": "1.05s" } as React.CSSProperties}
-                      d="M58 33c44 0 78-6 116-8 36-2 62 2 92 4 34 2 62-1 92-6 36-6 68-4 102 0 42 5 80 4 116 0"
-                      strokeWidth="0.5"
-                      opacity="0.6"
-                    />
-                    <path
-                      className="swash-draw"
-                      style={{ "--dash": "160", "--delay": "1.25s" } as React.CSSProperties}
-                      d="M556 12c12-4 24-4 36 1-12 1-22 4-31 9"
-                      strokeWidth="0.8"
-                    />
-                    <circle
-                      className="hero-rise"
-                      style={{ "--delay": "1.4s" } as React.CSSProperties}
-                      cx="604"
-                      cy="18"
-                      r="2"
-                      fill="currentColor"
-                      stroke="none"
-                    />
-                  </svg>
+              <span className="hero-rise flex items-center gap-3 sm:gap-5">
+                <span className="h-px w-8 bg-crimson sm:w-12" />
+                <span className="text-[clamp(1.3rem,5vw,3rem)] leading-none tracking-[0.32em] text-crimson">
+                  RISHI
                 </span>
               </span>
+
+              <span className="relative mt-3 block sm:mt-4">
+                <span
+                  className="hero-wipe block text-[clamp(2.5rem,11vw,6.8rem)] leading-[0.86] tracking-[0.005em]"
+                  style={{ "--delay": "0.18s" } as React.CSSProperties}
+                >
+                  NASKAR
+                </span>
+
+                {/* Hand-drawn swash beneath the name. */}
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 620 40"
+                  fill="none"
+                  className="mt-2 w-full max-w-[520px] text-crimson sm:mt-3"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                >
+                  <path
+                    className="swash-draw"
+                    style={{ "--dash": "900", "--delay": "0.85s" } as React.CSSProperties}
+                    d="M6 26c52 0 84-9 132-12 44-3 74 3 108 6 30 3 56 1 84-4 32-6 62-9 96-4 46 7 88 9 138 2"
+                    strokeWidth="0.9"
+                  />
+                  <path
+                    className="swash-draw"
+                    style={{ "--dash": "1200", "--delay": "1.05s" } as React.CSSProperties}
+                    d="M58 33c44 0 78-6 116-8 36-2 62 2 92 4 34 2 62-1 92-6 36-6 68-4 102 0 42 5 80 4 116 0"
+                    strokeWidth="0.5"
+                    opacity="0.6"
+                  />
+                  <path
+                    className="swash-draw"
+                    style={{ "--dash": "160", "--delay": "1.25s" } as React.CSSProperties}
+                    d="M556 12c12-4 24-4 36 1-12 1-22 4-31 9"
+                    strokeWidth="0.8"
+                  />
+                  <circle
+                    className="hero-rise"
+                    style={{ "--delay": "1.4s" } as React.CSSProperties}
+                    cx="604"
+                    cy="18"
+                    r="2"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </svg>
+              </span>
             </h1>
-
-            {/* Three disciplines, equal weight — the compact subtitle. */}
-            <ul
-              className="hero-rise mt-5 flex flex-wrap items-center gap-x-3.5 gap-y-2 sm:mt-6 sm:gap-x-4"
-              style={{ "--delay": "0.9s" } as React.CSSProperties}
-            >
-              {DISCIPLINES.map((discipline, index) => (
-                <li key={discipline} className="flex max-w-full items-center gap-3.5 sm:gap-4">
-                  {index > 0 ? (
-                    <span aria-hidden="true" className="size-1 shrink-0 rotate-45 bg-crimson" />
-                  ) : null}
-                  <span className="min-w-0 font-mono text-[10px] uppercase tracking-[0.2em] text-ivory/85 sm:text-[11.5px] sm:tracking-[0.26em]">
-                    {discipline}
-                  </span>
-                </li>
-              ))}
-            </ul>
           </div>
 
-          {/* ------------------------------------------------------- portrait */}
-          <div
-            data-depth="0.03"
-            className="relative z-0 flex justify-center md:col-start-1 md:row-start-1 md:row-span-2 md:justify-start"
-          >
+          {/* -------------------------------------------- headline + description */}
+          <div className="order-2 md:col-start-2 md:row-start-2">
             <div
-              className="hero-rise w-full max-w-[22rem] sm:max-w-[26rem] md:max-w-none lg:w-[118%] lg:-ml-4 xl:-ml-8"
-              style={{ "--delay": "0.62s" } as React.CSSProperties}
-            >
-              <Portrait />
-            </div>
-          </div>
-
-          {/* --------------------------------------------------- intro + CTAs */}
-          <div className="md:col-start-2 md:row-start-2">
-            <div
-              className="hero-rise sm:max-w-2xl"
+              className="hero-rise md:max-w-xl"
               style={{ "--delay": "1.05s" } as React.CSSProperties}
             >
-              <p className="hidden font-editorial text-[clamp(1.85rem,3.7vw,3.15rem)] leading-[1.04] text-ivory sm:block">
-                Building <span className="type-italic text-crimson">intelligence.</span>
+              <h2 className="font-editorial text-[clamp(2.1rem,5vw,4.4rem)] leading-[1.02] text-ivory">
+                Have a story
                 <br />
-                Framing <span className="type-italic">stories.</span>
-                <br />
-                Designing{" "}
-                <span className="type-outline">perspectives.</span>
-              </p>
+                <span className="type-italic text-crimson">worth telling</span>?
+              </h2>
 
-              {/* Mobile keeps exactly one short sentence. */}
-              <p className="mt-2 text-[15px] leading-[1.7] text-ash sm:hidden">
+              <p className="mt-5 max-w-md text-[15px] leading-[1.8] text-ash sm:mt-6">
                 AI, cinema and design — turning ideas into experiences you can
                 feel.
               </p>
+            </div>
+          </div>
 
-              <p className="mt-7 hidden max-w-lg text-[15px] leading-[1.8] text-ash sm:block">
-                I work at the intersection of artificial intelligence, cinematic
-                storytelling and visual design — turning ideas into experiences
-                through technology and creativity.
-              </p>
+          {/* ------------------------------------------------- the orbital stage */}
+          <div className="order-3 md:order-none md:col-start-1 md:row-start-1 md:row-span-3">
+            <HeroSolar />
+          </div>
 
-              <div className="mt-8 flex flex-col items-stretch gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+          {/* ----------------------------------------------------- CTA actions */}
+          <div className="order-4 md:col-start-2 md:row-start-3">
+            <div
+              className="hero-rise"
+              style={{ "--delay": "1.2s" } as React.CSSProperties}
+            >
+              <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
                 <a
                   href="#work"
                   className="btn-noir w-full justify-center sm:w-auto"
@@ -253,7 +217,7 @@ export default function Hero() {
         </div>
 
         {/* Footer of the opening frame */}
-        <div className="mt-12 flex items-end justify-between gap-6 border-t border-line/60 pt-5 sm:mt-20">
+        <div className="mt-12 flex items-end justify-between gap-6 border-t border-line/60 pt-5 sm:mt-16">
           <a
             href="#identity"
             className="group inline-flex items-center gap-3 font-mono text-[10.5px] uppercase tracking-[0.28em] text-ash transition-colors hover:text-ivory"

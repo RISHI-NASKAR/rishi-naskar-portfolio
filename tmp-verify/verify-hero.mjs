@@ -65,21 +65,29 @@ for (const width of WIDTHS) {
       headerBar: rect(document.querySelector("header")),
     };
     const buttons = [...document.querySelectorAll("#home .btn-noir")].map(rect);
+    const labelRects = [...document.querySelectorAll("#home [data-hero-label]")].map(rect);
 
-    const overlap = pairwise(Object.values(parts).filter(Boolean));
-    function pairwise(list) {
+    const labels = [...document.querySelectorAll("#home [data-hero-label]")];
+    const named = Object.entries(parts)
+      .filter(([, v]) => v)
+      .map(([k, v]) => [k, v]);
+    labels.forEach((node, i) => named.push([`label${i}(${node.textContent?.slice(0, 14)})`, rect(node)]));
+
+    function pairwiseNamed(list) {
       const hits = [];
       for (let i = 0; i < list.length; i += 1) {
         for (let j = i + 1; j < list.length; j += 1) {
-          const a = list[i];
-          const b = list[j];
+          const [nameA, a] = list[i];
+          const [nameB, b] = list[j];
           const ix = Math.min(a.right, b.right) - Math.max(a.left, b.left);
           const iy = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
-          if (ix > 6 && iy > 6) hits.push([ix | 0, iy | 0]);
+          if (ix > 6 && iy > 6) hits.push(`${ix | 0}x${iy | 0} ${nameA}<->${nameB}`);
         }
       }
       return hits;
     }
+
+    const overlap = pairwiseNamed(named);
 
     const btnIssues = buttons.map((b, i) => ({
       i,
@@ -92,7 +100,7 @@ for (const width of WIDTHS) {
       viewport: vw,
       scrollWidth: doc.scrollWidth,
       horizOverflow: doc.scrollWidth > vw + 1,
-      overlaps: overlap.map(([x, y]) => `${x}x${y}`),
+      overlaps: overlap,
       parts: Object.fromEntries(
         Object.entries(parts).map(([k, v]) => [
           k,
@@ -100,6 +108,9 @@ for (const width of WIDTHS) {
         ]),
       ),
       btnIssues,
+      labelCount: labelRects.length,
+      webglCanvas: Number(Boolean(document.querySelector("#home canvas"))),
+      smilAnims: document.querySelectorAll("#home svg animate, #home svg animateTransform, #home svg animateTransform, #home svg amimate").length,
     };
   });
 
@@ -119,6 +130,7 @@ for (const r of report) {
   const flag = (b) => (b ? " ✗" : " ✓");
   console.log(
     `w=${r.viewport} overflow=${flag(!r.horizOverflow)} scrollW=${r.scrollWidth}` +
+      ` labels=${r.labelCount} 3d=${r.webglCanvas} smil=${r.smilAnims}` +
       ` overlaps=${r.overlaps.length ? r.overlaps.join(",") : "none"}` +
       ` btn=${r.btnIssues.map((b) => `#${b.i}:${Math.round(b.w)}w${b.clipped ? " CLIPPED" : ""}${!b.wider ? "" : " WIDE"}`).join(" ")}` +
       ` errors=${r.errors.length ? JSON.stringify(r.errors) : "0"}`,
