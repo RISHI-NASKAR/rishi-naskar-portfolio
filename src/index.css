@@ -1453,3 +1453,246 @@ body[data-orbit="on"] [contenteditable="true"] {
   }
 }
 
+/* ------------------------------------------------------- hero-cinema (poster) */
+/* The cinematic film-poster hero: a close-cropped second exposure on the far
+   left under scan-lines, streaks and restrained glitch; the primary exposure
+   centre-left wrapped in crimson smoke; the name and the planetary system on
+   the right. All movement is decorative and collapses to stillness under
+   prefers-reduced-motion via the global reducer. */
+
+.hn-vertical {
+  writing-mode: vertical-rl;
+}
+
+/* Far-left close-up exposure. */
+.hn-left-fig {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 76%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 76%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.hn-left-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+  transform: scale(1.32);
+  transform-origin: 50% 24%;
+  filter: grayscale(0.24) brightness(0.68) contrast(1.16);
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.hn-left-img[data-loaded="true"] {
+  opacity: 1;
+}
+
+/* Screen-blended echo of the same photograph, off-axis. */
+.hn-left-echo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.6s ease 0.5s;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    #000 34%,
+    #000 88%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    #000 34%,
+    #000 88%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+.hn-left-echo[data-loaded="true"] {
+  opacity: 1;
+}
+.hn-left-echo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 16%;
+  transform: scale(1.16) translateX(7%);
+  filter: brightness(0.52) saturate(1.35) contrast(1.12);
+  mix-blend-mode: screen;
+  opacity: 0.4;
+}
+
+/* Restrained digital glitch: two micro-slices of the photograph flickering
+   briefly. `translate` (not transform) keeps the base scale intact. */
+.hn-glitch-slice {
+  mix-blend-mode: screen;
+  filter: sepia(1) hue-rotate(-40deg) saturate(2.6) brightness(0.6);
+  pointer-events: none;
+}
+.hn-glitch-slice[data-slice="a"] {
+  clip-path: inset(16% 0 66% 0);
+  animation: hn-glitch-a 7s steps(1, end) infinite;
+}
+.hn-glitch-slice[data-slice="b"] {
+  clip-path: inset(60% 0 28% 0);
+  animation: hn-glitch-b 11s steps(1, end) infinite;
+}
+@keyframes hn-glitch-a {
+  0%, 85%, 100% { opacity: 0; translate: 0 0; }
+  86% { opacity: 0.5; translate: -6px 0; }
+  90% { opacity: 0.35; translate: 5px 0; }
+  93% { opacity: 0.3; translate: -2px 0; }
+  96% { opacity: 0; translate: 0 0; }
+}
+@keyframes hn-glitch-b {
+  0%, 88%, 100% { opacity: 0; translate: 0 0; }
+  89% { opacity: 0.45; translate: 7px 0; }
+  92% { opacity: 0.3; translate: -4px 0; }
+  95% { opacity: 0; translate: 0 0; }
+}
+
+/* Scan lines plus one slow crimson sweep travelling down the exposure. */
+.hn-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(211, 38, 64, 0.07) 0 1px,
+      rgba(0, 0, 0, 0) 1px 3px
+    ),
+    linear-gradient(
+      180deg,
+      rgba(211, 38, 64, 0) 0%,
+      rgba(211, 38, 64, 0.13) 46%,
+      rgba(255, 130, 142, 0.24) 50%,
+      rgba(211, 38, 64, 0.13) 54%,
+      rgba(211, 38, 64, 0) 100%
+    );
+  background-size: auto, 100% 320%;
+  animation: hn-scan-sweep 9s ease-in-out infinite alternate;
+}
+@keyframes hn-scan-sweep {
+  from { background-position: 0 0, 0 -60%; }
+  to { background-position: 0 0, 0 160%; }
+}
+
+/* Horizontal crimson light streaks crossing the exposure. */
+.hn-streaks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.hn-streaks span {
+  position: absolute;
+  left: -6%;
+  height: 2px;
+  width: 64%;
+  background: linear-gradient(
+    90deg,
+    rgba(211, 38, 64, 0) 0%,
+    rgba(211, 38, 64, 0.9) 30%,
+    rgba(255, 150, 160, 0.95) 50%,
+    rgba(211, 38, 64, 0.7) 72%,
+    rgba(211, 38, 64, 0) 100%
+  );
+  filter: blur(1.1px);
+  opacity: 0;
+  animation: hn-streak 12s ease-in-out infinite;
+}
+.hn-streaks span:nth-child(1) { top: 29%; }
+.hn-streaks span:nth-child(2) { top: 47%; height: 1px; width: 82%; animation-delay: 4s; }
+.hn-streaks span:nth-child(3) { top: 64%; animation-delay: 8s; }
+@keyframes hn-streak {
+  0%, 52%, 100% { opacity: 0; translate: -8% 0; }
+  58% { opacity: 0.8; }
+  76% { opacity: 0.5; translate: 4% 0; }
+  88% { opacity: 0; translate: 10% 0; }
+}
+
+/* The centre-left echo: the same photograph, lowered, darkened, dissolving
+   into the dark — fading in just after the primary portrait. */
+.hn-centre-echo {
+  position: absolute;
+  left: -17%;
+  bottom: 2%;
+  width: 74%;
+  aspect-ratio: 1 / 1;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: crimson-echo-in 1.8s ease 0.7s both;
+}
+.hn-centre-echo .crimson-echo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Profession cards: image-led cinematic tiles. */
+.hn-card-visual {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      118% 88% at 50% 112%,
+      rgba(101, 13, 25, 0.55) 0%,
+      rgba(30, 8, 12, 0.34) 46%,
+      rgba(10, 7, 8, 0) 78%
+    );
+  filter: brightness(0.94) saturate(1.05);
+  transition: filter 0.5s ease, opacity 0.5s ease;
+  opacity: 0.85;
+}
+.hn-card-visual svg {
+  position: absolute;
+  left: 50%;
+  bottom: -3%;
+  width: 122%;
+  transform: translateX(-50%);
+}
+.group:hover > .hn-card-visual,
+.hn-card:hover .hn-card-visual {
+  filter: brightness(1.12) saturate(1.18);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hn-scan,
+  .hn-streaks span,
+  .hn-glitch-slice,
+  .hn-left-echo,
+  .hn-centre-echo {
+    animation: none;
+  }
+  .hn-glitch-slice {
+    opacity: 0;
+  }
+  .hn-left-echo,
+  .hn-centre-echo {
+    opacity: 1;
+  }
+  .hn-centre-echo {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+

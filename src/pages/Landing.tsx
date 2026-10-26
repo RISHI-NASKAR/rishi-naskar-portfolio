@@ -1,6 +1,5 @@
 import SiteHeader from "@/components/SiteHeader";
 import Hero from "@/components/Hero";
-import ProfessionCards from "@/components/ProfessionCards";
 import Identity from "@/components/Identity";
 import Interlude from "@/components/Interlude";
 import OrbitInstallation from "@/components/OrbitInstallation";
@@ -12,8 +11,8 @@ import OrbitCursor from "@/components/OrbitCursor";
 import CinematicDepth from "@/components/CinematicDepth";
 
 /**
- * The portfolio as a visual journal: an opening frame, the creative identity,
- * a typographic interlude, the person, the work, the craft, and the final
+ * The portfolio as a visual journal: an opening frame (whose bottom strip
+ * carries the five crafts), the creative identity,
  * crimson frame. All motion is scroll-triggered and short; nothing hijacks the
  * scroll and everything reads as a still frame when motion is reduced.
  */
@@ -36,7 +35,6 @@ export default function Landing() {
 
       <main id="main">
         <Hero />
-        <ProfessionCards />
         <Identity />
         <Interlude />
         <OrbitInstallation />

@@ -27,7 +27,7 @@ const MOTES = [
 ] as const;
 
 /** One volume of crimson smoke: fractal noise cut to sparse plumes. */
-function SmokeLayer({
+export function SmokeLayer({
   id,
   seed,
   scale,
