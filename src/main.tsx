@@ -1,10 +1,11 @@
 import '@vly-ai/integrations';
 import { Toaster } from "@/components/ui/sonner";
 import { RequireAuth } from "@/components/RequireAuth";
+import { LoadingCollapse, LoaderIdle } from "@/components/LoadingCollapse";
 import { VlyToolbar } from "../vly-toolbar-readonly.tsx";
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import { ConvexReactClient } from "convex/react";
-import React, { StrictMode, useEffect, lazy, Suspense } from "react";
+import React, { StrictMode, useEffect, useState, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router";
 import "./index.css";
@@ -15,18 +16,19 @@ const AuthPage = lazy(() => import("./pages/Auth.tsx"));
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
-// Simple loading fallback for route transitions
-function RouteLoading() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-ink">
-      <div className="text-center">
-        <p className="font-signature text-2xl leading-none tracking-[0.14em] text-ivory">
-          RN
-        </p>
-        <p className="meta mt-3 text-[8.5px] tracking-[0.32em]">Rishi Naskar</p>
-      </div>
-    </div>
+/**
+ * THE COLLAPSE — the boot intro for the homepage. It plays over the loading
+ * app (which keeps loading underneath) and fades itself away on a fixed
+ * timetable, so it can never stall the site: when the timeline completes the
+ * portfolio below is already rendered and mounted. Route transitions re-use
+ * the same visual language through the static LoaderIdle fallback.
+ */
+function IntroGate() {
+  const [show, setShow] = useState(
+    () => typeof window !== "undefined" && window.location.pathname === "/",
   );
+  if (!show) return null;
+  return <LoadingCollapse onDone={() => setShow(false)} />;
 }
 
 /** Silent error boundary — if VlyToolbar crashes it renders nothing instead of
@@ -121,8 +123,9 @@ createRoot(document.getElementById("root")!).render(
       </ToolbarErrorBoundary>
       <ConvexAuthProvider client={convex}>
         <BrowserRouter>
+          <IntroGate />
           <RouteSyncer />
-          <Suspense fallback={<RouteLoading />}>
+          <Suspense fallback={<LoaderIdle />}>
             <Routes>
               <Route path="/" element={<Landing />} />
               <Route
