@@ -1,16 +1,16 @@
 import { ArrowDown, ArrowUpRight, Github, Linkedin, Instagram, X } from "lucide-react";
 import { LINKS, mailto } from "@/lib/links";
-import HeroSolar from "@/components/HeroSolar";
+import CrimsonStage from "@/components/CrimsonStage";
 
 /**
- * Chapter 01 — the introduction, rebuilt as an orbital frame.
+ * Chapter 01 — the introduction, staged as a cinematic double exposure.
  *
- * The portrait is the anchor of an interactive solar-system composition
- * (HeroSolar); the copy sits beside it — the studio headline, the description
- * and the two actions. On phones everything stacks: wordmark, headline,
- * orbital stage with the profession list, then the CTAs and the scroll cue.
- * Desktop keeps the left copy column with the stage opposite, spanning the
- * full copy height.
+ * The portrait is the anchor of the Crimson Reality composition
+ * (CrimsonStage: crimson smoke, a flipped second exposure, drifting motes);
+ * the copy sits beside it — the wordmark, the studio headline, the description
+ * and the two actions. On phones the artwork leads: stage, wordmark, headline,
+ * CTAs, then the scroll cue. Desktop keeps the artwork left, copy right,
+ * spanning the full copy height.
  */
 export default function Hero() {
   return (
@@ -57,7 +57,7 @@ export default function Hero() {
 
         <div className="mt-7 grid grid-cols-1 items-start gap-x-14 gap-y-10 sm:mt-10 md:grid-cols-[0.95fr_1.05fr] md:gap-y-7 lg:mt-12 lg:gap-16 xl:gap-24">
           {/* ------------------------------------------------- name / wordmark */}
-          <div className="order-1 md:col-start-2 md:row-start-1">
+          <div className="order-2 md:col-start-2 md:row-start-1">
             {/* -------------------------------------------------- social row */}
             <div className="mb-8 flex items-center gap-3 sm:hidden lg:flex lg:mb-10">
               <a
@@ -157,7 +157,7 @@ export default function Hero() {
           </div>
 
           {/* -------------------------------------------- headline + description */}
-          <div className="order-2 md:col-start-2 md:row-start-2">
+          <div className="order-3 md:col-start-2 md:row-start-2">
             <div
               className="hero-rise md:max-w-xl"
               style={{ "--delay": "1.05s" } as React.CSSProperties}
@@ -175,9 +175,12 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ------------------------------------------------- the orbital stage */}
-          <div className="order-3 md:order-none md:col-start-1 md:row-start-1 md:row-span-3">
-            <HeroSolar />
+          {/* ------------------------------------- the crimson-reality stage */}
+          <div
+            className="order-1 hero-rise mx-auto w-full max-w-[24rem] sm:max-w-[28rem] md:order-none md:max-w-none md:col-start-1 md:row-start-1 md:row-span-3"
+            style={{ "--delay": "0.4s" } as React.CSSProperties}
+          >
+            <CrimsonStage />
           </div>
 
           {/* ----------------------------------------------------- CTA actions */}

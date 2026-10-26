@@ -1,5 +1,6 @@
 import SiteHeader from "@/components/SiteHeader";
 import Hero from "@/components/Hero";
+import ProfessionCards from "@/components/ProfessionCards";
 import Identity from "@/components/Identity";
 import Interlude from "@/components/Interlude";
 import OrbitInstallation from "@/components/OrbitInstallation";
@@ -35,6 +36,7 @@ export default function Landing() {
 
       <main id="main">
         <Hero />
+        <ProfessionCards />
         <Identity />
         <Interlude />
         <OrbitInstallation />
