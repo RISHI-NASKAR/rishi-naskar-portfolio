@@ -1,5 +1,9 @@
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import Portrait from "@/components/Portrait";
+import { SolarForeground, SolarStatic } from "@/components/HeroSolar";
+
+const SolarScene = lazy(() => import("./SolarScene"));
 
 /**
  * CrimsonStage — the hero's cinematic centrepiece.
@@ -65,8 +69,91 @@ function SmokeLayer({
 export default function CrimsonStage() {
   const reduced = useReducedMotion();
 
+  /* The restored planetary system. The WebGL rings/planets/dust mount behind
+     the photograph; the travelling SMIL planets orbit in front of it. Activity
+     gating and scroll progress mirror the retired HeroSolar wiring so the
+     scene only renders while visible and stops under reduced motion. */
+  const stage = useRef<HTMLDivElement>(null);
+  const progress = useRef(0);
+  const [active, setActive] = useState(true);
+
+  // Client-only probe (first render, no effect): WebGL either exists or not.
+  const [noWebGL] = useState(() => {
+    try {
+      const probe = document.createElement("canvas");
+      const gl =
+        probe.getContext("webgl2") ??
+        probe.getContext("webgl") ??
+        probe.getContext("experimental-webgl");
+      return !gl;
+    } catch {
+      return true;
+    }
+  });
+
+  // Responsive scale, resolved once: a lighter composition on small screens.
+  const [scale] = useState(() =>
+    window.innerWidth < 640 ? 0.6 : window.innerWidth < 1024 ? 0.78 : 0.94,
+  );
+
+  // Animate only while on screen (with a small lead margin) and only while the
+  // tab is visible.
+  useEffect(() => {
+    const node = stage.current;
+    let inView = true;
+    let tabVisible = true;
+    const sync = () => setActive(inView && tabVisible);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) inView = entry.isIntersecting;
+        sync();
+      },
+      { rootMargin: "160px 0px", threshold: 0 },
+    );
+    if (node) observer.observe(node);
+    const onVisibility = () => {
+      tabVisible = document.visibilityState === "visible";
+      sync();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
+
+  // Scroll drives tilt + camera depth; skipped entirely under reduced motion.
+  useEffect(() => {
+    if (reduced) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const node = stage.current;
+      if (!node) return;
+      const rect = node.getBoundingClientRect();
+      const vh = window.innerHeight;
+      progress.current = Math.min(
+        1,
+        Math.max(0, (vh - rect.top) / (vh + rect.height)),
+      );
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [reduced]);
+
   return (
     <div
+      ref={stage}
       aria-hidden="true"
       data-motion={reduced ? "off" : "on"}
       className="crimson-stage"
@@ -76,6 +163,25 @@ export default function CrimsonStage() {
 
       {/* Smoke volume one — behind the portrait, slower and darker. */}
       <SmokeLayer id="back" seed={7} scale="crimson-smoke crimson-smoke--back" />
+
+      {/* The planetary system, restored: a real WebGL orbital layer behind
+          the photograph (or a composed still frame while it loads / when WebGL
+          is unavailable). Pointer parallax and scroll depth live inside the
+          scene. */}
+      <div className="pointer-events-none absolute inset-0">
+        {noWebGL ? (
+          <SolarStatic />
+        ) : (
+          <Suspense fallback={<SolarStatic />}>
+            <SolarScene
+              reducedMotion={reduced}
+              active={active}
+              progressRef={progress}
+              scale={scale}
+            />
+          </Suspense>
+        )}
+      </div>
 
       {/* Second exposure — the same photograph, offset, darkened, dissolved. */}
       <div className="crimson-echo-wrap">
@@ -89,6 +195,11 @@ export default function CrimsonStage() {
 
       {/* Smoke volume two — a thin front veil, drifting slower still. */}
       <SmokeLayer id="front" seed={23} scale="crimson-smoke crimson-smoke--front" />
+
+      {/* Foreground planets — the same composition's SMIL arc in front of the
+          portrait, giving the orbit ring true depth (some behind, some in
+          front of the subject). */}
+      <SolarForeground reduced={reduced} />
 
       {/* Delicate orbital arcs and luminous motes. */}
       <svg

@@ -139,7 +139,9 @@ export default function HeroSolar() {
           </div>
         </div>
 
-        {/* Front layer — one crimson arc, two planets on SMIL orbital paths. */}
+        {/* Front layer — one crimson arc, two planets on SMIL orbital paths.
+            Exported so the current hero stage composites them; HeroSolar itself
+            is the retired full composition kept as the source of these layers. */}
         <SolarForeground reduced={reduced} />
 
         {/* Profession labels — desktop only here; mobile renders them as a
@@ -199,7 +201,7 @@ export default function HeroSolar() {
 
 /* ------------------------------------------------------- foreground layer */
 
-function SolarForeground({ reduced }: { reduced: boolean }) {
+export function SolarForeground({ reduced }: { reduced: boolean }) {
   return (
     <svg
       aria-hidden="true"
@@ -298,7 +300,7 @@ function SolarForeground({ reduced }: { reduced: boolean }) {
 /* ------------------------------------------------- static fallback (grid) */
 
 /** The composed still frame for no-WebGL visitors / while the scene loads. */
-function SolarStatic() {
+export function SolarStatic() {
   return (
     <svg
       aria-hidden="true"
