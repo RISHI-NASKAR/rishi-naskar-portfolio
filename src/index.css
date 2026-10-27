@@ -942,6 +942,7 @@ body[data-orbit="on"] [contenteditable="true"] {
 
 .crimson-stage {
   position: relative;
+  isolation: isolate;
   aspect-ratio: 1 / 1;
 }
 
@@ -994,11 +995,19 @@ body[data-orbit="on"] [contenteditable="true"] {
   );
 }
 .crimson-smoke--back {
+  z-index: 0;
   opacity: 0.42;
   transform: scale(1.18);
   animation: crimson-drift 46s ease-in-out infinite alternate-reverse;
 }
+.crimson-smoke--mid {
+  z-index: 5;
+  opacity: 0.34;
+  transform: scale(1.22);
+  animation: crimson-drift 50s ease-in-out infinite alternate;
+}
 .crimson-smoke--front {
+  z-index: 20;
   opacity: 0.3;
   transform: scale(1.35) scaleX(1.15);
   animation: crimson-drift 56s ease-in-out infinite alternate;
@@ -1019,6 +1028,7 @@ body[data-orbit="on"] [contenteditable="true"] {
 .crimson-echo-wrap {
   position: absolute;
   inset: 4% 0 5% 9%;
+  z-index: 0;
   opacity: 0;
   animation: crimson-echo-in 1.6s ease 0.35s both;
   pointer-events: none;
@@ -1043,6 +1053,7 @@ body[data-orbit="on"] [contenteditable="true"] {
 /* Hairline orbital arcs. */
 .crimson-arcs {
   position: absolute;
+  z-index: 20;
   inset: -6%;
   pointer-events: none;
   opacity: 0.8;
@@ -1051,6 +1062,7 @@ body[data-orbit="on"] [contenteditable="true"] {
 /* Luminous motes — a handful, never a storm. */
 .crimson-motes {
   position: absolute;
+  z-index: 30;
   inset: 0;
   pointer-events: none;
 }
@@ -1453,119 +1465,135 @@ body[data-orbit="on"] [contenteditable="true"] {
   }
 }
 
-/* ------------------------------------------------------- hero-cinema (poster) */
-/* The cinematic film-poster hero: a close-cropped second exposure on the far
-   left under scan-lines, streaks and restrained glitch; the primary exposure
-   centre-left wrapped in crimson smoke; the name and the planetary system on
-   the right. All movement is decorative and collapses to stillness under
+/* ------------------------------------------------ hero-cinema (multiverse) */
+/* The cinematic hero: the primary exposure at the centre of the crimson
+   multiverse, real orbital paths and travelling worlds wrapping around it,
+   alternate exposures of the same photograph surfacing at the edges under
+   scan-lines and light streaks. The name sits in its own column on the right.
+   All movement is decorative and collapses to stillness under
    prefers-reduced-motion via the global reducer. */
 
-.hn-vertical {
-  writing-mode: vertical-rl;
+/* ---------------------------------------------------------------- multiverse */
+/* Alternate realities of the same photograph. Both are the real asset — no
+   generated faces — reframed as close crops and dissolved at every edge so
+   they read as exposures in smoke rather than pasted thumbnails. */
+
+.mv-alt {
+  position: absolute;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.46;
+  -webkit-mask-image:
+    radial-gradient(
+      72% 70% at 50% 44%,
+      #000 0%,
+      rgba(0, 0, 0, 0.72) 54%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(to bottom, #000 0%, #000 62%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    radial-gradient(
+      72% 70% at 50% 44%,
+      #000 0%,
+      rgba(0, 0, 0, 0.72) 54%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(to bottom, #000 0%, #000 62%, rgba(0, 0, 0, 0) 100%);
+  mask-composite: intersect;
 }
 
-/* Far-left close-up exposure. */
-.hn-left-fig {
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 76%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    #000 0%,
-    #000 76%,
-    rgba(0, 0, 0, 0) 100%
-  );
-}
-
-.hn-left-img {
+.mv-alt-img {
   position: absolute;
   inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 18%;
-  transform: scale(1.32);
-  transform-origin: 50% 24%;
-  filter: grayscale(0.24) brightness(0.68) contrast(1.16);
-  opacity: 0;
-  transition: opacity 1.4s ease;
-}
-.hn-left-img[data-loaded="true"] {
-  opacity: 1;
+  image-rendering: auto;
 }
 
-/* Screen-blended echo of the same photograph, off-axis. */
-.hn-left-echo {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 1.6s ease 0.5s;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 0%,
-    #000 34%,
-    #000 88%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 0%,
-    #000 34%,
-    #000 88%,
-    rgba(0, 0, 0, 0) 100%
-  );
+/* The large close-up at the left edge, behind the primary exposure. Its crop
+   is tuned so the face sits inside the transparent margin of the cut-out. */
+.mv-alt--near {
+  left: -6%;
+  top: 5%;
+  width: 46%;
+  height: 68%;
+  opacity: 0.5;
 }
-.hn-left-echo[data-loaded="true"] {
-  opacity: 1;
-}
-.hn-left-echo img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 16%;
-  transform: scale(1.16) translateX(7%);
-  filter: brightness(0.52) saturate(1.35) contrast(1.12);
-  mix-blend-mode: screen;
-  opacity: 0.4;
+.mv-alt--near .mv-alt-img {
+  object-position: 46% 20%;
+  filter: grayscale(0.16) brightness(0.68) contrast(1.16) saturate(0.82);
 }
 
-/* Restrained digital glitch: two micro-slices of the photograph flickering
-   briefly. `translate` (not transform) keeps the base scale intact. */
-.hn-glitch-slice {
+/* A quieter echo surfacing behind the opposite shoulder. */
+.mv-alt--far {
+  right: -10%;
+  top: 1%;
+  width: 40%;
+  height: 52%;
+  opacity: 0.26;
+}
+.mv-alt--far .mv-alt-img {
+  object-position: 55% 20%;
+  filter: grayscale(0.4) brightness(0.52) contrast(1.24) saturate(0.6) blur(0.5px);
+}
+
+/* Digital light streak travelling across the close exposure. */
+.mv-alt-streak {
+  position: absolute;
+  left: 6%;
+  right: -12%;
+  top: 41%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(211, 38, 64, 0) 0%,
+    rgba(211, 38, 64, 0.85) 38%,
+    rgba(255, 150, 160, 0.95) 52%,
+    rgba(211, 38, 64, 0) 100%
+  );
+  box-shadow: 0 0 12px rgba(211, 38, 64, 0.45);
   mix-blend-mode: screen;
-  filter: sepia(1) hue-rotate(-40deg) saturate(2.6) brightness(0.6);
-  pointer-events: none;
+  opacity: 0.55;
+  animation: mv-streak 14s ease-in-out infinite;
 }
-.hn-glitch-slice[data-slice="a"] {
-  clip-path: inset(16% 0 66% 0);
-  animation: hn-glitch-a 7s steps(1, end) infinite;
+@keyframes mv-streak {
+  0%, 46%, 100% { opacity: 0; translate: -4% 0; }
+  54% { opacity: 0.6; }
+  72% { opacity: 0.35; translate: 3% 0; }
+  86% { opacity: 0; translate: 7% 0; }
 }
-.hn-glitch-slice[data-slice="b"] {
-  clip-path: inset(60% 0 28% 0);
-  animation: hn-glitch-b 11s steps(1, end) infinite;
+
+/* Crimson rim on the subject itself — the drop-shadow follows the cut-out
+   alpha, so only the silhouette is lit. The face keeps its own texture. */
+.mv-portrait .portrait-img {
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.7))
+    drop-shadow(0 0 20px rgba(211, 38, 64, 0.2));
 }
-@keyframes hn-glitch-a {
-  0%, 85%, 100% { opacity: 0; translate: 0 0; }
-  86% { opacity: 0.5; translate: -6px 0; }
-  90% { opacity: 0.35; translate: 5px 0; }
-  93% { opacity: 0.3; translate: -2px 0; }
-  96% { opacity: 0; translate: 0 0; }
+
+/* Keep the skin and the mouth honest — the grade only warms the shadows. */
+.mv-portrait .portrait-grade {
+  opacity: 0.55;
 }
-@keyframes hn-glitch-b {
-  0%, 88%, 100% { opacity: 0; translate: 0 0; }
-  89% { opacity: 0.45; translate: 7px 0; }
-  92% { opacity: 0.3; translate: -4px 0; }
-  95% { opacity: 0; translate: 0 0; }
+
+/* Fewer ghost layers on phones, but the multiverse stays. */
+@media (max-width: 639px) {
+  .mv-alt--near {
+    left: -5%;
+    width: 48%;
+    height: 64%;
+    opacity: 0.4;
+  }
+  .mv-alt--far {
+    display: none;
+  }
 }
 
 /* Scan lines plus one slow crimson sweep travelling down the exposure. */
-.hn-scan {
+.mv-scan {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -1585,65 +1613,11 @@ body[data-orbit="on"] [contenteditable="true"] {
       rgba(211, 38, 64, 0) 100%
     );
   background-size: auto, 100% 320%;
-  animation: hn-scan-sweep 9s ease-in-out infinite alternate;
+  animation: mv-scan-sweep 9s ease-in-out infinite alternate;
 }
-@keyframes hn-scan-sweep {
+@keyframes mv-scan-sweep {
   from { background-position: 0 0, 0 -60%; }
   to { background-position: 0 0, 0 160%; }
-}
-
-/* Horizontal crimson light streaks crossing the exposure. */
-.hn-streaks {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-.hn-streaks span {
-  position: absolute;
-  left: -6%;
-  height: 2px;
-  width: 64%;
-  background: linear-gradient(
-    90deg,
-    rgba(211, 38, 64, 0) 0%,
-    rgba(211, 38, 64, 0.9) 30%,
-    rgba(255, 150, 160, 0.95) 50%,
-    rgba(211, 38, 64, 0.7) 72%,
-    rgba(211, 38, 64, 0) 100%
-  );
-  filter: blur(1.1px);
-  opacity: 0;
-  animation: hn-streak 12s ease-in-out infinite;
-}
-.hn-streaks span:nth-child(1) { top: 29%; }
-.hn-streaks span:nth-child(2) { top: 47%; height: 1px; width: 82%; animation-delay: 4s; }
-.hn-streaks span:nth-child(3) { top: 64%; animation-delay: 8s; }
-@keyframes hn-streak {
-  0%, 52%, 100% { opacity: 0; translate: -8% 0; }
-  58% { opacity: 0.8; }
-  76% { opacity: 0.5; translate: 4% 0; }
-  88% { opacity: 0; translate: 10% 0; }
-}
-
-/* The centre-left echo: the same photograph, lowered, darkened, dissolving
-   into the dark — fading in just after the primary portrait. */
-.hn-centre-echo {
-  position: absolute;
-  left: -17%;
-  bottom: 2%;
-  width: 74%;
-  aspect-ratio: 1 / 1;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-  animation: crimson-echo-in 1.8s ease 0.7s both;
-}
-.hn-centre-echo .crimson-echo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
 }
 
 /* Profession cards: image-led cinematic tiles. */
@@ -1676,23 +1650,12 @@ body[data-orbit="on"] [contenteditable="true"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hn-scan,
-  .hn-streaks span,
-  .hn-glitch-slice,
-  .hn-left-echo,
-  .hn-centre-echo {
+  .mv-scan,
+  .mv-alt-streak {
     animation: none;
   }
-  .hn-glitch-slice {
-    opacity: 0;
-  }
-  .hn-left-echo,
-  .hn-centre-echo {
-    opacity: 1;
-  }
-  .hn-centre-echo {
-    animation: none;
-    opacity: 0.85;
+  .mv-alt-streak {
+    opacity: 0.4;
   }
 }
 

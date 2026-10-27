@@ -6,13 +6,15 @@ import { SolarForeground, SolarStatic } from "@/components/HeroSolar";
 const SolarScene = lazy(() => import("./SolarScene"));
 
 /**
- * CrimsonStage — the hero's cinematic centrepiece.
+ * CrimsonStage — the hero's cinematic centrepiece: the crimson multiverse.
  *
- * The real photograph stays the focal point. Behind it, a second exposure of
- * the *same* asset (never a second person) sits slightly offset and darkened;
- * layered crimson smoke — two turbulence layers plus a slow oxblood bloom —
- * flows around it and fades toward the edges. A few luminous motes and two
- * hairline orbital arcs finish the atmosphere. Everything is decorative,
+ * The real photograph stays the focal point, and every alternate reality is
+ * the *same* asset (never a second person): a large close-up surfacing at the
+ * left edge, a quieter echo behind the opposite shoulder, and the offset
+ * double exposure beneath the subject. Real orbital paths and travelling
+ * worlds wrap the portrait — WebGL behind it, a light SVG arc in front — while
+ * two turbulence layers of crimson smoke, a slow oxblood bloom, scan lines and
+ * a handful of luminous motes carry the atmosphere. Everything is decorative,
  * pointer-events-off, and static under reduced motion.
  */
 
@@ -91,9 +93,11 @@ export default function CrimsonStage() {
     }
   });
 
-  // Responsive scale, resolved once: a lighter composition on small screens.
+  // Responsive scale, resolved once. Phones get a slightly tighter system so
+  // the rings still reach the edges of the (narrower) stage rather than
+  // shrinking into a small disc in the middle.
   const [scale] = useState(() =>
-    window.innerWidth < 640 ? 0.6 : window.innerWidth < 1024 ? 0.78 : 0.94,
+    window.innerWidth < 640 ? 0.84 : window.innerWidth < 1024 ? 0.9 : 0.94,
   );
 
   // Animate only while on screen (with a small lead margin) and only while the
@@ -168,7 +172,7 @@ export default function CrimsonStage() {
           the photograph (or a composed still frame while it loads / when WebGL
           is unavailable). Pointer parallax and scroll depth live inside the
           scene. */}
-      <div className="pointer-events-none absolute inset-0">
+      <div className="pointer-events-none absolute inset-0 z-0">
         {noWebGL ? (
           <SolarStatic />
         ) : (
@@ -183,14 +187,43 @@ export default function CrimsonStage() {
         )}
       </div>
 
+      {/* Alternate realities — the same photograph, reframed close and pushed
+          back into the smoke. They sit between the orbital layer and the
+          primary exposure, so the subject's cut-out silhouette lets them
+          surface only around the edges of the portrait. */}
+      <figure className="mv-alt mv-alt--near" aria-hidden="true">
+        <img
+          src="/portrait.webp"
+          alt=""
+          loading="eager"
+          decoding="async"
+          className="mv-alt-img"
+        />
+        <span className="mv-scan" />
+        <span className="mv-alt-streak" />
+      </figure>
+      <figure className="mv-alt mv-alt--far" aria-hidden="true">
+        <img
+          src="/portrait.webp"
+          alt=""
+          loading="eager"
+          decoding="async"
+          className="mv-alt-img"
+        />
+      </figure>
+
+      {/* A thin veil *between* the alternate realities and the subject, so the
+          ghosts read as emerging from smoke rather than pasted behind it. */}
+      <SmokeLayer id="mid" seed={17} scale="crimson-smoke crimson-smoke--mid" />
+
       {/* Second exposure — the same photograph, offset, darkened, dissolved. */}
       <div className="crimson-echo-wrap">
         <img src="/portrait.webp" alt="" loading="lazy" className="crimson-echo" />
       </div>
 
       {/* The portrait — the primary exposure, unchanged and dominant. */}
-      <div className="absolute inset-0">
-        <Portrait />
+      <div className="absolute inset-0 z-10">
+        <Portrait className="mv-portrait" />
       </div>
 
       {/* Smoke volume two — a thin front veil, drifting slower still. */}

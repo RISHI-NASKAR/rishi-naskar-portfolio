@@ -1,198 +1,24 @@
-import {
-  Suspense,
-  lazy,
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type ReactNode,
-} from "react";
+import { type CSSProperties, type ReactNode } from "react";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
-import Portrait from "@/components/Portrait";
-import { SmokeLayer } from "@/components/CrimsonStage";
-import CosmosStatic from "@/components/CosmosStatic";
+import CrimsonStage from "@/components/CrimsonStage";
 import { Reveal } from "@/components/Reveal";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { mailto } from "@/lib/links";
 
-const NameCosmos = lazy(() => import("@/components/NameCosmos"));
-
 /**
- * Chapter 01 — the opening frame, rebuilt as a cinematic film poster.
+ * Chapter 01 — the multiverse.
  *
- * Three entangled regions share one universe:
- *   · Far left: a close-cropped second exposure of the same photograph under
- *     scan-lines, crimson light streaks and restrained digital glitch.
- *   · Centre-left: the primary portrait, large, blending lower into the dark,
- *     wrapped in crimson smoke and a drifting echo of itself.
- *   · Right: the name in huge editorial type over the WebGL planetary system
- *     (planet, orbits, dust — the static composed fallback otherwise), the
- *     description, the two actions and the circular scroll cue.
+ * Two regions, one frame:
+ *   · Left (and dominant): the crimson multiverse built around the real
+ *     photograph — alternate exposures of the same face surfacing from smoke,
+ *     layered orbital paths and travelling worlds wrapping the portrait, a
+ *     front veil of smoke and a crimson rim on the silhouette.
+ *   · Right: the name in huge editorial type, the description, the two actions
+ *     and the circular scroll cue. Nothing orbit-shaped sits behind the type.
  * A strip of five image-led profession cards seals the frame along the bottom.
  *
- * Phones rearrange rather than shrink: name first, portrait stage, cards.
+ * Phones keep the same order — composition, then name — with fewer ghost
+ * layers and the orbit scale reduced to the available width.
  */
-
-/* ------------------------------------------------------------------- motes */
-
-const MOTES = [
-  { x: 12, y: 30, s: 2, dur: 13, dx: 8, dy: -16 },
-  { x: 76, y: 20, s: 1.5, dur: 17, dx: -10, dy: 12 },
-  { x: 84, y: 68, s: 2.5, dur: 15, dx: -6, dy: -20 },
-  { x: 22, y: 66, s: 1.5, dur: 12, dx: 6, dy: 14 },
-  { x: 90, y: 44, s: 2, dur: 19, dx: -12, dy: -10 },
-  { x: 8, y: 52, s: 1.5, dur: 16, dx: 10, dy: -12 },
-  { x: 58, y: 10, s: 1.5, dur: 14, dx: -8, dy: 10 },
-  { x: 40, y: 84, s: 1.5, dur: 18, dx: 9, dy: -11 },
-] as const;
-
-/* ------------------------------------------------------------ scene gating */
-
-/**
- * One shared gate for the WebGL layer: WebGL availability, a responsive
- * scale, "animate only while on screen and the tab is visible", and a scroll
- * progress ref consumed inside the scene for depth.
- */
-function useCosmosGate(stageRef: React.RefObject<HTMLDivElement | null>, reduced: boolean) {
-  const [active, setActive] = useState(true);
-  const [noWebGL] = useState(() => {
-    try {
-      const probe = document.createElement("canvas");
-      const gl =
-        probe.getContext("webgl2") ??
-        probe.getContext("webgl") ??
-        probe.getContext("experimental-webgl");
-      return !gl;
-    } catch {
-      return true;
-    }
-  });
-  const [desktop] = useState(() => window.innerWidth >= 1024);
-  const [scale] = useState(() =>
-    window.innerWidth < 1024 ? 0.78 : 0.95,
-  );
-  const progressRef = useRef(0);
-
-  // Animate only while on screen (with a small lead margin) on desktop.
-  useEffect(() => {
-    if (!desktop) return;
-    const node = stageRef.current;
-    let inView = true;
-    let tabVisible = true;
-    const sync = () => setActive(inView && tabVisible);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) inView = entry.isIntersecting;
-        sync();
-      },
-      { rootMargin: "160px 0px", threshold: 0 },
-    );
-    if (node) observer.observe(node);
-    const onVisibility = () => {
-      tabVisible = document.visibilityState === "visible";
-      sync();
-    };
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
-  }, [desktop, stageRef]);
-
-  // Scroll drives camera depth; skipped entirely under reduced motion.
-  useEffect(() => {
-    if (reduced) return;
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const node = stageRef.current;
-      if (!node) return;
-      const rect = node.getBoundingClientRect();
-      const vh = window.innerHeight;
-      progressRef.current = Math.min(
-        1,
-        Math.max(0, (vh - rect.top) / (vh + rect.height)),
-      );
-    };
-    const onScroll = () => {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, [reduced, stageRef]);
-
-  return { active, noWebGL, desktop, scale, progressRef };
-}
-
-/* ------------------------------------------------- the left close-portrait */
-
-/** The far-left second exposure: real photograph, reframed as a close-up. */
-function LeftExposure() {
-  const [loaded, setLoaded] = useState(false);
-  return (
-    <figure
-      aria-hidden="true"
-      className="hn-left-fig relative mt-7 hidden h-[min(52vh,500px)] w-full overflow-hidden lg:mt-0 lg:block lg:h-auto lg:w-[116%] lg:flex-1"
-    >
-      <img
-        src="/portrait.webp"
-        alt=""
-        data-loaded={loaded}
-        onLoad={(event) => {
-          if (event.currentTarget.naturalWidth) setLoaded(true);
-        }}
-        className="hn-left-img"
-        loading="eager"
-        decoding="async"
-      />
-      {/* Echo of the same photograph — screen-blended, off-axis. */}
-      <div className="hn-left-echo" data-loaded={loaded}>
-        <img
-          src="/portrait.webp"
-          alt=""
-          loading="eager"
-          decoding="async"
-          aria-hidden="true"
-        />
-      </div>
-      {/* Glitched micro-slices of the same photograph. */}
-      <img
-        src="/portrait.webp"
-        alt=""
-        data-slice="a"
-        data-loaded={loaded}
-        className="hn-left-img hn-glitch-slice"
-        loading="eager"
-        decoding="async"
-        aria-hidden="true"
-      />
-      <img
-        src="/portrait.webp"
-        alt=""
-        data-slice="b"
-        data-loaded={loaded}
-        className="hn-left-img hn-glitch-slice"
-        loading="eager"
-        decoding="async"
-        aria-hidden="true"
-      />
-      {/* Scan lines, Crimson streaks. */}
-      <div className="hn-scan" />
-      <div className="hn-streaks">
-        <span />
-        <span />
-        <span />
-      </div>
-    </figure>
-  );
-}
 
 /* ------------------------------------------------------------- name column */
 
@@ -205,11 +31,11 @@ function NameColumn({ className }: { className?: string }) {
       </p>
 
       <h1 className="mt-3 font-editorial text-ivory">
-        <span className="hero-rise block text-[clamp(2.7rem,7vw,8rem)] leading-[0.88] tracking-[0.01em] text-crimson [text-shadow:0_0_44px_rgba(211,38,64,0.35)]">
+        <span className="hero-rise block text-[clamp(2.9rem,7vw,8rem)] leading-[0.88] tracking-[0.01em] text-crimson [text-shadow:0_0_44px_rgba(211,38,64,0.35)]">
           RISHI
         </span>
         <span
-          className="hero-wipe block text-[clamp(3.1rem,9.2vw,10.6rem)] leading-[0.92] tracking-[0.005em] text-ivory"
+          className="hero-wipe block text-[clamp(3.3rem,9.2vw,10.6rem)] leading-[0.92] tracking-[0.005em] text-ivory"
           style={{ "--delay": "0.22s" } as CSSProperties}
         >
           NASKAR
@@ -475,7 +301,7 @@ function CraftStrip() {
               </div>
 
               <div className="relative z-10 px-4 pb-4 sm:px-5 sm:pb-5">
-                <h3 className="font-editorial text-[clamp(1.3rem,2vw,1.7rem)] leading-none text-ivory">
+                <h3 className="break-words font-editorial text-[clamp(1.05rem,2vw,1.7rem)] leading-none text-ivory">
                   {card.title}
                 </h3>
                 <p className="meta mt-2 text-[8.5px] tracking-[0.2em] text-ash">
@@ -493,13 +319,6 @@ function CraftStrip() {
 /* -------------------------------------------------------------------- hero */
 
 export default function Hero() {
-  const reduced = useReducedMotion();
-  const boardRef = useRef<HTMLDivElement>(null);
-  const { active, noWebGL, desktop, scale, progressRef } = useCosmosGate(
-    boardRef,
-    reduced,
-  );
-
   return (
     <section
       id="home"
@@ -535,161 +354,34 @@ export default function Hero() {
         </div>
 
         {/* ------------------------------------------------------- the board */}
-        <div
-          ref={boardRef}
-          className="relative mt-8 flex flex-col gap-10 sm:mt-10 lg:mt-12 lg:grid lg:grid-cols-[19%_34%_47%] lg:items-stretch lg:gap-x-4"
-        >
-          {/* ============================ LEFT — the double exposure ====== */}
-          <div className="relative hidden lg:order-none lg:col-start-1 lg:row-start-1 lg:flex lg:flex-col">
-            {/* Subtle editorial label. */}
-            <div className="flex items-start justify-between gap-3 pt-1">
-              <span className="hn-vertical meta text-[8.5px] tracking-[0.42em] text-ash/70">
-                A visual practice
-              </span>
-              <span className="hn-vertical meta text-[8.5px] tracking-[0.42em] text-crimson/80">
-                Beyond
-              </span>
-            </div>
-
-            {/* Numbered vertical sequence. */}
-            <div className="mt-7 mb-6 flex items-start gap-3">
-              <span
-                aria-hidden="true"
-                className="h-36 w-px bg-gradient-to-b from-crimson/0 via-crimson/45 to-crimson/0"
-              />
-              <ul className="flex flex-col gap-2.5 font-mono text-[8px] tracking-[0.3em] text-ash/45">
-                <li className="text-crimson [text-shadow:0_0_10px_rgba(211,38,64,0.6)]">01</li>
-                <li>02</li>
-                <li>03</li>
-                <li>04</li>
-                <li>05</li>
-              </ul>
-            </div>
-
-            <LeftExposure />
-          </div>
-
-          {/* ============================ CENTRE — the portrait ========== */}
-          <div className="relative lg:col-start-2 lg:row-start-1">
+        <div className="relative mt-8 flex flex-col gap-9 sm:mt-10 lg:mt-12 lg:grid lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:items-center lg:gap-x-8 xl:gap-x-14">
+          {/* ============================ LEFT — the multiverse ========== */}
+          <div className="relative mx-auto w-full max-w-[34rem] lg:mx-0 lg:max-w-[min(100%,44rem)]">
             <div
-              className="hero-rise relative isolate mx-auto aspect-square w-[92%] max-w-[24rem] sm:max-w-[28rem] lg:mx-0 lg:-ml-[6%] lg:mt-2 lg:w-[110%] lg:max-w-none"
-              style={{ "--delay": "0.4s" } as CSSProperties}
+              className="hero-rise"
+              style={{ "--delay": "0.35s" } as CSSProperties}
             >
-              {/* Slow crimson air beneath everything. */}
-              <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-                <div className="crimson-veil crimson-veil--base" />
-              </div>
-              <SmokeLayer
-                id="hn-back"
-                seed={7}
-                scale="crimson-smoke crimson-smoke--back"
-              />
+              <CrimsonStage />
+            </div>
 
-              {/* Second exposure bleeding toward the left portrait. */}
-              <div className="hn-centre-echo" aria-hidden="true">
-                <img
-                  src="/portrait.webp"
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  className="crimson-echo"
-                />
-              </div>
-
-              {/* The primary exposure — the anchor of the composition. */}
-              <div className="absolute inset-0 z-10">
-                <Portrait />
-              </div>
-
-              {/* Thin front veil of smoke. */}
-              <SmokeLayer
-                id="hn-front"
-                seed={23}
-                scale="crimson-smoke crimson-smoke--front"
-              />
-
-              {/* Hairline orbital arcs. */}
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 100 100"
-                fill="none"
-                className="crimson-arcs"
-              >
-                <ellipse
-                  cx="50" cy="52" rx="46" ry="30"
-                  transform="rotate(-9 50 50)"
-                  stroke="rgba(211,38,64,0.22)"
-                  strokeWidth="0.18"
-                  strokeDasharray="46 34 12 60"
-                />
-                <ellipse
-                  cx="50" cy="50" rx="38" ry="46"
-                  transform="rotate(18 50 50)"
-                  stroke="rgba(120,110,116,0.24)"
-                  strokeWidth="0.12"
-                  strokeDasharray="30 50 8 70"
-                />
-              </svg>
-
-              {/* Luminous motes. */}
-              <div className="crimson-motes" aria-hidden="true">
-                {MOTES.map((mote, index) => (
-                  <span
-                    key={index}
-                    className="crimson-mote"
-                    style={{
-                      left: `${mote.x}%`,
-                      top: `${mote.y}%`,
-                      width: mote.s,
-                      height: mote.s,
-                      ["--dur" as string]: `${mote.dur}s`,
-                      ["--dx" as string]: `${mote.dx}px`,
-                      ["--dy" as string]: `${mote.dy}px`,
-                    }}
-                  />
-                ))}
-              </div>
+            {/* Editorial caption along the base of the composition. */}
+            <div className="mt-4 flex items-baseline justify-between gap-4 border-t border-line/50 pt-3">
+              <span className="meta text-[8.5px] tracking-[0.34em] text-crimson/80">
+                The Multiverse
+              </span>
+              <span className="meta hidden text-[8.5px] tracking-[0.3em] text-ash/70 sm:block">
+                Every version, one identity
+              </span>
             </div>
           </div>
 
-          {/* ============================ RIGHT — name + cosmos ========== */}
-          <div className="relative z-10 flex flex-col lg:col-start-3 lg:row-start-1">
-            {/* The planetary system, behind and around the typography. */}
-            {desktop ? (
-              <div
-                aria-hidden="true"
-                data-depth="0.05"
-                className="pointer-events-none absolute -bottom-[6%] -left-[34%] -right-[7%] -top-[9%] z-0"
-              >
-                {noWebGL ? (
-                  <CosmosStatic />
-                ) : (
-                  <Suspense fallback={<CosmosStatic />}>
-                    <NameCosmos
-                      reducedMotion={reduced}
-                      active={active}
-                      progressRef={progressRef}
-                      scale={scale}
-                    />
-                  </Suspense>
-                )}
-              </div>
-            ) : null}
-            {!desktop ? (
-              // A hint of the same cosmos without the WebGL cost on phones.
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -left-[40%] -right-[6%] -top-[30%] bottom-[36%] opacity-45"
-              >
-                <CosmosStatic />
-              </div>
-            ) : null}
-
-            <NameColumn className="relative z-10 lg:mt-[14%]" />
+          {/* ============================ RIGHT — the name ================ */}
+          <div className="relative z-10 flex flex-col lg:pl-2 xl:pl-6">
+            <NameColumn className="relative z-10" />
 
             {/* Circular scroll cue — lower right. */}
             <div
-              className="relative z-10 mt-12 hidden justify-end lg:flex"
+              className="relative z-10 mt-9 flex justify-end lg:mt-12"
               style={{ "--delay": "1.2s" } as CSSProperties}
             >
               <a
