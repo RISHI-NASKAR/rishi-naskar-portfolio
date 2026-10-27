@@ -421,7 +421,7 @@ export default function Hero() {
       <div className="mx-auto w-full max-w-[1560px]">
         {/* ----------------------------------------------------- running head */}
         <div className="flex items-center justify-between gap-4 border-b border-line/60 pb-4">
-          <span className="meta hero-rise text-[10.5px] tracking-[0.34em] text-ash">
+          <span className="meta hero-rise text-[clamp(0.85rem,4vw,1.3rem)] font-bold leading-[1.15] tracking-[0.18em] text-ivory">
             Chapter 01 — Introduction
           </span>
           <span className="meta hero-rise hidden text-[10.5px] tracking-[0.34em] text-ash sm:block">
