@@ -40,7 +40,7 @@ export default function Interlude() {
 
       <div className="mx-auto w-full max-w-[1560px]">
         <div className="flex items-baseline justify-between gap-4">
-          <span className="meta text-[10.5px] tracking-[0.34em] text-ember/80">
+          <span className="meta text-[clamp(11px,2.6vw,14px)] tracking-[0.34em] text-ember/80">
             Chapter 03 — Working Principle
           </span>
           <span className="meta hidden text-[10.5px] tracking-[0.34em] text-ivory/50 sm:block">

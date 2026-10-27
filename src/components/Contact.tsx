@@ -583,7 +583,7 @@ export default function Contact() {
       <div className="mx-auto w-full max-w-[1560px]">
         <Reveal>
           <div className="flex items-baseline justify-between gap-4">
-            <span className="meta text-[10.5px] tracking-[0.34em] text-ember/85">
+            <span className="meta text-[clamp(11px,2.6vw,14px)] tracking-[0.34em] text-ember/85">
               07 / Connect
             </span>
             <span className="meta hidden text-[10.5px] tracking-[0.34em] text-ivory/50 sm:block">
