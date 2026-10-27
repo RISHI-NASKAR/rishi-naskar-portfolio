@@ -120,10 +120,11 @@ export default function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-3">
+            {/* Enquire belongs to the on-page contact chapter, not the mail
+                client: same-page anchor, clear of the fixed header via
+                `section[id]` scroll-margin, smooth via the root behaviour. */}
             <a
-              href={mailto}
-              target="_blank"
-              rel="noreferrer noopener"
+              href="#contact"
               className="hidden items-center gap-2 border border-line/90 px-4 py-2.5 font-mono text-[10.5px] uppercase tracking-[0.22em] text-ivory transition-colors duration-300 hover:border-crimson hover:text-white sm:inline-flex"
             >
               Enquire
