@@ -8,81 +8,157 @@ import { mailto } from "@/lib/links";
  * Chapter 01 — the multiverse.
  *
  * Two regions, one frame:
- *   · Left (and dominant): the crimson multiverse built around the real
- *     photograph — alternate exposures of the same face surfacing from smoke,
- *     layered orbital paths and travelling worlds wrapping the portrait, a
- *     front veil of smoke and a crimson rim on the silhouette.
- *   · Right: the name in huge editorial type, the description, the two actions
- *     and the circular scroll cue. Nothing orbit-shaped sits behind the type.
+ *   · The wordmark: the original display serif, a crimson rule leading a small
+ *     tracked RISHI, an oversized ivory NASKAR and the hand-drawn crimson
+ *     swash — followed by the label, the introduction and the two actions.
+ *   · The multiverse, built around the real photograph: alternate exposures of
+ *     the same face surfacing from smoke, layered orbital paths and travelling
+ *     worlds wrapping the portrait, a front veil of smoke and a crimson rim on
+ *     the silhouette. Nothing orbit-shaped sits behind the type.
  * A strip of five image-led profession cards seals the frame along the bottom.
  *
- * Phones keep the same order — composition, then name — with fewer ghost
- * layers and the orbit scale reduced to the available width.
+ * Desktop keeps the approved composition: portrait left, wordmark right.
+ * Phones reverse the hierarchy — NAME, label, introduction, then the portrait
+ * and finally the actions — without duplicating either region.
  */
 
 /* ------------------------------------------------------------- name column */
 
-/** The name block — shared verbatim by the desktop and mobile compositions. */
-function NameColumn({ className }: { className?: string }) {
+/**
+ * The wordmark — the original approved name treatment, recovered from the
+ * earlier build: the display serif, a crimson rule leading a small tracked
+ * RISHI, an oversized ivory NASKAR and the hand-drawn crimson swash.
+ *
+ * Phones read it as NAME → profession label → introduction. Desktop keeps the
+ * approved order (label above the name) via source-order overrides only.
+ */
+function NameBlock() {
   return (
-    <div className={className}>
-      <p className="meta hero-rise text-[9px] tracking-[0.42em] text-ash">
-        AI · Cinema · Design
-      </p>
-
-      <h1 className="mt-3 font-editorial text-ivory">
-        <span className="hero-rise block text-[clamp(2.9rem,7vw,8rem)] leading-[0.88] tracking-[0.01em] text-crimson [text-shadow:0_0_44px_rgba(211,38,64,0.35)]">
-          RISHI
+    <div className="order-1 flex flex-col lg:order-none">
+      <h1 className="order-1 font-signature text-ivory lg:order-2 lg:mt-3">
+        <span className="hero-rise flex items-center gap-3 sm:gap-5">
+          <span
+            aria-hidden="true"
+            className="h-px w-8 shrink-0 bg-crimson sm:w-12"
+          />
+          <span className="text-[clamp(1.6rem,5vw,3rem)] leading-none tracking-[0.32em] text-crimson">
+            RISHI
+          </span>
         </span>
-        <span
-          className="hero-wipe block text-[clamp(3.3rem,9.2vw,10.6rem)] leading-[0.92] tracking-[0.005em] text-ivory"
-          style={{ "--delay": "0.22s" } as CSSProperties}
-        >
-          NASKAR
+
+        <span className="relative mt-3 block sm:mt-4">
+          <span
+            className="hero-wipe block text-[clamp(3.6rem,9vw,6.8rem)] leading-[0.86] tracking-[0.005em] lg:text-[clamp(3.2rem,8vw,6.8rem)]"
+            style={{ "--delay": "0.18s" } as CSSProperties}
+          >
+            NASKAR
+          </span>
+
+          {/* Original hand-drawn crimson swash. */}
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 620 40"
+            fill="none"
+            className="mt-2 w-full max-w-[520px] text-crimson sm:mt-3"
+            stroke="currentColor"
+            strokeLinecap="round"
+          >
+            <path
+              className="swash-draw"
+              style={{ "--dash": "900", "--delay": "0.85s" } as CSSProperties}
+              d="M6 26c52 0 84-9 132-12 44-3 74 3 108 6 30 3 56 1 84-4 32-6 62-9 96-4 46 7 88 9 138 2"
+              strokeWidth="0.9"
+            />
+            <path
+              className="swash-draw"
+              style={{ "--dash": "1200", "--delay": "1.05s" } as CSSProperties}
+              d="M58 33c44 0 78-6 116-8 36-2 62 2 92 4 34 2 62-1 92-6 36-6 68-4 102 0 42 5 80 4 116 0"
+              strokeWidth="0.5"
+              opacity="0.6"
+            />
+            <path
+              className="swash-draw"
+              style={{ "--dash": "160", "--delay": "1.25s" } as CSSProperties}
+              d="M556 12c12-4 24-4 36 1-12 1-22 4-31 9"
+              strokeWidth="0.8"
+            />
+            <circle
+              className="hero-rise"
+              style={{ "--delay": "1.4s" } as CSSProperties}
+              cx="604"
+              cy="18"
+              r="2"
+              fill="currentColor"
+              stroke="none"
+            />
+          </svg>
         </span>
       </h1>
 
-      {/* Fine crimson underline. */}
-      <div
-        aria-hidden="true"
-        className="hero-rise relative mt-4 h-px w-full max-w-[420px] bg-gradient-to-r from-crimson via-crimson/60 to-transparent shadow-[0_0_18px_rgba(211,38,64,0.45)] sm:mt-5"
-        style={{ "--delay": "0.5s" } as CSSProperties}
-      />
+      <p
+        className="meta hero-rise order-2 mt-3 text-[9px] tracking-[0.42em] text-ash lg:order-1 lg:mt-0"
+        style={{ "--delay": "0.35s" } as CSSProperties}
+      >
+        AI · Cinema · Design
+      </p>
 
-      <div
-        className="hero-rise mt-5 sm:mt-7"
+      <p
+        className="hero-rise order-3 mt-5 max-w-md text-[15px] leading-[1.85] text-ash sm:mt-7"
+        style={{ "--delay": "0.6s" } as CSSProperties}
+      >
+        AI, cinema and design — turning ideas into experiences you can feel.
+      </p>
+    </div>
+  );
+}
+
+/** The two actions and the scroll cue — after the portrait on phones. */
+function HeroActions() {
+  return (
+    <div className="order-3 lg:order-none lg:mt-9">
+      <div className="hero-rise flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
         style={{ "--delay": "0.75s" } as CSSProperties}
       >
-        <p className="max-w-md text-[15px] leading-[1.85] text-ash">
-          AI, cinema and design — turning ideas into experiences you can feel.
-        </p>
+        <a
+          href="#work"
+          className="btn-noir w-full justify-center sm:w-auto"
+          data-cursor="explore"
+        >
+          Explore the work
+          <ArrowDown className="size-3.5" aria-hidden="true" />
+        </a>
+        <a
+          href={mailto}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="btn-noir btn-ghost w-full justify-center sm:w-auto"
+          data-cursor="connect"
+        >
+          Start a conversation
+          <ArrowUpRight className="size-3.5" aria-hidden="true" />
+        </a>
+      </div>
 
-        <div className="mt-7 flex flex-col items-stretch gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
-          <a
-            href="#work"
-            className="btn-noir w-full justify-center sm:w-auto"
-            data-cursor="explore"
-          >
-            Explore the work
+      {/* Circular scroll cue. */}
+      <div
+        className="hero-rise mt-8 flex justify-end lg:mt-12"
+        style={{ "--delay": "1.2s" } as CSSProperties}
+      >
+        <a
+          href="#identity"
+          className="group flex flex-col items-center gap-2.5"
+          aria-label="Scroll to the next chapter"
+        >
+          <span className="meta text-[8.5px] tracking-[0.36em] text-ash transition-colors group-hover:text-ivory">
+            Scroll
+          </span>
+          <span className="grid size-10 place-items-center rounded-full border border-line/80 transition-colors group-hover:border-crimson">
             <ArrowDown
-              className="size-3.5"
+              className="scroll-cue size-3.5 text-ash transition-colors group-hover:text-crimson"
               aria-hidden="true"
             />
-          </a>
-          <a
-            href={mailto}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="btn-noir btn-ghost w-full justify-center sm:w-auto"
-            data-cursor="connect"
-          >
-            Start a conversation
-            <ArrowUpRight
-              className="size-3.5"
-              aria-hidden="true"
-            />
-          </a>
-        </div>
+          </span>
+        </a>
       </div>
     </div>
   );
@@ -354,9 +430,19 @@ export default function Hero() {
         </div>
 
         {/* ------------------------------------------------------- the board */}
-        <div className="relative mt-8 flex flex-col gap-9 sm:mt-10 lg:mt-12 lg:grid lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:items-center lg:gap-x-8 xl:gap-x-14">
-          {/* ============================ LEFT — the multiverse ========== */}
-          <div className="relative mx-auto w-full max-w-[34rem] lg:mx-0 lg:max-w-[min(100%,44rem)]">
+        <div className="relative mt-8 flex flex-col gap-y-8 sm:mt-10 lg:mt-12 lg:grid lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:items-center lg:gap-x-8 xl:gap-x-14">
+          {/* ============================ RIGHT on desktop, FIRST on phones.
+              `contents` lets the name and the actions take their own places in
+              the phone flow (name → portrait → actions) while staying one
+              column beside the portrait from lg up. */}
+          <div className="contents relative z-10 lg:order-2 lg:col-start-2 lg:row-start-1 lg:flex lg:flex-col lg:pl-2 xl:pl-6">
+            <NameBlock />
+            <HeroActions />
+          </div>
+
+          {/* ============================ LEFT on desktop, SECOND on phones:
+              the multiverse, always centred on the photograph. */}
+          <div className="order-2 relative mx-auto w-full max-w-[34rem] lg:order-none lg:col-start-1 lg:row-start-1 lg:mx-0 lg:max-w-[min(100%,44rem)]">
             <div
               className="hero-rise"
               style={{ "--delay": "0.35s" } as CSSProperties}
@@ -372,30 +458,6 @@ export default function Hero() {
               <span className="meta hidden text-[8.5px] tracking-[0.3em] text-ash/70 sm:block">
                 Every version, one identity
               </span>
-            </div>
-          </div>
-
-          {/* ============================ RIGHT — the name ================ */}
-          <div className="relative z-10 flex flex-col lg:pl-2 xl:pl-6">
-            <NameColumn className="relative z-10" />
-
-            {/* Circular scroll cue — lower right. */}
-            <div
-              className="relative z-10 mt-9 flex justify-end lg:mt-12"
-              style={{ "--delay": "1.2s" } as CSSProperties}
-            >
-              <a
-                href="#identity"
-                className="hero-rise group flex flex-col items-center gap-2.5"
-                aria-label="Scroll to the next chapter"
-              >
-                <span className="meta text-[8.5px] tracking-[0.36em] text-ash transition-colors group-hover:text-ivory">
-                  Scroll
-                </span>
-                <span className="grid size-10 place-items-center rounded-full border border-line/80 transition-colors group-hover:border-crimson">
-                  <ArrowDown className="scroll-cue size-3.5 text-ash transition-colors group-hover:text-crimson" aria-hidden="true" />
-                </span>
-              </a>
             </div>
           </div>
         </div>
